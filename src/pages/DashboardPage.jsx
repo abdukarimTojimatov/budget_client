@@ -575,7 +575,7 @@ const DashboardPage = () => {
           {/* Detailed Breakdowns */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
             <div className="bg-gray-800/50 p-4 rounded-md shadow-md">
-              <h3 className="text-lg font-bold text-white mb-2">
+              <h3 className="text-lg font-bold text-[#0e66a4] mb-2">
                 Buyurtma Statistika
               </h3>
               <div className="space-y-2">
@@ -597,7 +597,7 @@ const DashboardPage = () => {
               </div>
             </div>
             <div className="bg-gray-800/50 p-4 rounded-md shadow-md">
-              <h3 className="text-lg font-bold text-white mb-2">
+              <h3 className="text-lg font-bold text-[#0e66a4] mb-2">
                 Xarajat Statistika
               </h3>
               <div className="space-y-2">
@@ -621,7 +621,9 @@ const DashboardPage = () => {
               </div>
             </div>
             <div className="bg-gray-800/50 p-4 rounded-md shadow-md">
-              <h3 className="text-lg font-bold text-white mb-2">Homashyolar</h3>
+              <h3 className="text-lg font-bold text-[#0e66a4] mb-2">
+                Homashyolar
+              </h3>
               <div className="space-y-2">
                 {rawMaterialChartData.labels.length > 0 ? (
                   rawMaterialChartData.labels.map((category, index) => (
@@ -643,7 +645,9 @@ const DashboardPage = () => {
               </div>
             </div>
             <div className="bg-gray-800/50 p-4 rounded-md shadow-md">
-              <h3 className="text-lg font-bold text-white mb-2">Ulushlar</h3>
+              <h3 className="text-lg font-bold text-[#0e66a4] mb-2">
+                Ulushlar
+              </h3>
               <div className="space-y-2">
                 {sharingChartData.labels.length > 0 ? (
                   sharingChartData.labels.map((category, index) => (
@@ -669,7 +673,7 @@ const DashboardPage = () => {
           {/* Debt Breakdowns */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="bg-gray-800/50 p-4 rounded-md shadow-md">
-              <h3 className="text-lg font-bold text-white mb-2">
+              <h3 className="text-lg font-bold text-[#0e66a4] mb-2">
                 Mijozlar Qarzi
               </h3>
               <div className="space-y-2">
@@ -706,7 +710,7 @@ const DashboardPage = () => {
               </div>
             </div>
             <div className="bg-gray-800/50 p-4 rounded-md shadow-md">
-              <h3 className="text-lg font-bold text-white mb-2">
+              <h3 className="text-lg font-bold text-[#0e66a4] mb-2">
                 Homashyo Qarzi
               </h3>
               <div className="space-y-2">
