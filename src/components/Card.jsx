@@ -11,14 +11,16 @@ import { useMutation } from "@apollo/client";
 import { DELETE_EXPENSE } from "../graphql/mutations/expense.mutation";
 
 const categoryColorMap = {
-  saving: "from-green-700 to-green-400",
-  expense: "from-pink-800 to-pink-600",
-  investment: "from-blue-700 to-blue-400",
+  Laminad: "from-emerald-800/50 to-emerald-600/50",
+  "Mashina xarajatlari": "from-pink-800/50 to-pink-600/50",
+  Soliq: "from-blue-800/50 to-blue-600/50",
+  Elektr: "from-purple-800/50 to-purple-600/50",
+  default: "from-gray-800/50 to-gray-600/50",
 };
 
 const Card = ({ expense, authUser }) => {
   let { category, amount, date, paymentType, description, userId } = expense;
-  const cardClass = categoryColorMap[category];
+  const cardClass = categoryColorMap[category] || categoryColorMap.default;
   const [deleteExpense, { loading }] = useMutation(DELETE_EXPENSE);
 
   description = description[0]?.toUpperCase() + description.slice(1);
@@ -39,86 +41,104 @@ const Card = ({ expense, authUser }) => {
     }
   };
 
+  // Format date
+  const formattedDate = new Date(date).toLocaleDateString("uz-UZ", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
   return (
     <div
-      className={"rounded-md p-4 bg-gradient-to-br from-green-700 to-green-400"}
+      className={`rounded-xl p-6 bg-gradient-to-br ${cardClass} shadow-lg backdrop-blur-sm border border-gray-700/20`}
     >
       <div className="flex flex-col gap-3">
-        <div className="flex flex-row items-center justify-between">
-          <h2 className="text-lg font-bold text-white-900 bold">{category}</h2>
-          <div className="flex items-center gap-2">
-            {!loading && (
-              <FaTrash className={"cursor-pointer"} onClick={handleDelete} />
-            )}
-            {loading && (
-              <div className="w-6 h-6 border-t-2 border-b-2  rounded-full animate-spin"></div>
+        {/* Header with category and action buttons */}
+        <div className="flex flex-row items-center justify-between mb-2">
+          <div className="flex items-center">
+            <div className="w-2 h-2 rounded-full bg-white mr-2"></div>
+            <h2 className="text-xl font-bold text-white">{category}</h2>
+          </div>
+          <div className="flex items-center gap-3">
+            {!loading ? (
+              <button
+                onClick={handleDelete}
+                className="p-2 bg-red-500/20 rounded-full hover:bg-red-500/30 transition-colors duration-200"
+              >
+                <FaTrash className="text-white/90" size={16} />
+              </button>
+            ) : (
+              <div className="w-6 h-6 border-t-2 border-b-2 border-white/50 rounded-full animate-spin"></div>
             )}
             <Link to={`/expenses/${expense._id}`}>
-              <HiPencilAlt className="cursor-pointer" size={20} />
+              <button className="p-2 bg-blue-500/20 rounded-full hover:bg-blue-500/30 transition-colors duration-200">
+                <HiPencilAlt className="text-white/90" size={16} />
+              </button>
             </Link>
           </div>
         </div>
-        <div className="text-white flex flex-col sm:flex-row w-full">
-          <div className="flex items-start gap-1 sm:w-1/3">
-            <span className="flex items-center mr-1">
-              <BsCardText className="flex-shrink-0" />
+
+        {/* Description */}
+        <div className="text-white flex flex-col sm:flex-row w-full py-2 border-t border-b border-white/10">
+          <div className="flex items-start gap-2 sm:w-1/3">
+            <span className="flex items-center">
+              <BsCardText className="flex-shrink-0 text-white/70" />
             </span>
-            <span className="font-normal flex-shrink-0">Xarajat haqida:</span>
+            <span className="font-medium text-white/70">Xarajat haqida:</span>
           </div>
           <div className="sm:w-2/3 pl-6 sm:pl-0">
-            <span className="text-gray-900  break-words w-full block">
+            <span className="text-white break-words w-full block">
               {description}
             </span>
           </div>
         </div>
-        <div className="text-white flex flex-col sm:flex-row w-full">
-          <div className="flex items-start gap-1 sm:w-1/3">
-            <span className="flex items-center mr-1">
-              <MdOutlinePayments className="flex-shrink-0" />
+
+        {/* Payment Type */}
+        <div className="text-white flex flex-col sm:flex-row w-full py-2 border-b border-white/10">
+          <div className="flex items-start gap-2 sm:w-1/3">
+            <span className="flex items-center">
+              <MdOutlinePayments className="flex-shrink-0 text-white/70" />
             </span>
-            <span className="font-normal flex-shrink-0">To'lov turi:</span>
+            <span className="font-medium text-white/70">To'lov turi:</span>
           </div>
           <div className="sm:w-2/3 pl-6 sm:pl-0">
-            <span className=" text-gray-900  break-words w-full block">
+            <span className="text-white break-words w-full block">
               {paymentType}
             </span>
           </div>
         </div>
-        <div className="text-white flex flex-col sm:flex-row w-full">
-          <div className="flex items-start gap-1 sm:w-1/3">
-            <span className="flex items-center mr-1">
-              <FaSackDollar className="flex-shrink-0" />
+
+        {/* Amount */}
+        <div className="text-white flex flex-col sm:flex-row w-full py-2 border-b border-white/10">
+          <div className="flex items-start gap-2 sm:w-1/3">
+            <span className="flex items-center">
+              <FaSackDollar className="flex-shrink-0 text-white/70" />
             </span>
-            <span className="font-normal flex-shrink-0">Miqdori:</span>
+            <span className="font-medium text-white/70">Miqdori:</span>
           </div>
           <div className="sm:w-2/3 pl-6 sm:pl-0 flex items-center">
-            <span className=" text-gray-900 break-words">
+            <span className="text-white break-words font-semibold">
               {amount.toLocaleString("uz-UZ")}
             </span>
-            <span className="text-gray-900 ml-1">so'm</span>
+            <span className="text-white/70 ml-1">so'm</span>
           </div>
         </div>
-        {/* <div className="text-white flex flex-col sm:flex-row w-full">
-          <div className="flex items-start gap-1 sm:w-1/3">
-            <span className="flex items-center mr-1">
-              <FaCalendarDays className="flex-shrink-0" />
+
+        {/* Date */}
+        <div className="text-white flex flex-col sm:flex-row w-full py-2">
+          <div className="flex items-start gap-2 sm:w-1/3">
+            <span className="flex items-center">
+              <FaCalendarDays className="flex-shrink-0 text-white/70" />
             </span>
-            <span className="font-normal flex-shrink-0">Sana:</span>
+            <span className="font-medium text-white/70">Sana:</span>
           </div>
-          <div className="sm:w-2/3 pl-6 sm:pl-0 flex items-center">
-            <span className="text-gray-800 text-white-800 break-words">
-              {date}
-            </span>
+          <div className="sm:w-2/3 pl-6 sm:pl-0">
+            <span className="text-white/90 break-words">{formattedDate}</span>
           </div>
-        </div> */}
-        <div className="flex justify-between items-center">
-          <span className="text-gray-700 text-xs break-words">{date}</span>
-          <span className="text-gray-700 text-xs break-words">
-            {userId?.username}
-          </span>
         </div>
       </div>
     </div>
   );
 };
+
 export default Card;

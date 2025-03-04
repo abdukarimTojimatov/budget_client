@@ -1,17 +1,14 @@
 import React, { useState } from "react";
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { GET_ORDERS } from "../graphql/queries/order.query";
-import { DELETE_ORDER } from "../graphql/mutations/order.mutation";
 import { truncateText } from "../utils/formatDate";
-import { FaLocationDot } from "react-icons/fa6";
-import { FaTrash } from "react-icons/fa";
-import { HiPencilAlt } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import OrderCard from "../components/OrderCard";
 
 const OrdersPage = () => {
-  const [page, setPage] = useState(1); // State for current page
-  const [limit, setLimit] = useState(10); // State for items per page
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(12);
   const [filters, setFilters] = useState({
     orderCategory: "",
     orderStatus: "",
@@ -20,23 +17,12 @@ const OrdersPage = () => {
   });
 
   const { loading, error, data } = useQuery(GET_ORDERS, {
-    variables: { page, limit, ...filters }, // Pass pagination and filters to query
+    variables: {
+      page,
+      limit,
+      ...filters,
+    },
   });
-
-  const [deleteOrder] = useMutation(DELETE_ORDER);
-
-  const handleDelete = async (id) => {
-    try {
-      await deleteOrder({
-        variables: { id },
-        refetchQueries: ["GetOrders"],
-      });
-      toast.success("Order deleted successfully");
-    } catch (error) {
-      console.error("Error deleting order:", error);
-      toast.error(error.message);
-    }
-  };
 
   const handleFilterChange = (e) => {
     setFilters({ ...filters, [e.target.name]: e.target.value });
@@ -57,7 +43,7 @@ const OrdersPage = () => {
 
   const handleLimitChange = (event) => {
     setLimit(Number(event.target.value));
-    setPage(1); // Reset to first page when limit changes
+    setPage(1);
   };
 
   const renderPagination = () => {
@@ -69,8 +55,10 @@ const OrdersPage = () => {
         <button
           key={i}
           onClick={() => setPage(i)}
-          className={`mx-1 px-3 py-1 rounded ${
-            page === i ? "bg-blue-500 text-white" : "bg-gray-200"
+          className={`mx-1 px-3 py-1 rounded-lg ${
+            page === i
+              ? "bg-blue-700/60 text-white"
+              : "bg-gray-800/50 text-white hover:bg-gray-700/60"
           }`}
         >
           {i}
@@ -80,217 +68,205 @@ const OrdersPage = () => {
     return pageNumbers;
   };
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center min-h-[200px]">
-        <div className="w-8 h-8 border-4 border-pink-500 border-t-transparent rounded-full animate-spin"></div>
-      </div>
-    );
-  }
-
-  if (error) {
-    console.error("Error fetching orders:", error);
-    return <div>Error fetching orders. Please try again later.</div>;
-  }
-
-  const getPaymentStatusColor = (status) => {
-    switch (status.toLowerCase()) {
-      case "tolandi":
-        return "bg-gradient-to-r from-green-700 to-green-400";
-      case "qismantolandi":
-        return "bg-gradient-to-r from-pink-800 to-pink-500";
-      case "tolanmadi":
-        return "bg-gradient-to-r from-blue-700 to-blue-500";
-      default:
-        return "";
-    }
-  };
-
   return (
-    <div>
-      {data?.getOrders?.docs?.length === 0 ? (
-        <Link
-          to="/orders/create"
-          className="bg-blue-500 text-white font-semibold py-2 px-4 ml-4 rounded shadow hover:bg-blue-600 transition duration-300 mb-4"
-        >
-          Buyurtma yaratish
-        </Link>
-      ) : (
-        <div>
+    <div className="max-w-7xl mx-auto">
+      <div className="flex flex-col mb-8">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-bold text-white">Buyurtmalar</h1>
           <Link
             to="/orders/create"
-            className="bg-blue-500 text-white font-semibold py-2 px-4 ml-4 rounded shadow hover:bg-blue-600 transition duration-300 mb-4"
+            className="bg-blue-800/30 hover:bg-blue-700/40 px-4 py-2 rounded-lg text-white transition-colors duration-200"
           >
-            Buyurtma yaratish
+            + Yangi buyurtma
           </Link>
-          <div className="filter-container shadow-md text-black p-4 flex flex-wrap gap-4">
-            <select
-              name="orderCategory"
-              onChange={handleFilterChange}
-              value={filters.orderCategory} // Bind value to state
-              className="flex-1 min-w-[150px] p-2 border border-gray-300 rounded"
-            >
-              <option value="">All Categories</option>
-              <option value="oshxona">Oshxona</option>
-              <option value="yotoqxona">Yotoqxona</option>
-              <option value="yumshoq mebel">Yumshoq Mebel</option>
-              <option value="boshqa">Boshqa</option>
-            </select>
-            <select
-              name="orderStatus"
-              onChange={handleFilterChange}
-              value={filters.orderStatus} // Bind value to state
-              className="flex-1 min-w-[150px] p-2 border border-gray-300 rounded"
-            >
-              <option value="">All Statuses</option>
-              <option value="qabul qilingan">Qabul Qilingan</option>
-              <option value="tayyorlanayabdi">Tayyorlanayabdi</option>
-              <option value="tayyor">Tayyor</option>
-              <option value="ornatildi">Ornatildi</option>
-            </select>
-            <select
-              name="orderType"
-              onChange={handleFilterChange}
-              value={filters.orderType} // Bind value to state
-              className="flex-1 min-w-[150px] p-2 border border-gray-300 rounded"
-            >
-              <option value="">All Types</option>
-              <option value="bozor">Bozor</option>
-              <option value="buyurtma">Buyurtma</option>
-              <option value="boshqa">Boshqa</option>
-            </select>
-            <select
-              name="orderPaymentStatus"
-              onChange={handleFilterChange}
-              value={filters.orderPaymentStatus} // Bind value to state
-              className="flex-1 min-w-[150px] p-2 border border-gray-300 rounded"
-            >
-              <option value="">All Payment Statuses</option>
-              <option value="tolanmadi">Tolanmadi</option>
-              <option value="qismanTolandi">Qisman Tolandi</option>
-              <option value="tolandi">Tolandi</option>
-            </select>
-            <select
-              onChange={handleLimitChange}
-              value={limit}
-              className="border rounded p-2 text-black"
-            >
-              <option value={1}>1</option>
-              <option value={5}>5</option>
-              <option value={10}>10</option>
-              <option value={50}>50</option>
-            </select>
-          </div>
+        </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-            {data.getOrders.docs.map((order) => (
-              <div
-                key={order._id}
-                className={`${getPaymentStatusColor(
-                  order.orderPaymentStatus
-                )} rounded-lg shadow-md hover:shadow-lg transition-shadow p-4`}
+        {/* Filters */}
+        <div className="bg-gray-800/50 p-4 rounded-xl shadow-lg border border-gray-700/30 mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            <div>
+              <label className="block text-white text-sm font-medium mb-1">
+                Kategoriya
+              </label>
+              <select
+                name="orderCategory"
+                value={filters.orderCategory}
+                onChange={handleFilterChange}
+                className="w-full bg-gray-700/80 text-white rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-600"
               >
-                <div className="mt-3 space-y-2">
-                  <div className="text-sm">
-                    <span className="font-semibold">Buyurtma raqami: </span>
-                    {order.orderAutoNumber}
-                    <div className="text-sm float-right space-x-2 flex items-center">
-                      <FaTrash
-                        className={"cursor-pointer"}
-                        onClick={() => handleDelete(order._id)}
-                      />
-                      <Link to={`/orders/${order._id}`}>
-                        <HiPencilAlt className="cursor-pointer" size={20} />
-                      </Link>
-                    </div>
-                  </div>
-                  <div className="text-sm">
-                    <span className="font-semibold">Buyurtma nomi: </span>
-                    {truncateText(order.orderName, 30)}
-                  </div>
-                  <div className="text-sm">
-                    <span className="font-semibold">Mijoz: </span>
-                    {truncateText(order.orderCustomerName, 15)}
-                  </div>
-                  <div className="text-sm">
-                    <span className="font-semibold">Telefon raqam: </span>
-                    {order.orderCustomerPhoneNumber}
-                  </div>
-                  <div className="text-sm">
-                    <span className="font-semibold">Kategoriya: </span>
-                    {order.orderCategory}
-                  </div>
-                  <div className="text-sm">
-                    <span className="font-semibold">Buyurtma turi: </span>
-                    {order.orderType}
-                  </div>
-                  <div className="text-sm">
-                    <span className="font-semibold">To'lov holati: </span>
-                    {order.orderPaymentStatus}
-                  </div>
-                  <div className="text-sm">
-                    <span className="font-semibold">Buyurtma holati: </span>
-                    {order.orderStatus}
-                  </div>
-                  <div className="text-sm">
-                    <span className="font-semibold">Manzil: </span>
-                    {order.orderLocation}
-                  </div>
-                  <div className="grid grid-cols-2 gap-2 mt-2">
-                    <div className="text-sm">
-                      <span className="font-semibold">Jami: </span>
-                      {order.orderTotalAmount} so'm
-                    </div>
-                    <div className="text-sm pl-8">
-                      <span className="font-semibold">To'landi: </span>
-                      {order.orderTotalPaid} so'm
-                    </div>
-                    <div className="text-sm">
-                      <span className="font-semibold">Xarajatlar: </span>
-                      {order?.orderExpensesAmount} so'm
-                    </div>
-                    <div className="text-sm pl-8">
-                      <span className="font-semibold">Qarz: </span>
-                      {order.orderTotalDebt} so'm
-                    </div>
-                  </div>
-                  <div className="text-sm mt-2">
-                    <span className="font-semibold">
-                      Buyurtma qabul qilingan vaqti:
-                    </span>
-                    {order?.date}
-                  </div>
-                  <div className="text-sm mt-2">
-                    <span className="font-semibold">
-                      Buyurtma yetkazish vaqti:
-                    </span>
-                    {order?.orderReadyDate}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="flex justify-center items-center w-full mt-4 mb-4">
-            <button
-              onClick={handlePrevPage}
-              disabled={!data?.getOrders?.hasPrevPage}
-              className="mx-2 hover:underline cursor-pointer"
-            >
-              Orqaga
-            </button>
-            <div className="flex items-center space-x-1 text-black">
-              {renderPagination()}
+                <option value="">Hammasi</option>
+                <option value="Shkaf">Shkaf</option>
+                <option value="Parda">Parda</option>
+                <option value="Boshqa">Boshqa</option>
+              </select>
             </div>
-            <button
-              onClick={handleNextPage}
-              disabled={!data?.getOrders?.hasNextPage}
-              className="mx-2 hover:underline cursor-pointer"
-            >
-              Oldinga
-            </button>
+
+            <div>
+              <label className="block text-white text-sm font-medium mb-1">
+                Holati
+              </label>
+              <select
+                name="orderStatus"
+                value={filters.orderStatus}
+                onChange={handleFilterChange}
+                className="w-full bg-gray-700/80 text-white rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-600"
+              >
+                <option value="">Hammasi</option>
+                <option value="Tayyorlanmoqda">Tayyorlanmoqda</option>
+                <option value="Topshirildi">Topshirildi</option>
+                <option value="Bekor qilindi">Bekor qilindi</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-white text-sm font-medium mb-1">
+                Turi
+              </label>
+              <select
+                name="orderType"
+                value={filters.orderType}
+                onChange={handleFilterChange}
+                className="w-full bg-gray-700/80 text-white rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-600"
+              >
+                <option value="">Hammasi</option>
+                <option value="Shaxsiy">Shaxsiy</option>
+                <option value="Firma">Firma</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-white text-sm font-medium mb-1">
+                To'lov holati
+              </label>
+              <select
+                name="orderPaymentStatus"
+                value={filters.orderPaymentStatus}
+                onChange={handleFilterChange}
+                className="w-full bg-gray-700/80 text-white rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-600"
+              >
+                <option value="">Hammasi</option>
+                <option value="Tolandi">To'landi</option>
+                <option value="QismanTolandi">Qisman to'landi</option>
+                <option value="Tolanmadi">To'lanmadi</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-white text-sm font-medium mb-1">
+                Sahifada
+              </label>
+              <select
+                value={limit}
+                onChange={handleLimitChange}
+                className="w-full bg-gray-700/80 text-white rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-600"
+              >
+                <option value={8}>8</option>
+                <option value={12}>12</option>
+                <option value={16}>16</option>
+                <option value={24}>24</option>
+              </select>
+            </div>
           </div>
         </div>
-      )}
+
+        {/* Loading State */}
+        {loading && (
+          <div className="flex justify-center items-center min-h-[200px]">
+            <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        )}
+
+        {/* Error State */}
+        {error && (
+          <div className="p-8 bg-red-800/20 rounded-xl text-white text-center">
+            Error fetching orders. Please try again later.
+          </div>
+        )}
+
+        {/* Grid View of Orders */}
+        {!loading && !error && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {data?.getOrders?.docs.length === 0 ? (
+              <div className="col-span-full bg-gray-800/50 rounded-xl px-6 py-12 flex flex-col items-center justify-center text-center">
+                <svg
+                  className="w-16 h-16 text-gray-600 mb-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="1.5"
+                    d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
+                  ></path>
+                </svg>
+                <p className="text-lg font-medium text-white">
+                  Buyurtmalar topilmadi
+                </p>
+                <p className="text-gray-400 mt-1 mb-6">
+                  Filtrlash parametrlarini o'zgartiring yoki yangi buyurtma
+                  qo'shing
+                </p>
+                <Link
+                  to="/orders/create"
+                  className="bg-blue-800/40 hover:bg-blue-700/50 px-4 py-2 rounded-lg text-white transition-colors duration-200 text-sm"
+                >
+                  + Yangi buyurtma qo'shish
+                </Link>
+              </div>
+            ) : (
+              data?.getOrders?.docs.map((order) => (
+                <div
+                  key={order._id}
+                  className="transform transition-transform duration-200 hover:scale-[1.02]"
+                >
+                  <OrderCard order={order} />
+                </div>
+              ))
+            )}
+          </div>
+        )}
+
+        {/* Pagination */}
+        {!loading && !error && data?.getOrders?.docs.length > 0 && (
+          <div className="mt-6 flex justify-between items-center">
+            <div className="text-sm text-white">
+              Jami {data?.getOrders?.totalDocs || 0} ta buyurtma, {page} dan{" "}
+              {data?.getOrders?.totalPages} sahifa
+            </div>
+
+            <div className="flex space-x-2">
+              <button
+                onClick={handlePrevPage}
+                disabled={!data?.getOrders?.hasPrevPage}
+                className={`px-3 py-1.5 rounded-lg text-sm font-medium ${
+                  data?.getOrders?.hasPrevPage
+                    ? "bg-blue-800/30 text-white hover:bg-blue-700/40"
+                    : "bg-gray-700/30 text-gray-500 cursor-not-allowed"
+                }`}
+              >
+                &laquo; Oldingi
+              </button>
+
+              <div className="flex space-x-1">{renderPagination()}</div>
+
+              <button
+                onClick={handleNextPage}
+                disabled={!data?.getOrders?.hasNextPage}
+                className={`px-3 py-1.5 rounded-lg text-sm font-medium ${
+                  data?.getOrders?.hasNextPage
+                    ? "bg-blue-800/30 text-white hover:bg-blue-700/40"
+                    : "bg-gray-700/30 text-gray-500 cursor-not-allowed"
+                }`}
+              >
+                Keyingi &raquo;
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
