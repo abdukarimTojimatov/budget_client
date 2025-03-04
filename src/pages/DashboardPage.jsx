@@ -280,24 +280,23 @@ const DashboardPage = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="max-w-6xl mx-auto">
       {loading ? (
-        <div className="flex justify-center items-center h-64">
-          <p className="text-white text-xl">Loading statistics...</p>
+        <div className="flex justify-center items-center h-48">
+          <p className="text-white text-lg">Loading statistics...</p>
         </div>
       ) : (
         <>
           {/* Date Range Filter */}
-          <div className="flex flex-col justify-start mb-8">
+          <div className="flex flex-col justify-start mb-4">
             <div className="flex items-center">
-              {/* <label className="text-white mr-2">Sana:</label> */}
               <div className="relative z-50">
                 <DatePicker
                   selectsRange={true}
                   startDate={dateRange[0]}
                   endDate={dateRange[1]}
                   onChange={handleDateRangeChange}
-                  className="bg-gray-800/70 p-2 rounded-lg text-white w-64"
+                  className="bg-gray-800/70 p-1.5 rounded-md text-white w-56 text-sm"
                   placeholderText="Ikki sanani tanlang"
                   dateFormat="yyyy-MM-dd"
                   popperClassName="z-[100]"
@@ -306,15 +305,15 @@ const DashboardPage = () => {
                 />
               </div>
             </div>
-            <div className="flex items-start mt-3">
+            <div className="flex items-start mt-2">
               <button
-                className="bg-blue-800/30 p-2 rounded-lg text-white hover:bg-blue-600/30"
+                className="bg-blue-800/30 p-1.5 rounded-md text-white hover:bg-blue-600/30 text-sm"
                 onClick={applyDateFilter}
               >
                 Apply
               </button>
               <button
-                className="bg-red-800/30 p-2 rounded-lg text-white hover:bg-red-600/30 ml-2"
+                className="bg-red-800/30 p-1.5 rounded-md text-white hover:bg-red-600/30 ml-1 text-sm"
                 onClick={resetDateFilter}
               >
                 Reset
@@ -324,76 +323,70 @@ const DashboardPage = () => {
 
           {/* Date range indicator if filter is applied */}
           {(dateRange[0] || dateRange[1]) && (
-            <div className="bg-blue-600/20 border border-blue-600/30 text-white p-3 rounded-md mb-6 text-center">
+            <div className="bg-blue-600/20 border border-blue-600/30 text-white p-2 rounded-md mb-4 text-center text-sm">
               <p>
                 {dateRange[0] && dateRange[1]
-                  ? `${getFormattedStartDate()} dan ${getFormattedEndDate()} gacha bo'lgan statistika`
+                  ? `${getFormattedStartDate()} dan ${getFormattedEndDate()} gacha`
                   : dateRange[0]
-                  ? `${getFormattedStartDate()} dan keyingi statistika`
-                  : `${getFormattedEndDate()} gacha bo'lgan statistika`}
+                  ? `${getFormattedStartDate()} dan keyin`
+                  : `${getFormattedEndDate()} gacha`}
               </p>
             </div>
           )}
 
           {/* Summary Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-            <div className="bg-gradient-to-br from-blue-800/30 to-blue-600/30 p-6 rounded-lg shadow-lg">
-              <h3 className="text-xl font-medium text-white mb-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="bg-gradient-to-br from-blue-800/30 to-blue-600/30 p-4 rounded-md shadow-md">
+              <h3 className="text-lg font-medium text-white mb-1">
                 Jami Buyurtmalar
               </h3>
-              <p className="text-3xl font-bold text-white">
+              <p className="text-2xl font-bold text-white">
                 {formatCurrency(summaryStats.totalOrders)}
               </p>
             </div>
-
-            <div className="bg-gradient-to-br from-red-800/30 to-red-600/30 p-6 rounded-lg shadow-lg">
-              <h3 className="text-xl font-medium text-white mb-2">
+            <div className="bg-gradient-to-br from-red-800/30 to-red-600/30 p-4 rounded-md shadow-md">
+              <h3 className="text-lg font-medium text-white mb-1">
                 Jami Xarajatlar
               </h3>
-              <p className="text-3xl font-bold text-white">
+              <p className="text-2xl font-bold text-white">
                 {formatCurrency(summaryStats.totalExpenses)}
               </p>
             </div>
-
-            <div className="bg-gradient-to-br from-amber-800/30 to-amber-600/30 p-6 rounded-lg shadow-lg">
-              <h3 className="text-xl font-medium text-white mb-2">
+            <div className="bg-gradient-to-br from-amber-800/30 to-amber-600/30 p-4 rounded-md shadow-md">
+              <h3 className="text-lg font-medium text-white mb-1">
                 Jami Homashyolar
               </h3>
-              <p className="text-3xl font-bold text-white">
+              <p className="text-2xl font-bold text-white">
                 {formatCurrency(summaryStats.totalRawMaterials)}
               </p>
             </div>
-
-            <div className="bg-gradient-to-br from-purple-800/30 to-purple-600/30 p-6 rounded-lg shadow-lg">
-              <h3 className="text-xl font-medium text-white mb-2">
+            <div className="bg-gradient-to-br from-purple-800/30 to-purple-600/30 p-4 rounded-md shadow-md">
+              <h3 className="text-lg font-medium text-white mb-1">
                 Jami Ulushlar
               </h3>
-              <p className="text-3xl font-bold text-white">
+              <p className="text-2xl font-bold text-white">
                 {formatCurrency(summaryStats.totalSharings)}
               </p>
             </div>
-
-            <div className="bg-gradient-to-br from-green-800/30 to-green-600/30 p-6 rounded-lg shadow-lg">
-              <h3 className="text-xl font-medium text-white mb-2">
+            <div className="bg-gradient-to-br from-green-800/30 to-green-600/30 p-4 rounded-md shadow-md">
+              <h3 className="text-lg font-medium text-white mb-1">
                 Yalpi Foyda
               </h3>
-              <p className="text-3xl font-bold text-white">
+              <p className="text-2xl font-bold text-white">
                 {formatCurrency(summaryStats.grossProfit)}
               </p>
             </div>
-
-            <div className="bg-gradient-to-br from-emerald-800/30 to-emerald-600/30 p-6 rounded-lg shadow-lg">
-              <h3 className="text-xl font-medium text-white mb-2">Sof Foyda</h3>
-              <p className="text-3xl font-bold text-white">
+            <div className="bg-gradient-to-br from-emerald-800/30 to-emerald-600/30 p-4 rounded-md shadow-md">
+              <h3 className="text-lg font-medium text-white mb-1">Sof Foyda</h3>
+              <p className="text-2xl font-bold text-white">
                 {formatCurrency(summaryStats.netProfit)}
               </p>
             </div>
-
-            <div className="bg-gradient-to-br from-indigo-800/30 to-indigo-600/30 p-6 rounded-lg shadow-lg">
-              <h3 className="text-xl font-medium text-white mb-2">
-                Foydalilik Darajasi
+            <div className="bg-gradient-to-br from-indigo-800/30 to-indigo-600/30 p-4 rounded-md shadow-md">
+              <h3 className="text-lg font-medium text-white mb-1">
+                Foydalilik
               </h3>
-              <p className="text-3xl font-bold text-white">
+              <p className="text-2xl font-bold text-white">
                 {summaryStats.totalOrders > 0
                   ? `${(
                       (summaryStats.netProfit / summaryStats.totalOrders) *
@@ -405,13 +398,10 @@ const DashboardPage = () => {
           </div>
 
           {/* Charts Section */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
-            {/* Expenses Chart */}
-            <div className="bg-gray-800/50 p-6 rounded-lg shadow-lg">
-              <h3 className="text-xl font-bold text-white mb-4">
-                Xarajatlar Statistikasi
-              </h3>
-              <div className="h-[300px] flex items-center justify-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4 mb-6">
+            <div className="bg-gray-800/50 p-4 rounded-md shadow-md">
+              <h3 className="text-lg font-bold text-white mb-2">Xarajatlar</h3>
+              <div className="h-[200px] flex items-center justify-center">
                 {expenseChartData.labels.length > 0 ? (
                   <Doughnut
                     data={expenseChartData}
@@ -421,28 +411,19 @@ const DashboardPage = () => {
                       plugins: {
                         legend: {
                           position: "right",
-                          labels: {
-                            color: "white",
-                            font: {
-                              size: 12,
-                            },
-                          },
+                          labels: { color: "white", font: { size: 10 } },
                         },
                       },
                     }}
                   />
                 ) : (
-                  <p className="text-gray-400">Ma'lumot mavjud emas</p>
+                  <p className="text-gray-400 text-sm">Ma'lumot yo'q</p>
                 )}
               </div>
             </div>
-
-            {/* Sharings Chart */}
-            <div className="bg-gray-800/50 p-6 rounded-lg shadow-lg">
-              <h3 className="text-xl font-bold text-white mb-4">
-                Ulushlar Statistikasi
-              </h3>
-              <div className="h-[300px] flex items-center justify-center">
+            <div className="bg-gray-800/50 p-4 rounded-md shadow-md">
+              <h3 className="text-lg font-bold text-white mb-2">Ulushlar</h3>
+              <div className="h-[200px] flex items-center justify-center">
                 {sharingChartData.labels.length > 0 ? (
                   <Doughnut
                     data={sharingChartData}
@@ -452,28 +433,19 @@ const DashboardPage = () => {
                       plugins: {
                         legend: {
                           position: "right",
-                          labels: {
-                            color: "white",
-                            font: {
-                              size: 12,
-                            },
-                          },
+                          labels: { color: "white", font: { size: 10 } },
                         },
                       },
                     }}
                   />
                 ) : (
-                  <p className="text-gray-400">Ma'lumot mavjud emas</p>
+                  <p className="text-gray-400 text-sm">Ma'lumot yo'q</p>
                 )}
               </div>
             </div>
-
-            {/* Raw Materials Chart */}
-            <div className="bg-gray-800/50 p-6 rounded-lg shadow-lg">
-              <h3 className="text-xl font-bold text-white mb-4">
-                Homashyolar Statistikasi
-              </h3>
-              <div className="h-[300px] flex items-center justify-center">
+            <div className="bg-gray-800/50 p-4 rounded-md shadow-md">
+              <h3 className="text-lg font-bold text-white mb-2">Homashyolar</h3>
+              <div className="h-[200px] flex items-center justify-center">
                 {rawMaterialChartData.labels.length > 0 ? (
                   <Doughnut
                     data={rawMaterialChartData}
@@ -483,77 +455,54 @@ const DashboardPage = () => {
                       plugins: {
                         legend: {
                           position: "right",
-                          labels: {
-                            color: "white",
-                            font: {
-                              size: 12,
-                            },
-                          },
+                          labels: { color: "white", font: { size: 10 } },
                         },
                       },
                     }}
                   />
                 ) : (
-                  <p className="text-gray-400">Ma'lumot mavjud emas</p>
+                  <p className="text-gray-400 text-sm">Ma'lumot yo'q</p>
                 )}
               </div>
             </div>
-
-            {/* Orders Chart */}
-            <div className="bg-gray-800/50 p-6 rounded-lg shadow-lg">
-              <h3 className="text-xl font-bold text-white mb-4">
-                Buyurtmalar Statistikasi
-              </h3>
-              <div className="h-[300px] flex items-center justify-center">
+            <div className="bg-gray-800/50 p-4 rounded-md shadow-md">
+              <h3 className="text-lg font-bold text-white mb-2">Buyurtmalar</h3>
+              <div className="h-[200px] flex items-center justify-center">
                 {orderChartData.labels.length > 0 ? (
                   <Bar
                     data={orderChartData}
                     options={{
                       responsive: true,
                       maintainAspectRatio: false,
-                      plugins: {
-                        legend: {
-                          display: false,
-                        },
-                      },
+                      plugins: { legend: { display: false } },
                       scales: {
                         y: {
-                          ticks: {
-                            color: "white",
-                          },
-                          grid: {
-                            color: "rgba(255, 255, 255, 0.1)",
-                          },
+                          ticks: { color: "white", font: { size: 10 } },
+                          grid: { color: "rgba(255, 255, 255, 0.1)" },
                         },
                         x: {
-                          ticks: {
-                            color: "white",
-                          },
-                          grid: {
-                            color: "rgba(255, 255, 255, 0.1)",
-                          },
+                          ticks: { color: "white", font: { size: 10 } },
+                          grid: { color: "rgba(255, 255, 255, 0.1)" },
                         },
                       },
                     }}
                   />
                 ) : (
-                  <p className="text-gray-400">Ma'lumot mavjud emas</p>
+                  <p className="text-gray-400 text-sm">Ma'lumot yo'q</p>
                 )}
               </div>
             </div>
-
-            {/* Profit Comparison */}
-            <div className="bg-gray-800/50 p-6 rounded-lg shadow-lg col-span-1 lg:col-span-2">
-              <h3 className="text-xl font-bold text-white mb-4">
+            <div className="bg-gray-800/50 p-4 rounded-md shadow-md col-span-1 lg:col-span-2">
+              <h3 className="text-lg font-bold text-white mb-2">
                 Foyda Tahlili
               </h3>
-              <div className="h-[300px] flex items-center justify-center">
+              <div className="h-[200px] flex items-center justify-center">
                 <Bar
                   data={{
                     labels: [
-                      "Jami Buyurtmalar",
-                      "Jami Xarajatlar",
-                      "Jami Homashyolar",
+                      "Buyurtmalar",
+                      "Xarajatlar",
+                      "Homashyolar",
                       "Ulushlar",
                       "Yalpi Foyda",
                       "Sof Foyda",
@@ -592,35 +541,24 @@ const DashboardPage = () => {
                   options={{
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: {
-                      legend: {
-                        display: false,
-                      },
-                    },
+                    plugins: { legend: { display: false } },
                     scales: {
                       y: {
                         ticks: {
                           color: "white",
-                          callback: function (value) {
-                            if (value >= 1000000) {
-                              return (value / 1000000).toFixed(1) + "M";
-                            } else if (value >= 1000) {
-                              return (value / 1000).toFixed(1) + "K";
-                            }
-                            return value;
-                          },
+                          font: { size: 10 },
+                          callback: (value) =>
+                            value >= 1000000
+                              ? `${(value / 1000000).toFixed(1)}M`
+                              : value >= 1000
+                              ? `${(value / 1000).toFixed(1)}K`
+                              : value,
                         },
-                        grid: {
-                          color: "rgba(255, 255, 255, 0.1)",
-                        },
+                        grid: { color: "rgba(255, 255, 255, 0.1)" },
                       },
                       x: {
-                        ticks: {
-                          color: "white",
-                        },
-                        grid: {
-                          color: "rgba(255, 255, 255, 0.1)",
-                        },
+                        ticks: { color: "white", font: { size: 10 } },
+                        grid: { color: "rgba(255, 255, 255, 0.1)" },
                       },
                     },
                   }}
@@ -630,45 +568,42 @@ const DashboardPage = () => {
           </div>
 
           {/* Detailed Breakdowns */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            {/* Order Statistics Breakdown */}
-            <div className="bg-gray-800/50 p-6 rounded-lg shadow-lg">
-              <h3 className="text-xl font-bold text-white mb-4">
-                Buyurtma Statistikasi
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div className="bg-gray-800/50 p-4 rounded-md shadow-md">
+              <h3 className="text-lg font-bold text-white mb-2">
+                Buyurtma Statistika
               </h3>
-              <div className="space-y-3">
+              <div className="space-y-2">
                 {orderChartData.labels.length > 0 ? (
                   orderChartData.labels.map((category, index) => (
                     <div
                       key={index}
-                      className="flex justify-between items-center p-3 bg-gray-700/20 rounded-lg"
+                      className="flex justify-between items-center p-2 bg-gray-700/20 rounded-md"
                     >
-                      <span className="text-white">{category}</span>
-                      <span className="text-white font-bold">
+                      <span className="text-white text-sm">{category}</span>
+                      <span className="text-white font-bold text-sm">
                         {formatCurrency(orderChartData.datasets[0].data[index])}
                       </span>
                     </div>
                   ))
                 ) : (
-                  <p className="text-gray-400">Ma'lumot mavjud emas</p>
+                  <p className="text-gray-400 text-sm">Ma'lumot yo'q</p>
                 )}
               </div>
             </div>
-
-            {/* Expense Statistics Breakdown */}
-            <div className="bg-gray-800/50 p-6 rounded-lg shadow-lg">
-              <h3 className="text-xl font-bold text-white mb-4">
-                Xarajat Statistikasi
+            <div className="bg-gray-800/50 p-4 rounded-md shadow-md">
+              <h3 className="text-lg font-bold text-white mb-2">
+                Xarajat Statistika
               </h3>
-              <div className="space-y-3">
+              <div className="space-y-2">
                 {expenseChartData.labels.length > 0 ? (
                   expenseChartData.labels.map((category, index) => (
                     <div
                       key={index}
-                      className="flex justify-between items-center p-3 bg-gray-700/20 rounded-lg"
+                      className="flex justify-between items-center p-2 bg-gray-700/20 rounded-md"
                     >
-                      <span className="text-white">{category}</span>
-                      <span className="text-white font-bold">
+                      <span className="text-white text-sm">{category}</span>
+                      <span className="text-white font-bold text-sm">
                         {formatCurrency(
                           expenseChartData.datasets[0].data[index]
                         )}
@@ -676,25 +611,21 @@ const DashboardPage = () => {
                     </div>
                   ))
                 ) : (
-                  <p className="text-gray-400">Ma'lumot mavjud emas</p>
+                  <p className="text-gray-400 text-sm">Ma'lumot yo'q</p>
                 )}
               </div>
             </div>
-
-            {/* Raw Material Statistics Breakdown */}
-            <div className="bg-gray-800/50 p-6 rounded-lg shadow-lg">
-              <h3 className="text-xl font-bold text-white mb-4">
-                Homashyolar ma'lumoti
-              </h3>
-              <div className="space-y-3">
+            <div className="bg-gray-800/50 p-4 rounded-md shadow-md">
+              <h3 className="text-lg font-bold text-white mb-2">Homashyolar</h3>
+              <div className="space-y-2">
                 {rawMaterialChartData.labels.length > 0 ? (
                   rawMaterialChartData.labels.map((category, index) => (
                     <div
                       key={index}
-                      className="flex justify-between items-center p-3 bg-gray-700/20 rounded-lg"
+                      className="flex justify-between items-center p-2 bg-gray-700/20 rounded-md"
                     >
-                      <span className="text-white">{category}</span>
-                      <span className="text-white font-bold">
+                      <span className="text-white text-sm">{category}</span>
+                      <span className="text-white font-bold text-sm">
                         {formatCurrency(
                           rawMaterialChartData.datasets[0].data[index]
                         )}
@@ -702,25 +633,21 @@ const DashboardPage = () => {
                     </div>
                   ))
                 ) : (
-                  <p className="text-gray-400">Ma'lumot mavjud emas</p>
+                  <p className="text-gray-400 text-sm">Ma'lumot yo'q</p>
                 )}
               </div>
             </div>
-
-            {/* Sharing Statistics Breakdown */}
-            <div className="bg-gray-800/50 p-6 rounded-lg shadow-lg">
-              <h3 className="text-xl font-bold text-white mb-4">
-                Ulushlar ma'lumoti
-              </h3>
-              <div className="space-y-3">
+            <div className="bg-gray-800/50 p-4 rounded-md shadow-md">
+              <h3 className="text-lg font-bold text-white mb-2">Ulushlar</h3>
+              <div className="space-y-2">
                 {sharingChartData.labels.length > 0 ? (
                   sharingChartData.labels.map((category, index) => (
                     <div
                       key={index}
-                      className="flex justify-between items-center p-3 bg-gray-700/20 rounded-lg"
+                      className="flex justify-between items-center p-2 bg-gray-700/20 rounded-md"
                     >
-                      <span className="text-white">{category}</span>
-                      <span className="text-white font-bold">
+                      <span className="text-white text-sm">{category}</span>
+                      <span className="text-white font-bold text-sm">
                         {formatCurrency(
                           sharingChartData.datasets[0].data[index]
                         )}
@@ -728,35 +655,34 @@ const DashboardPage = () => {
                     </div>
                   ))
                 ) : (
-                  <p className="text-gray-400">Ma'lumot mavjud emas</p>
+                  <p className="text-gray-400 text-sm">Ma'lumot yo'q</p>
                 )}
               </div>
             </div>
           </div>
 
           {/* Debt Breakdowns */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            {/* Client Debt Breakdown */}
-            <div className="bg-gray-800/50 p-6 rounded-lg shadow-lg">
-              <h3 className="text-xl font-bold text-white mb-4">
-                Mijozlar Qarzi Ma'lumoti
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bg-gray-800/50 p-4 rounded-md shadow-md">
+              <h3 className="text-lg font-bold text-white mb-2">
+                Mijozlar Qarzi
               </h3>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center p-3 bg-gray-700/20 rounded-lg">
-                  <span className="text-white">Jami Buyurtmalar</span>
-                  <span className="text-white font-bold">
+              <div className="space-y-2">
+                <div className="flex justify-between items-center p-2 bg-gray-700/20 rounded-md">
+                  <span className="text-white text-sm">Jami Buyurtmalar</span>
+                  <span className="text-white font-bold text-sm">
                     {formatCurrency(summaryStats.totalOrders)}
                   </span>
                 </div>
-                <div className="flex justify-between items-center p-3 bg-gray-700/20 rounded-lg">
-                  <span className="text-white">To'langan</span>
-                  <span className="text-white font-bold">
+                <div className="flex justify-between items-center p-2 bg-gray-700/20 rounded-md">
+                  <span className="text-white text-sm">To'langan</span>
+                  <span className="text-white font-bold text-sm">
                     {formatCurrency(summaryStats.totalClientPaid)}
                   </span>
                 </div>
-                <div className="flex justify-between items-center p-3 bg-green-700/20 rounded-lg">
-                  <span className="text-white">To'langan Foizi</span>
-                  <span className="text-white font-bold">
+                <div className="flex justify-between items-center p-2 bg-green-700/20 rounded-md">
+                  <span className="text-white text-sm">To'langan Foizi</span>
+                  <span className="text-white font-bold text-sm">
                     {summaryStats.totalOrders > 0
                       ? `${(
                           (summaryStats.totalClientPaid /
@@ -766,36 +692,34 @@ const DashboardPage = () => {
                       : "0%"}
                   </span>
                 </div>
-                <div className="flex justify-between items-center p-3 bg-red-700/20 rounded-lg">
-                  <span className="text-white">Qarzdorlik</span>
-                  <span className="text-white font-bold">
+                <div className="flex justify-between items-center p-2 bg-red-700/20 rounded-md">
+                  <span className="text-white text-sm">Qarzdorlik</span>
+                  <span className="text-white font-bold text-sm">
                     {formatCurrency(summaryStats.totalClientDebt)}
                   </span>
                 </div>
               </div>
             </div>
-
-            {/* Raw Material Debt Breakdown */}
-            <div className="bg-gray-800/50 p-6 rounded-lg shadow-lg">
-              <h3 className="text-xl font-bold text-white mb-4">
-                Homashyo Qarzi Ma'lumoti
+            <div className="bg-gray-800/50 p-4 rounded-md shadow-md">
+              <h3 className="text-lg font-bold text-white mb-2">
+                Homashyo Qarzi
               </h3>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center p-3 bg-gray-700/20 rounded-lg">
-                  <span className="text-white">Jami Homashyolar</span>
-                  <span className="text-white font-bold">
+              <div className="space-y-2">
+                <div className="flex justify-between items-center p-2 bg-gray-700/20 rounded-md">
+                  <span className="text-white text-sm">Jami Homashyolar</span>
+                  <span className="text-white font-bold text-sm">
                     {formatCurrency(summaryStats.totalRawMaterials)}
                   </span>
                 </div>
-                <div className="flex justify-between items-center p-3 bg-gray-700/20 rounded-lg">
-                  <span className="text-white">To'langan</span>
-                  <span className="text-white font-bold">
+                <div className="flex justify-between items-center p-2 bg-gray-700/20 rounded-md">
+                  <span className="text-white text-sm">To'langan</span>
+                  <span className="text-white font-bold text-sm">
                     {formatCurrency(summaryStats.totalRawMaterialPaid)}
                   </span>
                 </div>
-                <div className="flex justify-between items-center p-3 bg-green-700/20 rounded-lg">
-                  <span className="text-white">To'langan Foizi</span>
-                  <span className="text-white font-bold">
+                <div className="flex justify-between items-center p-2 bg-green-700/20 rounded-md">
+                  <span className="text-white text-sm">To'langan Foizi</span>
+                  <span className="text-white font-bold text-sm">
                     {summaryStats.totalRawMaterials > 0
                       ? `${(
                           (summaryStats.totalRawMaterialPaid /
@@ -805,9 +729,9 @@ const DashboardPage = () => {
                       : "0%"}
                   </span>
                 </div>
-                <div className="flex justify-between items-center p-3 bg-red-700/20 rounded-lg">
-                  <span className="text-white">Qarzdorlik</span>
-                  <span className="text-white font-bold">
+                <div className="flex justify-between items-center p-2 bg-red-700/20 rounded-md">
+                  <span className="text-white text-sm">Qarzdorlik</span>
+                  <span className="text-white font-bold text-sm">
                     {formatCurrency(summaryStats.totalRawMaterialDebt)}
                   </span>
                 </div>

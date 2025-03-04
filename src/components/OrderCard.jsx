@@ -1,36 +1,12 @@
-// src/components/OrderCard.js
 import React from "react";
 import { FaTrash } from "react-icons/fa";
 import { HiPencilAlt } from "react-icons/hi";
 import { Link } from "react-router-dom";
-import {
-  FileText,
-  AlignLeft,
-  Package,
-  User,
-  Tag,
-  Layers,
-  DollarSign,
-  CheckCircle,
-  AlertTriangle,
-  Calendar,
-  Circle,
-  CreditCard,
-} from "lucide-react";
-import PropTypes from "prop-types";
-import {
-  FaCalendarDays,
-  FaUser,
-  FaMoneyBillWave,
-  FaTag,
-  FaClipboardList,
-  FaBuilding,
-} from "react-icons/fa6";
 import { useMutation } from "@apollo/client";
 import { DELETE_ORDER } from "../graphql/mutations/order.mutation";
 import toast from "react-hot-toast";
 
-const OrderCard = ({ order, onDelete }) => {
+const OrderCard = ({ order }) => {
   const [deleteOrder, { loading }] = useMutation(DELETE_ORDER);
 
   const handleDelete = async () => {
@@ -70,7 +46,7 @@ const OrderCard = ({ order, onDelete }) => {
 
   return (
     <div
-      className={`rounded-lg p-2 sm:p-3 bg-gradient-to-br ${getCardClass()} shadow-md backdrop-blur-sm border border-gray-700/20`}
+      className={`rounded-xl p-3 sm:p-4 bg-gradient-to-br ${getCardClass()} shadow-lg backdrop-blur-sm border border-gray-700/20`}
     >
       <div className="flex flex-col gap-1">
         {/* Header with order number and action buttons */}
@@ -144,6 +120,10 @@ const OrderCard = ({ order, onDelete }) => {
               <td className="p-1">
                 {order.orderTotalDebt?.toLocaleString("uz-UZ") || "0"} so'm
               </td>
+            </tr>
+            <tr className="border-t border-white/10">
+              <th className="font-medium text-white/70">Muddati:</th>
+              <td className="p-1">{order.orderReadyDate}</td>
             </tr>
             <tr className="border-t border-white/10">
               <th className="font-medium text-white/70">Sana:</th>

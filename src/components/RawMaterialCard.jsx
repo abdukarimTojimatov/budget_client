@@ -5,16 +5,6 @@ import { DELETE_RAW_MATERIAL } from "../graphql/mutations/rawMaterial.mutation";
 import toast from "react-hot-toast";
 import { FaTrash } from "react-icons/fa";
 import { HiPencilAlt } from "react-icons/hi";
-import {
-  FaBoxOpen,
-  FaTag,
-  FaFileAlt,
-  FaRulerCombined,
-  FaMoneyBillWave,
-  FaUser,
-  FaPhone,
-  FaCheckCircle,
-} from "react-icons/fa";
 
 const RawMaterialCard = ({ rawMaterial }) => {
   const [deleteRawMaterial, { loading }] = useMutation(DELETE_RAW_MATERIAL);

@@ -43,7 +43,7 @@ const OrdersPage = () => {
 
   return (
     <div className="max-w-7xl mx-auto">
-      <div className="flex flex-col mb-8">
+      <div className="flex flex-col">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold text-white">Buyurtmalar</h1>
           <Link
@@ -68,9 +68,10 @@ const OrdersPage = () => {
                 className="w-full bg-gray-700/80 text-white rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-600"
               >
                 <option value="">Hammasi</option>
-                <option value="Shkaf">Shkaf</option>
-                <option value="Parda">Parda</option>
-                <option value="Boshqa">Boshqa</option>
+                <option value="oshxona">oshxona</option>
+                <option value="yotoqxona">yotoqxona</option>
+                <option value="yumshoq mebel">yumshoq mebel</option>
+                <option value="boshqa">boshqa</option>
               </select>
             </div>
 
@@ -85,9 +86,10 @@ const OrdersPage = () => {
                 className="w-full bg-gray-700/80 text-white rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-600"
               >
                 <option value="">Hammasi</option>
-                <option value="Tayyorlanmoqda">Tayyorlanmoqda</option>
-                <option value="Topshirildi">Topshirildi</option>
-                <option value="Bekor qilindi">Bekor qilindi</option>
+                <option value="qabul qilingan">qabul qilingan</option>
+                <option value="tayyorlanayabdi">tayyorlanayabdi</option>
+                <option value="tayyor">tayyor</option>
+                <option value="ornatildi">ornatildi</option>
               </select>
             </div>
 
@@ -102,8 +104,9 @@ const OrdersPage = () => {
                 className="w-full bg-gray-700/80 text-white rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-600"
               >
                 <option value="">Hammasi</option>
-                <option value="Shaxsiy">Shaxsiy</option>
-                <option value="Firma">Firma</option>
+                <option value="bozor">bozor</option>
+                <option value="buyurtma">buyurtma</option>
+                <option value="boshqa">boshqa</option>
               </select>
             </div>
 
@@ -118,9 +121,9 @@ const OrdersPage = () => {
                 className="w-full bg-gray-700/80 text-white rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-600"
               >
                 <option value="">Hammasi</option>
-                <option value="Tolandi">To'landi</option>
-                <option value="QismanTolandi">Qisman to'landi</option>
-                <option value="Tolanmadi">To'lanmadi</option>
+                <option value="tolanmadi">tolanmadi</option>
+                <option value="qismanTolandi">qismanTolandi</option>
+                <option value="tolandi">tolandi</option>
               </select>
             </div>
 
@@ -193,7 +196,7 @@ const OrdersPage = () => {
               data?.getOrders?.docs.map((order) => (
                 <div
                   key={order._id}
-                  className="transform transition-transform duration-200 hover:scale-[1.02]"
+                  className="transform py-2 px-4 transition-transform duration-200 hover:scale-[1.02]"
                 >
                   <OrderCard order={order} />
                 </div>
