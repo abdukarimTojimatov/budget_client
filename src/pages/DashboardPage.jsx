@@ -280,11 +280,7 @@ const DashboardPage = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-center text-white mb-8">
-        Dashboard
-      </h1>
-
+    <div className="max-w-7xl mx-auto">
       {loading ? (
         <div className="flex justify-center items-center h-64">
           <p className="text-white text-xl">Loading statistics...</p>
@@ -292,16 +288,16 @@ const DashboardPage = () => {
       ) : (
         <>
           {/* Date Range Filter */}
-          <div className="flex justify-start items-start mb-8">
+          <div className="flex flex-col justify-start mb-8">
             <div className="flex items-center">
-              <label className="text-white mr-2">Sana:</label>
+              {/* <label className="text-white mr-2">Sana:</label> */}
               <div className="relative z-50">
                 <DatePicker
                   selectsRange={true}
                   startDate={dateRange[0]}
                   endDate={dateRange[1]}
                   onChange={handleDateRangeChange}
-                  className="bg-gray-800/20 p-2 rounded-lg text-white w-64"
+                  className="bg-gray-800/70 p-2 rounded-lg text-white w-64"
                   placeholderText="Ikki sanani tanlang"
                   dateFormat="yyyy-MM-dd"
                   popperClassName="z-[100]"
@@ -310,15 +306,15 @@ const DashboardPage = () => {
                 />
               </div>
             </div>
-            <div className="flex items-start">
+            <div className="flex items-start mt-3">
               <button
-                className="bg-blue-600/20 p-2 rounded-lg text-white hover:bg-blue-600/30"
+                className="bg-blue-800/30 p-2 rounded-lg text-white hover:bg-blue-600/30"
                 onClick={applyDateFilter}
               >
                 Apply
               </button>
               <button
-                className="bg-red-600/20 p-2 rounded-lg text-white hover:bg-red-600/30 ml-2"
+                className="bg-red-800/30 p-2 rounded-lg text-white hover:bg-red-600/30 ml-2"
                 onClick={resetDateFilter}
               >
                 Reset
@@ -411,7 +407,7 @@ const DashboardPage = () => {
           {/* Charts Section */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
             {/* Expenses Chart */}
-            <div className="bg-gray-800/20 p-6 rounded-lg shadow-lg">
+            <div className="bg-gray-800/50 p-6 rounded-lg shadow-lg">
               <h3 className="text-xl font-bold text-white mb-4">
                 Xarajatlar Statistikasi
               </h3>
@@ -442,7 +438,7 @@ const DashboardPage = () => {
             </div>
 
             {/* Sharings Chart */}
-            <div className="bg-gray-800/20 p-6 rounded-lg shadow-lg">
+            <div className="bg-gray-800/50 p-6 rounded-lg shadow-lg">
               <h3 className="text-xl font-bold text-white mb-4">
                 Ulushlar Statistikasi
               </h3>
@@ -473,7 +469,7 @@ const DashboardPage = () => {
             </div>
 
             {/* Raw Materials Chart */}
-            <div className="bg-gray-800/20 p-6 rounded-lg shadow-lg">
+            <div className="bg-gray-800/50 p-6 rounded-lg shadow-lg">
               <h3 className="text-xl font-bold text-white mb-4">
                 Homashyolar Statistikasi
               </h3>
@@ -504,7 +500,7 @@ const DashboardPage = () => {
             </div>
 
             {/* Orders Chart */}
-            <div className="bg-gray-800/20 p-6 rounded-lg shadow-lg">
+            <div className="bg-gray-800/50 p-6 rounded-lg shadow-lg">
               <h3 className="text-xl font-bold text-white mb-4">
                 Buyurtmalar Statistikasi
               </h3>
@@ -547,7 +543,7 @@ const DashboardPage = () => {
             </div>
 
             {/* Profit Comparison */}
-            <div className="bg-gray-800/20 p-6 rounded-lg shadow-lg col-span-1 lg:col-span-2">
+            <div className="bg-gray-800/50 p-6 rounded-lg shadow-lg col-span-1 lg:col-span-2">
               <h3 className="text-xl font-bold text-white mb-4">
                 Foyda Tahlili
               </h3>
@@ -636,7 +632,7 @@ const DashboardPage = () => {
           {/* Detailed Breakdowns */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             {/* Order Statistics Breakdown */}
-            <div className="bg-gray-800/20 p-6 rounded-lg shadow-lg">
+            <div className="bg-gray-800/50 p-6 rounded-lg shadow-lg">
               <h3 className="text-xl font-bold text-white mb-4">
                 Buyurtma Statistikasi
               </h3>
@@ -660,7 +656,7 @@ const DashboardPage = () => {
             </div>
 
             {/* Expense Statistics Breakdown */}
-            <div className="bg-gray-800/20 p-6 rounded-lg shadow-lg">
+            <div className="bg-gray-800/50 p-6 rounded-lg shadow-lg">
               <h3 className="text-xl font-bold text-white mb-4">
                 Xarajat Statistikasi
               </h3>
@@ -686,7 +682,7 @@ const DashboardPage = () => {
             </div>
 
             {/* Raw Material Statistics Breakdown */}
-            <div className="bg-gray-800/20 p-6 rounded-lg shadow-lg">
+            <div className="bg-gray-800/50 p-6 rounded-lg shadow-lg">
               <h3 className="text-xl font-bold text-white mb-4">
                 Homashyolar ma'lumoti
               </h3>
@@ -712,7 +708,7 @@ const DashboardPage = () => {
             </div>
 
             {/* Sharing Statistics Breakdown */}
-            <div className="bg-gray-800/20 p-6 rounded-lg shadow-lg">
+            <div className="bg-gray-800/50 p-6 rounded-lg shadow-lg">
               <h3 className="text-xl font-bold text-white mb-4">
                 Ulushlar ma'lumoti
               </h3>
@@ -741,7 +737,7 @@ const DashboardPage = () => {
           {/* Debt Breakdowns */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             {/* Client Debt Breakdown */}
-            <div className="bg-gray-800/20 p-6 rounded-lg shadow-lg">
+            <div className="bg-gray-800/50 p-6 rounded-lg shadow-lg">
               <h3 className="text-xl font-bold text-white mb-4">
                 Mijozlar Qarzi Ma'lumoti
               </h3>
@@ -780,7 +776,7 @@ const DashboardPage = () => {
             </div>
 
             {/* Raw Material Debt Breakdown */}
-            <div className="bg-gray-800/20 p-6 rounded-lg shadow-lg">
+            <div className="bg-gray-800/50 p-6 rounded-lg shadow-lg">
               <h3 className="text-xl font-bold text-white mb-4">
                 Homashyo Qarzi Ma'lumoti
               </h3>
