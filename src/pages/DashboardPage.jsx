@@ -27,10 +27,7 @@ ChartJS.register(
 
 const DashboardPage = () => {
   // Date range state
-  const [dateRange, setDateRange] = useState({
-    startDate: null,
-    endDate: null,
-  });
+  const [dateRange, setDateRange] = useState([null, null]);
 
   // State for various chart data
   const [expenseChartData, setExpenseChartData] = useState({
@@ -99,20 +96,17 @@ const DashboardPage = () => {
     totalRawMaterialDebt: 0,
   });
 
-  // Handle date inputs change
-  const handleStartDateChange = (date) => {
-    setDateRange((prev) => ({
-      ...prev,
-      startDate: date,
-    }));
+  // Handle date range change
+  const handleDateRangeChange = (update) => {
+    setDateRange(update);
   };
 
-  const handleEndDateChange = (date) => {
-    setDateRange((prev) => ({
-      ...prev,
-      endDate: date,
-    }));
-  };
+  // Get formatted dates for the API
+  const getFormattedStartDate = () =>
+    dateRange[0] ? dateRange[0].toISOString().split("T")[0] : null;
+
+  const getFormattedEndDate = () =>
+    dateRange[1] ? dateRange[1].toISOString().split("T")[0] : null;
 
   // Fetch all dashboard statistics in a single query with date range
   const {
@@ -121,33 +115,22 @@ const DashboardPage = () => {
     refetch,
   } = useQuery(GET_DASHBOARD_STATISTICS, {
     variables: {
-      startDate: dateRange.startDate
-        ? dateRange.startDate.toISOString().split("T")[0]
-        : null,
-      endDate: dateRange.endDate
-        ? dateRange.endDate.toISOString().split("T")[0]
-        : null,
+      startDate: getFormattedStartDate(),
+      endDate: getFormattedEndDate(),
     },
   });
 
   // Apply date filter
   const applyDateFilter = () => {
     refetch({
-      startDate: dateRange.startDate
-        ? dateRange.startDate.toISOString().split("T")[0]
-        : null,
-      endDate: dateRange.endDate
-        ? dateRange.endDate.toISOString().split("T")[0]
-        : null,
+      startDate: getFormattedStartDate(),
+      endDate: getFormattedEndDate(),
     });
   };
 
   // Reset date filter
   const resetDateFilter = () => {
-    setDateRange({
-      startDate: null,
-      endDate: null,
-    });
+    setDateRange([null, null]);
     refetch({
       startDate: null,
       endDate: null,
@@ -311,28 +294,14 @@ const DashboardPage = () => {
           {/* Date Range Filter */}
           <div className="flex justify-between items-center mb-8">
             <div className="flex items-center">
-              <label className="text-white mr-2">Date Range:</label>
+              <label className="text-white mr-2">Sana:</label>
               <DatePicker
-                selected={dateRange.startDate}
-                onChange={handleStartDateChange}
-                selectsStart
-                startDate={dateRange.startDate}
-                endDate={dateRange.endDate}
-                className="bg-gray-800/20 p-2 rounded-lg text-white w-40"
-                placeholderText="Start Date"
-                dateFormat="yyyy-MM-dd"
-                calendarClassName="bg-gray-800 text-white border border-gray-700 rounded-lg"
-              />
-              <span className="text-white mx-2">to</span>
-              <DatePicker
-                selected={dateRange.endDate}
-                onChange={handleEndDateChange}
-                selectsEnd
-                startDate={dateRange.startDate}
-                endDate={dateRange.endDate}
-                minDate={dateRange.startDate}
-                className="bg-gray-800/20 p-2 rounded-lg text-white w-40"
-                placeholderText="End Date"
+                selectsRange={true}
+                startDate={dateRange[0]}
+                endDate={dateRange[1]}
+                onChange={handleDateRangeChange}
+                className="bg-gray-800/20 p-2 rounded-lg text-white w-64"
+                placeholderText="Ikki sanani tanlang"
                 dateFormat="yyyy-MM-dd"
                 calendarClassName="bg-gray-800 text-white border border-gray-700 rounded-lg"
               />
@@ -352,6 +321,19 @@ const DashboardPage = () => {
               </button>
             </div>
           </div>
+
+          {/* Date range indicator if filter is applied */}
+          {(dateRange[0] || dateRange[1]) && (
+            <div className="bg-blue-600/20 border border-blue-600/30 text-white p-3 rounded-md mb-6 text-center">
+              <p>
+                {dateRange[0] && dateRange[1]
+                  ? `${getFormattedStartDate()} dan ${getFormattedEndDate()} gacha bo'lgan statistika`
+                  : dateRange[0]
+                  ? `${getFormattedStartDate()} dan keyingi statistika`
+                  : `${getFormattedEndDate()} gacha bo'lgan statistika`}
+              </p>
+            </div>
+          )}
 
           {/* Summary Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
