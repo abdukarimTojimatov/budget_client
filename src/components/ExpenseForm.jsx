@@ -30,8 +30,7 @@ const ExpenseForm = ({ toggleExpenseForm }) => {
       });
 
       form.reset();
-      toast.success("Expense created successfully");
-      navigate("/");
+      toast.success("Muvaffaqiyatli yaratildi");
       toggleExpenseForm();
     } catch (error) {
       toast.error(error.message);
@@ -146,7 +145,7 @@ const ExpenseForm = ({ toggleExpenseForm }) => {
         type="submit"
         disabled={loading}
       >
-        {loading ? "Loading..." : "Xarajat qo'shish"}
+        {loading ? "Saqlanmoqda..." : "Saqlash"}
       </button>
     </form>
   );

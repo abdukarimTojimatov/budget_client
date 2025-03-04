@@ -29,7 +29,7 @@ const Filters = ({
         </select>
       </div>
 
-      <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 w-full sm:w-auto">
+      <div className="flex flex-col sm:flex-col sm:items-center gap-1 sm:gap-2 w-full sm:w-auto">
         <label htmlFor="limit" className="text-white text-sm font-medium">
           Sahifada:
         </label>

@@ -15,22 +15,22 @@ const OrderCard = ({ order }) => {
         variables: { id: order._id },
         refetchQueries: ["GetOrders"],
       });
-      toast.success("Order deleted successfully");
+      toast.success("Muvaffaqiyatli o'chirildi");
     } catch (error) {
       console.error("Error deleting order:", error);
-      toast.error(error.message);
+      toast.error("O'chirishda xatolik yuz berdi");
     }
   };
 
   const getCardClass = () => {
     const statusColors = {
-      tolandi: "from-emerald-800/50 to-emerald-600/50",
-      qismantolandi: "from-orange-800/50 to-orange-600/50",
+      tolandi: "from-emerald-800/50 to-emerald-800/80",
+      qismantolandi: "from-blue-800/40 to-blue-500/60",
       tolanmadi: "from-red-700/40 to-red-500/50",
     };
     return (
       statusColors[order.orderPaymentStatus.toLowerCase()] ||
-      "from-gray-800/50 to-gray-600/50"
+      "from-blue-800/50 to-blue-600/80"
     );
   };
 

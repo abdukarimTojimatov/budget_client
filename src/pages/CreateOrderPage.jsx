@@ -22,7 +22,7 @@ const CreateOrderPage = () => {
 
   const [createOrder, { loading }] = useMutation(CREATE_ORDER, {
     onCompleted: () => {
-      toast.success("Order created successfully");
+      toast.success("Muvaffaqiyatli yaratildi");
       setOrderData({
         orderName: "",
         orderCustomerName: "",
@@ -36,7 +36,9 @@ const CreateOrderPage = () => {
         orderLocation: "",
         orderReadyDate: "",
       });
+      navigate("/orders");
     },
+
     onError: (error) => {
       toast.error(error.message);
     },
@@ -63,6 +65,7 @@ const CreateOrderPage = () => {
       navigate("/orders");
     } catch (error) {
       console.error("Error creating order:", error);
+      toast.error(error.message);
     }
   };
 
@@ -309,7 +312,7 @@ const CreateOrderPage = () => {
         type="submit"
         disabled={loading}
       >
-        {loading ? "Loading..." : "Create Order"}
+        {loading ? "Saqlash..." : "Saqlash"}
       </button>
     </form>
   );

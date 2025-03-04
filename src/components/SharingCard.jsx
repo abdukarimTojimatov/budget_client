@@ -44,10 +44,10 @@ const SharingCard = ({ sharing }) => {
         variables: { sharingId: sharing._id },
         refetchQueries: ["GetSharings", "CategoryStatisticsSharing"],
       });
-      toast.success("Sharings deleted successfully");
+      toast.success("Muvaffaqiyatli o'chirildi");
     } catch (error) {
       console.error("Error deleting sharings:", error);
-      toast.error(error.message);
+      toast.error("Sharings o'chirishda xatolik yuz berdi");
     }
   };
 

@@ -44,7 +44,7 @@ const ExpensePage = () => {
         },
         refetchQueries: [{ query: GET_EXPENSES_STATISTICS }],
       });
-      toast.success("Expenses updated successfully");
+      toast.success("Muvaffaqiyatli yangilandi");
       navigate("/");
     } catch (error) {
       toast.error(error.message);

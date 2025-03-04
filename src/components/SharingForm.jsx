@@ -27,11 +27,11 @@ const SharingForm = ({ toggleSharingForm }) => {
         refetchQueries: ["GetSharings", "CategoryStatisticsSharing"],
       });
       form.reset();
-      toast.success("Sharing created successfully");
+      toast.success("Muvaffaqiyatli yaratildi");
       toggleSharingForm();
       navigate("/sharings");
     } catch (error) {
-      toast.error(error.message);
+      toast.error("Xatolik yuz berdi");
     }
   };
 
@@ -54,6 +54,7 @@ const SharingForm = ({ toggleSharingForm }) => {
           name="sharingDescription"
           type="text"
           placeholder="Izoh yozing"
+          required
         />
       </div>
 
@@ -71,6 +72,7 @@ const SharingForm = ({ toggleSharingForm }) => {
             className="block appearance-none w-full bg-gray-200 border text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             id="sharingPaymentType"
             name="sharingPaymentType"
+            required
           >
             <option value="plastik">Plastik</option>
             <option value="naqd">Naqd</option>
@@ -87,6 +89,7 @@ const SharingForm = ({ toggleSharingForm }) => {
             className="block appearance-none w-full bg-gray-200 border text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             id="sharingCategoryType"
             name="sharingCategoryType"
+            required
           >
             <option value="Egamberdi">Egamberdi</option>
             <option value="Elmurod">Elmurod</option>
@@ -111,6 +114,7 @@ const SharingForm = ({ toggleSharingForm }) => {
             name="sharingAmount"
             type="number"
             placeholder="Summa kiriting"
+            required
           />
         </div>
 
@@ -128,6 +132,7 @@ const SharingForm = ({ toggleSharingForm }) => {
             id="sharingDate"
             className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
             placeholder="Sanani tanlang"
+            required
           />
         </div>
       </div>
@@ -138,7 +143,7 @@ const SharingForm = ({ toggleSharingForm }) => {
         type="submit"
         disabled={loading}
       >
-        {loading ? "Loading..." : "Xarajat qo'shish"}
+        {loading ? "Saqlanmoqda..." : "Saqlash"}
       </button>
     </form>
   );

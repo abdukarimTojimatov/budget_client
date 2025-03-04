@@ -16,6 +16,7 @@ const RawMaterialsPage = () => {
     setLimit(Number(event.target.value));
     setPage(1);
   };
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error fetching raw materials.</div>;
 
@@ -23,7 +24,7 @@ const RawMaterialsPage = () => {
     <div>
       <Link
         to="/rawMaterial/create"
-        className="bg-blue-500 text-white font-semibold py-2 px-4 ml-4 rounded shadow hover:bg-blue-600 transition duration-300 mb-4"
+        className="bg-blue-800/40 text-white font-semibold py-2 px-4 ml-4 rounded shadow hover:bg-blue-600 transition duration-300 mb-4"
       >
         Homashyolar yaratish
       </Link>

@@ -21,7 +21,7 @@ const CreateRawMaterialPage = () => {
 
   const [createRawMaterial, { loading }] = useMutation(CREATE_RAW_MATERIAL, {
     onCompleted: () => {
-      toast.success("Raw material created successfully");
+      toast.success("Muvaffaqiyatli yangilandi");
       navigate("/rawMaterial");
     },
     onError: (error) => {
@@ -292,7 +292,7 @@ const CreateRawMaterialPage = () => {
             <input
               type="number"
               name="amount"
-              placeholder="Amount"
+              placeholder="Summa"
               value={payment.amount}
               onChange={(e) => handlePaymentChange(index, e)}
               className="flex-1 bg-gray-200 text-gray-700 py-3 px-4 rounded"
@@ -305,7 +305,7 @@ const CreateRawMaterialPage = () => {
           onClick={addPayment}
           className="bg-blue-500 text-white py-2 rounded"
         >
-          Add Payment
+          To'lov qo'shish
         </button>
       </div>
       {/* Submit Button */}
@@ -314,7 +314,7 @@ const CreateRawMaterialPage = () => {
         type="submit"
         disabled={loading}
       >
-        {loading ? "Loading..." : "Xom ashyo qo'shish"}
+        {loading ? "Saqlanmoqda..." : "Saqlash"}
       </button>
     </form>
   );

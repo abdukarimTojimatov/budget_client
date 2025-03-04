@@ -62,7 +62,7 @@ const OrderEditPage = () => {
         },
       });
 
-      toast.success("Order updated successfully");
+      toast.success("Muvaffaqiyatli yangilandi");
       navigate("/orders");
     } catch (error) {
       toast.error(error.message);

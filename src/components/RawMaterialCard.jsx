@@ -15,10 +15,10 @@ const RawMaterialCard = ({ rawMaterial }) => {
         variables: { id: rawMaterial._id },
         refetchQueries: ["GetRawMaterials"],
       });
-      toast.success("Raw material deleted successfully");
+      toast.success("Muvaffaqiyatli o'chirildi");
     } catch (error) {
       console.error("Error deleting raw material:", error);
-      toast.error(error.message);
+      toast.error("Raw material o'chirishda xatolik yuz berdi");
     }
   };
 

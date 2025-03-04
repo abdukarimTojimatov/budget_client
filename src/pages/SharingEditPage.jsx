@@ -42,7 +42,7 @@ const SharingEditPage = () => {
         },
         refetchQueries: [{ query: GET_SHARINGS_STATISTICS }],
       });
-      toast.success("Sharing updated successfully");
+      toast.success("Muvaffaqiyatli yangilandi");
       navigate("/sharings");
     } catch (error) {
       toast.error(error.message);
@@ -211,7 +211,7 @@ const SharingEditPage = () => {
           type="submit"
           disabled={loadingUpdate}
         >
-          {loadingUpdate ? "Updating..." : "Update Expenses"}
+          {loadingUpdate ? "Saqlanayabdi..." : "Saqlash"}
         </button>
       </form>
     </div>

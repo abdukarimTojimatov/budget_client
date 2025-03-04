@@ -62,7 +62,7 @@ const SignUpPage = () => {
         },
         refetchQueries: ["GetAuthenticatedUser"],
       });
-      toast.success("Sign up successful!");
+      toast.success("Ro'yxatdan o'tish muvaffaqiyatli");
     } catch (error) {
       console.error("Error:", error);
       toast.error(error.message);
@@ -116,11 +116,6 @@ const SignUpPage = () => {
                     e.target.value = "+998"; // Auto-fill on focus if empty
                   }
                 }}
-                // onBlur={(e) => {
-                //   if (e.target.value === "+998") {
-                //     e.target.value = "+998"; // Keep it as +998 if nothing else is entered
-                //   }
-                // }}
               />
               <div>
                 <button
@@ -128,7 +123,7 @@ const SignUpPage = () => {
                   className="w-full bg-black text-white p-2 rounded-md hover:bg-gray-800 focus:outline-none focus:bg-black  focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                   disabled={loading}
                 >
-                  {loading ? "Loading..." : "Sign Up"}
+                  {loading ? "Loading..." : "Ro'yhatdan o'tish"}
                 </button>
               </div>
             </form>
@@ -137,7 +132,7 @@ const SignUpPage = () => {
                 Agar accountingiz mavjud bo'lsa?
                 <br />
                 <Link to="/login" className="text-black hover:underline">
-                  Bu yerga bosing 👉 Login
+                  Bu yerga bosing 👉 Kirish
                 </Link>
               </p>
             </div>

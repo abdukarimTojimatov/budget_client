@@ -60,7 +60,7 @@ const EditRawMaterialPage = () => {
       await updateRawMaterial({
         variables: { id, input: inputData },
       });
-      toast.success("Raw material updated successfully");
+      toast.success("Muvaffaqiyatli yangilandi");
       navigate("/rawMaterial");
     } catch (error) {
       toast.error(error.message);

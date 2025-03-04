@@ -7,10 +7,12 @@ import { toast } from "react-hot-toast";
 import OrderCard from "../components/OrderCard";
 import Pagination from "../components/Pagination";
 import Filters from "../components/Filters";
+import { FiPlusCircle, FiMinusCircle } from "react-icons/fi";
 
 const OrdersPage = () => {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const [filters, setFilters] = useState({
     orderCategory: "",
     orderStatus: "",
@@ -31,11 +33,6 @@ const OrdersPage = () => {
     setPage(1);
   };
 
-  const handleCategoryChange = (event) => {
-    setCategory(event.target.value);
-    setPage(1);
-  };
-
   const handleFilterChange = (e) => {
     setFilters({ ...filters, [e.target.name]: e.target.value });
     setPage(1);
@@ -44,18 +41,42 @@ const OrdersPage = () => {
   return (
     <div className="max-w-7xl mx-auto">
       <div className="flex flex-col">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-white">Buyurtmalar</h1>
+        <div className="flex justify-between items-center mb-6 ">
+          {/* <h1 className="text-2xl font-bold text-white">Buyurtmalar</h1> */}
+          <button
+            onClick={() => setIsFiltersOpen(!isFiltersOpen)}
+            className={`px-4 py-2 rounded-lg ml-4 flex items-start gap-2 transition-colors ${
+              isFiltersOpen
+                ? "bg-red-800/30 hover:bg-red-700/40 text-white"
+                : "bg-blue-800/30 hover:bg-blue-700/40 text-white"
+            }`}
+          >
+            <span className="">{isFiltersOpen ? "Yopish" : "Filtrlash"}</span>
+            <span>
+              {isFiltersOpen ? (
+                <FiMinusCircle className="h-6 w-6" />
+              ) : (
+                <FiPlusCircle className="h-6 w-6 pl-2" />
+              )}
+            </span>
+          </button>
           <Link
             to="/orders/create"
-            className="bg-blue-800/30 hover:bg-blue-700/40 px-4 py-2 rounded-lg text-white transition-colors duration-200"
+            className="px-4 py-2 rounded-lg ml-4 flex items-start gap-2 transition-colors bg-blue-800/30 hover:bg-blue-700/40 text-white"
           >
-            + Yangi buyurtma
+            <span className="">Yangi buyurtma</span>
+            <span>
+              <FiPlusCircle className="h-6 w-6 pl-2" />
+            </span>
           </Link>
         </div>
 
         {/* Filters */}
-        <div className="bg-gray-800/50 p-4 rounded-xl shadow-lg border border-gray-700/30 mb-6">
+        <div
+          className={`${
+            isFiltersOpen ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
+          } bg-gray-800/50 p-4 rounded-xl shadow-lg border border-gray-700/30 mb-2 ml-4 mr-4`}
+        >
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             <div>
               <label className="block text-white text-sm font-medium mb-1">
@@ -136,10 +157,10 @@ const OrdersPage = () => {
                 onChange={handleLimitChange}
                 className="w-full bg-gray-700/80 text-white rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-600"
               >
-                <option value={8}>8</option>
-                <option value={12}>12</option>
-                <option value={16}>16</option>
-                <option value={24}>24</option>
+                <option value={1}>1</option>
+                <option value={5}>5</option>
+                <option value={10}>10</option>
+                <option value={20}>20</option>
               </select>
             </div>
           </div>

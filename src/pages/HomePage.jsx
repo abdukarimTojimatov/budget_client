@@ -41,7 +41,7 @@ const HomePage = () => {
       {/* Expense Form */}
       {isExpenseFormOpen && (
         <div className="mb-8 bg-gray-800/50 p-6 rounded-xl shadow-lg border border-gray-700/30">
-          <ExpenseForm onSuccess={toggleExpenseForm} />
+          <ExpenseForm toggleExpenseForm={toggleExpenseForm} />
         </div>
       )}
 

@@ -15,11 +15,11 @@ const SharingPage = () => {
       <div className="flex flex-col gap-6 items-center max-w-7xl mx-auto z-20 relative justify-center">
         <div className="flex flex-wrap w-full justify-center items-center gap-6">
           <div className="w-full max-w-2xl mx-auto">
-            <div className="border-rounded-lg shadow-lg overflow-hidden">
+            <div className="border-rounded-lg shadow-lg overflow-hidden ml-3">
               {/* Accordion Header */}
               <button
                 onClick={toggleSharingForm}
-                className={`px-4 py-2 rounded-lg flex justify-between  items-center gap-2 transition-colors ${
+                className={`px-4 py-2 rounded-lg flex gap-2 transition-colors ${
                   isSharingFormOpen
                     ? "bg-red-800/30 hover:bg-red-700/40 text-white"
                     : "bg-blue-800/30 hover:bg-blue-700/40 text-white"

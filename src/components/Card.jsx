@@ -34,7 +34,7 @@ const Card = ({ expense, authUser }) => {
         variables: { id: expense._id },
         refetchQueries: ["GetExpenses", "GetExpensesStatistics"],
       });
-      toast.success("Expenses deleted successfully");
+      toast.success("Muvaffaqiyatli o'chirildi");
     } catch (error) {
       console.error("Error deleting expenses:", error);
       toast.error(error.message);
