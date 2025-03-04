@@ -10,19 +10,7 @@ const Navbar = () => {
   const handleNavigation = (path) => {
     navigate(path);
   };
-  const [logout, { loading, client }] = useMutation(LOGOUT);
 
-  const handleLogout = async () => {
-    try {
-      await logout({
-        refetchQueries: [{ query: GET_AUTHENTICATED_USER }],
-      });
-      client.resetStore();
-    } catch (error) {
-      console.error("Error logging out:", error);
-      toast.error(error.message);
-    }
-  };
   return (
     <div className="w-full mb-8">
       <nav className="relative">
@@ -37,7 +25,7 @@ const Navbar = () => {
               onClick={() => handleNavigation("/")}
               className="text-white hover:text-indigo-400 transition-colors duration-200 text-sm sm:text-base md:text-lg lg:text-xl"
             >
-              Xarajat
+              Dashboard
             </button>
             <button
               onClick={() => handleNavigation("/sharings")}
@@ -58,10 +46,10 @@ const Navbar = () => {
               Homashyo
             </button>
             <button
-              onClick={() => handleNavigation("/dashboard")}
+              onClick={() => handleNavigation("/expenses")}
               className="text-white hover:text-indigo-400 transition-colors duration-200 text-sm sm:text-base md:text-lg lg:text-xl"
             >
-              Dashboard
+              Harajat
             </button>
           </div>
         </div>

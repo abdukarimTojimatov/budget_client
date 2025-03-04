@@ -34,7 +34,9 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={data?.authUser ? <HomePage /> : <Navigate to="/login" />}
+          element={
+            data?.authUser ? <DashboardPage /> : <Navigate to="/login" />
+          }
         />
         <Route
           path="/login"
@@ -87,10 +89,8 @@ function App() {
           }
         />
         <Route
-          path="/dashboard"
-          element={
-            data?.authUser ? <DashboardPage /> : <Navigate to="/login" />
-          }
+          path="/expenses"
+          element={data?.authUser ? <HomePage /> : <Navigate to="/login" />}
         />
         <Route
           path="/rawMaterial/create"
