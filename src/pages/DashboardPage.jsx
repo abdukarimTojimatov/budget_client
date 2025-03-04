@@ -302,6 +302,7 @@ const DashboardPage = () => {
                   popperClassName="z-[100]"
                   popperPlacement="bottom-start"
                   wrapperClassName="z-50"
+                  readOnly={true}
                 />
               </div>
             </div>
