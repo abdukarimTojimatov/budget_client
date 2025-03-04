@@ -54,3 +54,12 @@ export const GET_RAW_MATERIAL = gql`
     }
   }
 `;
+
+export const GET_RAW_MATERIAL_STATISTICS = gql`
+  query GetRawMaterialStatistics {
+    rawMaterialStatistics {
+      category
+      totalAmount
+    }
+  }
+`;

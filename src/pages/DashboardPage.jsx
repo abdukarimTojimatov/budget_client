@@ -3,6 +3,8 @@ import { useQuery } from "@apollo/client";
 import { GET_EXPENSES_STATISTICS } from "../graphql/queries/expense.query";
 import { GET_SHARINGS_STATISTICS } from "../graphql/queries/sharing.query";
 import { GET_ORDER_STATISTICS } from "../graphql/queries/order.query";
+import { GET_RAW_MATERIAL_STATISTICS } from "../graphql/queries/rawMaterial.query";
+
 import {
   Chart as ChartJS,
   ArcElement,
@@ -67,6 +69,19 @@ const DashboardPage = () => {
     ],
   });
 
+  const [rawMaterialChartData, setRawMaterialChartData] = useState({
+    labels: [],
+    datasets: [
+      {
+        label: "Homashyolar",
+        data: [],
+        backgroundColor: [],
+        borderColor: [],
+        borderWidth: 1,
+      },
+    ],
+  });
+
   // Summary statistics
   const [summaryStats, setSummaryStats] = useState({
     totalExpenses: 0,
@@ -77,14 +92,11 @@ const DashboardPage = () => {
     netProfit: 0,
   });
 
-  // Fetch expense statistics
+  // Fetch statistics data
   const { data: expenseData } = useQuery(GET_EXPENSES_STATISTICS);
-
-  // Fetch sharing statistics
   const { data: sharingData } = useQuery(GET_SHARINGS_STATISTICS);
-
-  // Fetch order statistics
   const { data: orderData } = useQuery(GET_ORDER_STATISTICS);
+  const { data: rawMaterialData } = useQuery(GET_RAW_MATERIAL_STATISTICS);
 
   // Process expense data
   useEffect(() => {
@@ -170,6 +182,49 @@ const DashboardPage = () => {
     }
   }, [sharingData]);
 
+  // Process raw material data
+  useEffect(() => {
+    if (rawMaterialData?.rawMaterialStatistics) {
+      const categories = rawMaterialData.rawMaterialStatistics.map(
+        (stat) => stat.category
+      );
+      const amounts = rawMaterialData.rawMaterialStatistics.map(
+        (stat) => stat.totalAmount
+      );
+      const totalRawMaterials = amounts.reduce((acc, curr) => acc + curr, 0);
+
+      // Generate colors
+      const backgroundColors = categories.map((_, index) => {
+        const hue = (index * 137 + 180) % 360; // Offset for different color scheme
+        return `hsla(${hue}, 70%, 60%, 0.7)`;
+      });
+
+      const borderColors = backgroundColors.map((color) =>
+        color.replace("0.7", "1")
+      );
+
+      setRawMaterialChartData({
+        labels: categories,
+        datasets: [
+          {
+            label: "Homashyolar",
+            data: amounts,
+            backgroundColor: backgroundColors,
+            borderColor: borderColors,
+            borderWidth: 1,
+          },
+        ],
+      });
+
+      // Update raw materials total in summary
+      setSummaryStats((prev) => ({
+        ...prev,
+        totalRawMaterials,
+      }));
+    }
+  }, [rawMaterialData]);
+
+  // Process order data and calculate profits
   useEffect(() => {
     if (orderData?.orderStatistics) {
       const categories = orderData.orderStatistics.map(
@@ -205,7 +260,8 @@ const DashboardPage = () => {
 
       // Update order totals and calculate profits
       setSummaryStats((prev) => {
-        const grossProfit = totalOrders - prev.totalExpenses;
+        const grossProfit =
+          totalOrders - prev.totalExpenses - prev.totalRawMaterials;
         const netProfit = grossProfit - prev.totalSharings;
 
         return {
@@ -216,8 +272,14 @@ const DashboardPage = () => {
         };
       });
     }
-  }, [orderData, summaryStats.totalExpenses, summaryStats.totalSharings]);
+  }, [
+    orderData,
+    summaryStats.totalExpenses,
+    summaryStats.totalSharings,
+    summaryStats.totalRawMaterials,
+  ]);
 
+  // Format currency function
   const formatCurrency = (amount) => {
     return amount.toLocaleString("uz-UZ") + " so'm";
   };
@@ -248,6 +310,15 @@ const DashboardPage = () => {
           </p>
         </div>
 
+        <div className="bg-gradient-to-br from-amber-800/30 to-amber-600/30 p-6 rounded-lg shadow-lg">
+          <h3 className="text-xl font-medium text-white mb-2">
+            Jami Homashyolar
+          </h3>
+          <p className="text-3xl font-bold text-white">
+            {formatCurrency(summaryStats.totalRawMaterials)}
+          </p>
+        </div>
+
         <div className="bg-gradient-to-br from-purple-800/30 to-purple-600/30 p-6 rounded-lg shadow-lg">
           <h3 className="text-xl font-medium text-white mb-2">Jami Ulushlar</h3>
           <p className="text-3xl font-bold text-white">
@@ -269,7 +340,7 @@ const DashboardPage = () => {
           </p>
         </div>
 
-        <div className="bg-gradient-to-br from-amber-800/30 to-amber-600/30 p-6 rounded-lg shadow-lg">
+        <div className="bg-gradient-to-br from-indigo-800/30 to-indigo-600/30 p-6 rounded-lg shadow-lg">
           <h3 className="text-xl font-medium text-white mb-2">
             Foydalilik Darajasi
           </h3>
@@ -348,6 +419,37 @@ const DashboardPage = () => {
           </div>
         </div>
 
+        {/* Raw Materials Chart */}
+        <div className="bg-gray-800/20 p-6 rounded-lg shadow-lg">
+          <h3 className="text-xl font-bold text-white mb-4">
+            Homashyolar Statistikasi
+          </h3>
+          <div className="h-[300px] flex items-center justify-center">
+            {rawMaterialChartData.labels.length > 0 ? (
+              <Doughnut
+                data={rawMaterialChartData}
+                options={{
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  plugins: {
+                    legend: {
+                      position: "right",
+                      labels: {
+                        color: "white",
+                        font: {
+                          size: 12,
+                        },
+                      },
+                    },
+                  },
+                }}
+              />
+            ) : (
+              <p className="text-gray-400">Ma'lumot mavjud emas</p>
+            )}
+          </div>
+        </div>
+
         {/* Orders Chart */}
         <div className="bg-gray-800/20 p-6 rounded-lg shadow-lg">
           <h3 className="text-xl font-bold text-white mb-4">
@@ -392,7 +494,7 @@ const DashboardPage = () => {
         </div>
 
         {/* Profit Comparison */}
-        <div className="bg-gray-800/20 p-6 rounded-lg shadow-lg">
+        <div className="bg-gray-800/20 p-6 rounded-lg shadow-lg col-span-1 lg:col-span-2">
           <h3 className="text-xl font-bold text-white mb-4">Foyda Tahlili</h3>
           <div className="h-[300px] flex items-center justify-center">
             <Bar
@@ -400,6 +502,7 @@ const DashboardPage = () => {
                 labels: [
                   "Jami Buyurtmalar",
                   "Jami Xarajatlar",
+                  "Jami Homashyolar",
                   "Ulushlar",
                   "Yalpi Foyda",
                   "Sof Foyda",
@@ -410,6 +513,7 @@ const DashboardPage = () => {
                     data: [
                       summaryStats.totalOrders,
                       summaryStats.totalExpenses,
+                      summaryStats.totalRawMaterials,
                       summaryStats.totalSharings,
                       summaryStats.grossProfit,
                       summaryStats.netProfit,
@@ -417,6 +521,7 @@ const DashboardPage = () => {
                     backgroundColor: [
                       "rgba(54, 162, 235, 0.7)",
                       "rgba(255, 99, 132, 0.7)",
+                      "rgba(255, 159, 64, 0.7)",
                       "rgba(153, 102, 255, 0.7)",
                       "rgba(75, 192, 192, 0.7)",
                       "rgba(16, 185, 129, 0.7)",
@@ -424,6 +529,7 @@ const DashboardPage = () => {
                     borderColor: [
                       "rgba(54, 162, 235, 1)",
                       "rgba(255, 99, 132, 1)",
+                      "rgba(255, 159, 64, 1)",
                       "rgba(153, 102, 255, 1)",
                       "rgba(75, 192, 192, 1)",
                       "rgba(16, 185, 129, 1)",
@@ -472,43 +578,103 @@ const DashboardPage = () => {
         </div>
       </div>
 
-      {/* Additional Information */}
+      {/* Detailed Breakdowns */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        {/* Order Statistics Breakdown */}
         <div className="bg-gray-800/20 p-6 rounded-lg shadow-lg">
           <h3 className="text-xl font-bold text-white mb-4">
             Buyurtma Statistikasi
           </h3>
           <div className="space-y-3">
-            {orderChartData.labels.map((category, index) => (
-              <div
-                key={index}
-                className="flex justify-between items-center p-3 bg-gray-700/20 rounded-lg"
-              >
-                <span className="text-white">{category}</span>
-                <span className="text-white font-bold">
-                  {formatCurrency(orderChartData.datasets[0].data[index])}
-                </span>
-              </div>
-            ))}
+            {orderChartData.labels.length > 0 ? (
+              orderChartData.labels.map((category, index) => (
+                <div
+                  key={index}
+                  className="flex justify-between items-center p-3 bg-gray-700/20 rounded-lg"
+                >
+                  <span className="text-white">{category}</span>
+                  <span className="text-white font-bold">
+                    {formatCurrency(orderChartData.datasets[0].data[index])}
+                  </span>
+                </div>
+              ))
+            ) : (
+              <p className="text-gray-400">Ma'lumot mavjud emas</p>
+            )}
           </div>
         </div>
 
+        {/* Expense Statistics Breakdown */}
         <div className="bg-gray-800/20 p-6 rounded-lg shadow-lg">
           <h3 className="text-xl font-bold text-white mb-4">
             Xarajat Statistikasi
           </h3>
           <div className="space-y-3">
-            {expenseChartData.labels.map((category, index) => (
-              <div
-                key={index}
-                className="flex justify-between items-center p-3 bg-gray-700/20 rounded-lg"
-              >
-                <span className="text-white">{category}</span>
-                <span className="text-white font-bold">
-                  {formatCurrency(expenseChartData.datasets[0].data[index])}
-                </span>
-              </div>
-            ))}
+            {expenseChartData.labels.length > 0 ? (
+              expenseChartData.labels.map((category, index) => (
+                <div
+                  key={index}
+                  className="flex justify-between items-center p-3 bg-gray-700/20 rounded-lg"
+                >
+                  <span className="text-white">{category}</span>
+                  <span className="text-white font-bold">
+                    {formatCurrency(expenseChartData.datasets[0].data[index])}
+                  </span>
+                </div>
+              ))
+            ) : (
+              <p className="text-gray-400">Ma'lumot mavjud emas</p>
+            )}
+          </div>
+        </div>
+
+        {/* Raw Material Statistics Breakdown */}
+        <div className="bg-gray-800/20 p-6 rounded-lg shadow-lg">
+          <h3 className="text-xl font-bold text-white mb-4">
+            Homashyolar ma'lumoti
+          </h3>
+          <div className="space-y-3">
+            {rawMaterialChartData.labels.length > 0 ? (
+              rawMaterialChartData.labels.map((category, index) => (
+                <div
+                  key={index}
+                  className="flex justify-between items-center p-3 bg-gray-700/20 rounded-lg"
+                >
+                  <span className="text-white">{category}</span>
+                  <span className="text-white font-bold">
+                    {formatCurrency(
+                      rawMaterialChartData.datasets[0].data[index]
+                    )}
+                  </span>
+                </div>
+              ))
+            ) : (
+              <p className="text-gray-400">Ma'lumot mavjud emas</p>
+            )}
+          </div>
+        </div>
+
+        {/* Sharing Statistics Breakdown */}
+        <div className="bg-gray-800/20 p-6 rounded-lg shadow-lg">
+          <h3 className="text-xl font-bold text-white mb-4">
+            Ulushlar ma'lumoti
+          </h3>
+          <div className="space-y-3">
+            {sharingChartData.labels.length > 0 ? (
+              sharingChartData.labels.map((category, index) => (
+                <div
+                  key={index}
+                  className="flex justify-between items-center p-3 bg-gray-700/20 rounded-lg"
+                >
+                  <span className="text-white">{category}</span>
+                  <span className="text-white font-bold">
+                    {formatCurrency(sharingChartData.datasets[0].data[index])}
+                  </span>
+                </div>
+              ))
+            ) : (
+              <p className="text-gray-400">Ma'lumot mavjud emas</p>
+            )}
           </div>
         </div>
       </div>

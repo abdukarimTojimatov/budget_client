@@ -37,13 +37,13 @@ const Navbar = () => {
               onClick={() => handleNavigation("/")}
               className="text-white hover:text-indigo-400 transition-colors duration-200 text-sm sm:text-base md:text-lg lg:text-xl"
             >
-              Xarajatlar
+              Xarajat
             </button>
             <button
               onClick={() => handleNavigation("/sharings")}
               className="text-white hover:text-indigo-400 transition-colors duration-200 text-sm sm:text-base md:text-lg lg:text-xl"
             >
-              Ulushlar
+              Ulush
             </button>
             <button
               onClick={() => handleNavigation("/orders")}
@@ -55,13 +55,13 @@ const Navbar = () => {
               onClick={() => handleNavigation("/rawMaterial")}
               className="text-white hover:text-indigo-400 transition-colors duration-200 text-sm sm:text-base md:text-lg lg:text-xl"
             >
-              Homashyolar
+              Homashyo
             </button>
             <button
               onClick={() => handleNavigation("/dashboard")}
               className="text-white hover:text-indigo-400 transition-colors duration-200 text-sm sm:text-base md:text-lg lg:text-xl"
             >
-              Boshqaruv paneli
+              Dashboard
             </button>
           </div>
         </div>
