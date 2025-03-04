@@ -57,6 +57,12 @@ const Navbar = () => {
             >
               Homashyolar
             </button>
+            <button
+              onClick={() => handleNavigation("/dashboard")}
+              className="text-white hover:text-indigo-400 transition-colors duration-200 text-sm sm:text-base md:text-lg lg:text-xl"
+            >
+              Boshqaruv paneli
+            </button>
           </div>
         </div>
       </nav>

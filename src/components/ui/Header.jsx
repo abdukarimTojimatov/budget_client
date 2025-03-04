@@ -4,13 +4,11 @@ import { LOGOUT } from "../../graphql/mutations/user.mutation";
 import { useMutation, useQuery } from "@apollo/client";
 import { MdLogout } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import { GET_AUTHENTICATED_USER } from "../../graphql/queries/user.query";
 
 const Header = () => {
   const navigate = useNavigate();
 
-  const handleNavigation = (path) => {
-    navigate(path);
-  };
   const [logout, { loading, client }] = useMutation(LOGOUT);
 
   const handleLogout = async () => {
@@ -19,6 +17,7 @@ const Header = () => {
         refetchQueries: [{ query: GET_AUTHENTICATED_USER }],
       });
       client.resetStore();
+      navigate("/login");
     } catch (error) {
       console.error("Error logging out:", error);
       toast.error(error.message);

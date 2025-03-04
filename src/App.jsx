@@ -18,12 +18,11 @@ import { GET_AUTHENTICATED_USER } from "./graphql/queries/user.query";
 import { Toaster } from "react-hot-toast";
 import SharingPage from "./pages/SharingPage";
 import SharingEditPage from "./pages/SharingEditPage";
+import DashboardPage from "./pages/DashboardPage";
 
 function App() {
   const { loading, data } = useQuery(GET_AUTHENTICATED_USER);
-
   if (loading) return null;
-
   return (
     <>
       {data?.authUser && (
@@ -85,6 +84,12 @@ function App() {
           path="/rawMaterial"
           element={
             data?.authUser ? <RawMaterialsPage /> : <Navigate to="/login" />
+          }
+        />
+        <Route
+          path="/dashboard"
+          element={
+            data?.authUser ? <DashboardPage /> : <Navigate to="/login" />
           }
         />
         <Route
