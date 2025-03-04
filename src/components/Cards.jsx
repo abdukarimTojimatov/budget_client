@@ -39,9 +39,9 @@ const Cards = () => {
       ) : (
         <div className="space-y-8">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <h2 className="text-2xl sm:text-3xl font-bold text-white">
+            {/* <h2 className="text-2xl sm:text-3xl font-bold text-white">
               Barcha harajatlar
-            </h2>
+            </h2> */}
             <div className="w-full sm:w-auto bg-gray-800/50 rounded-lg p-3">
               <Filters
                 categories={expenseCategories}

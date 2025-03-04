@@ -31,7 +31,7 @@ const SharingCards = () => {
   return (
     <div className="w-full px-3 min-h-[40vh]">
       {hasNoSharings ? (
-        <div className="flex items-center justify-center min-h-[200px] bg-gray-800/50 rounded-xl p-8 shadow-lg">
+        <div className="flex items-center justify-center min-h-[200px] bg-gray-800/50 rounded-xlshadow-lg">
           <p className="text-4xl font-bold text-white/80">
             Taqsimotlar mavjud emas
           </p>
@@ -39,9 +39,9 @@ const SharingCards = () => {
       ) : (
         <div className="space-y-8">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <h2 className="text-2xl sm:text-3xl font-bold text-white">
+            {/* <h2 className="text-2xl sm:text-3xl font-bold text-white">
               Barcha taqsimotlar
-            </h2>
+            </h2> */}
             <div className="w-full sm:w-auto bg-gray-800/50 rounded-lg p-3">
               <Filters
                 categories={sharingCategories}

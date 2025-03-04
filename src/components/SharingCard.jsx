@@ -51,118 +51,62 @@ const SharingCard = ({ sharing }) => {
     }
   };
 
-  // Format date for better display
-  const formattedDate = new Date(sharingDate).toLocaleDateString("uz-UZ", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-
   return (
     <div
       className={`rounded-xl p-6 bg-gradient-to-br ${cardClass} shadow-lg backdrop-blur-sm border border-gray-700/20`}
     >
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-1">
         {/* Header with category and action buttons */}
-        <div className="flex flex-row items-center justify-between mb-2">
+        <div className="flex flex-row items-center justify-between mb-0.5">
           <div className="flex items-center">
-            <div className="w-2 h-2 rounded-full bg-white mr-2"></div>
-            <h2 className="text-xl font-bold text-white">
+            <div className="w-1.5 h-1.5 rounded-full bg-white mr-0.5"></div>
+            <h2 className="text-base sm:text-lg font-bold text-white truncate max-w-[150px]">
               {sharingCategoryType}
             </h2>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1">
             {!loading ? (
               <button
                 onClick={handleDelete}
-                className="p-2 bg-red-500/20 rounded-full hover:bg-red-500/30 transition-colors duration-200"
+                className="p-1 bg-red-500/20 rounded-full hover:bg-red-500/30 transition-colors duration-200"
               >
-                <FaTrash className="text-white/90" size={16} />
+                <FaTrash className="text-white/90" size={12} />
               </button>
             ) : (
-              <div className="w-6 h-6 border-t-2 border-b-2 border-white/50 rounded-full animate-spin"></div>
+              <div className="w-4 h-4 border-t-2 border-b-2 border-white/50 rounded-full animate-spin"></div>
             )}
             <Link to={`/sharings/${sharing._id}`}>
-              <button className="p-2 bg-blue-500/20 rounded-full hover:bg-blue-500/30 transition-colors duration-200">
-                <HiPencilAlt className="text-white/90" size={16} />
+              <button className="p-1 bg-blue-500/20 rounded-full hover:bg-blue-500/30 transition-colors duration-200">
+                <HiPencilAlt className="text-white/90" size={12} />
               </button>
             </Link>
           </div>
         </div>
 
-        {/* Description */}
-        <div className="text-white flex flex-col sm:flex-row w-full py-2 border-t border-b border-white/10">
-          <div className="flex items-start gap-2 sm:w-1/3">
-            <span className="flex items-center">
-              <BsCardText className="flex-shrink-0 text-white/70" />
-            </span>
-            <span className="font-medium text-white/70">Ulush haqida:</span>
-          </div>
-          <div className="sm:w-2/3 pl-6 sm:pl-0">
-            <span className="text-white break-words w-full block">
-              {sharingDescription}
-            </span>
-          </div>
-        </div>
-
-        {/* Payment Type */}
-        <div className="text-white flex flex-col sm:flex-row w-full py-2 border-b border-white/10">
-          <div className="flex items-start gap-2 sm:w-1/3">
-            <span className="flex items-center">
-              <MdOutlinePayments className="flex-shrink-0 text-white/70" />
-            </span>
-            <span className="font-medium text-white/70">To'lov turi:</span>
-          </div>
-          <div className="sm:w-2/3 pl-6 sm:pl-0">
-            <span className="text-white break-words w-full block">
-              {sharingPaymentType}
-            </span>
-          </div>
-        </div>
-
-        {/* Amount */}
-        <div className="text-white flex flex-col sm:flex-row w-full py-2 border-b border-white/10">
-          <div className="flex items-start gap-2 sm:w-1/3">
-            <span className="flex items-center">
-              <FaSackDollar className="flex-shrink-0 text-white/70" />
-            </span>
-            <span className="font-medium text-white/70">Miqdori:</span>
-          </div>
-          <div className="sm:w-2/3 pl-6 sm:pl-0 flex items-center">
-            <span className="text-white break-words font-semibold">
-              {sharingAmount.toLocaleString("uz-UZ")}
-            </span>
-            <span className="text-white/70 ml-1">so'm</span>
-          </div>
-        </div>
-
-        {/* User */}
-        <div className="text-white flex flex-col sm:flex-row w-full py-2 border-b border-white/10">
-          <div className="flex items-start gap-2 sm:w-1/3">
-            <span className="flex items-center">
-              <FaUser className="flex-shrink-0 text-white/70" />
-            </span>
-            <span className="font-medium text-white/70">Foydalanuvchi:</span>
-          </div>
-          <div className="sm:w-2/3 pl-6 sm:pl-0">
-            <span className="text-white break-words w-full block">
-              {userId?.username || "Noma'lum"}
-            </span>
-          </div>
-        </div>
-
-        {/* Date */}
-        <div className="text-white flex flex-col sm:flex-row w-full py-2">
-          <div className="flex items-start gap-2 sm:w-1/3">
-            <span className="flex items-center">
-              <FaCalendarDays className="flex-shrink-0 text-white/70" />
-            </span>
-            <span className="font-medium text-white/70">Sana:</span>
-          </div>
-          <div className="sm:w-2/3 pl-6 sm:pl-0">
-            <span className="text-white/90 break-words">{formattedDate}</span>
-          </div>
-        </div>
+        {/* Table layout for key information */}
+        <table className="w-full text-left border-collapse border border-gray-700/20 text-white text-[10px] sm:text-xs">
+          <tbody>
+            <tr className="border-t border-white/10">
+              <th className="font-medium text-white/70">Ulush haqida:</th>
+              <td className="p-1 break-words">{sharingDescription}</td>
+            </tr>
+            <tr className="border-t border-white/10">
+              <th className="font-medium text-white/70">To'lov turi:</th>
+              <td className="p-1 break-words">{sharingPaymentType}</td>
+            </tr>
+            <tr className="border-t border-white/10">
+              <th className="font-medium text-white/70">Miqdori:</th>
+              <td className="p-1">
+                {sharingAmount.toLocaleString("uz-UZ")}{" "}
+                <span className="text-white/70">so'm</span>
+              </td>
+            </tr>
+            <tr className="border-t border-white/10">
+              <th className="font-medium text-white/70">Sana:</th>
+              <td className="p-1 text-white/90">{sharingDate}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   );

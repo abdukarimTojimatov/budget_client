@@ -43,126 +43,82 @@ const RawMaterialCard = ({ rawMaterial }) => {
     <div
       className={`rounded-xl p-3 sm:p-4 bg-gradient-to-br ${getCardClass()} shadow-lg backdrop-blur-sm border border-gray-700/20`}
     >
-      <div className="flex flex-col gap-1 sm:gap-2">
+      <div className="flex flex-col gap-1">
         {/* Header with category and action buttons */}
-        <div className="flex flex-row items-center justify-between mb-1">
+        <div className="flex flex-row items-center justify-between mb-0.5">
           <div className="flex items-center">
-            <div className="w-2 h-2 rounded-full bg-white mr-1"></div>
-            <h2 className="text-base sm:text-lg font-bold text-white truncate max-w-[180px]">
+            <div className="w-1.5 h-1.5 rounded-full bg-white mr-0.5"></div>
+            <h2 className="text-sm sm:text-base font-bold text-white truncate max-w-[150px]">
               {rawMaterial.rawMaterialCategory}
             </h2>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
             {!loading ? (
               <button
                 onClick={handleDelete}
-                className="p-1.5 bg-red-500/20 rounded-full hover:bg-red-500/30 transition-colors duration-200"
+                className="p-1 bg-red-500/20 rounded-full hover:bg-red-500/30 transition-colors duration-200"
               >
-                <FaTrash className="text-white/90" size={14} />
+                <FaTrash className="text-white/90" size={12} />
               </button>
             ) : (
-              <div className="w-5 h-5 border-t-2 border-b-2 border-white/50 rounded-full animate-spin"></div>
+              <div className="w-4 h-4 border-t-2 border-b-2 border-white/50 rounded-full animate-spin"></div>
             )}
             <Link to={`/rawMaterial/${rawMaterial._id}`}>
-              <button className="p-1.5 bg-blue-500/20 rounded-full hover:bg-blue-500/30 transition-colors duration-200">
-                <HiPencilAlt className="text-white/90" size={14} />
+              <button className="p-1 bg-blue-500/20 rounded-full hover:bg-blue-500/30 transition-colors duration-200">
+                <HiPencilAlt className="text-white/90" size={12} />
               </button>
             </Link>
           </div>
         </div>
 
-        {/* Grid layout for key information */}
-        <div className="grid grid-cols-2 gap-x-2 gap-y-1 mt-1 border-t border-white/10 pt-1">
-          {/* Name */}
-          <div className="text-white col-span-2">
-            <div className="flex items-center gap-1 text-sm">
-              <FaTag className="text-white/70" size={12} />
-              <span className="font-medium text-white/70 text-xs">Nomi:</span>
-              <span className="text-white text-xs ml-1 truncate">
-                {rawMaterial.rawMaterialName}
-              </span>
-            </div>
-          </div>
-
-          {/* Quantity */}
-          <div className="text-white">
-            <div className="flex items-center gap-1 text-sm">
-              <FaBoxOpen className="text-white/70" size={12} />
-              <span className="font-medium text-white/70 text-xs">
-                Miqdori:
-              </span>
-              <span className="text-white text-xs ml-1">
+        {/* Table layout for key information */}
+        <table className="w-full text-left border-collapse border border-gray-700/20 text-white text-[10px] sm:text-xs">
+          <tbody>
+            <tr className="border-t border-white/10">
+              <th className="font-medium text-white/70">Nomi:</th>
+              <td className="p-1">{rawMaterial.rawMaterialName}</td>
+            </tr>
+            <tr className="border-t border-white/10">
+              <th className="font-medium text-white/70">Miqdori:</th>
+              <td className="p-1">
                 {rawMaterial.rawMaterialQuantity}{" "}
                 {rawMaterial.unitOfMeasurement}
-              </span>
-            </div>
-          </div>
-
-          {/* Unit Price */}
-          <div className="text-white">
-            <div className="flex items-center gap-1 text-sm">
-              <FaRulerCombined className="text-white/70" size={12} />
-              <span className="font-medium text-white/70 text-xs">Narxi:</span>
-              <span className="text-white text-xs ml-1">
+              </td>
+            </tr>
+            <tr className="border-t border-white/10">
+              <th className="font-medium text-white/70">Narxi:</th>
+              <td className="p-1">
                 {rawMaterial.rawMaterialPrice.toLocaleString("uz-UZ")}
-              </span>
-            </div>
-          </div>
-
-          {/* Total Price */}
-          <div className="text-white">
-            <div className="flex items-center gap-1 text-sm">
-              <FaMoneyBillWave className="text-white/70" size={12} />
-              <span className="font-medium text-white/70 text-xs">Jami:</span>
-              <span className="text-white text-xs ml-1">
+              </td>
+            </tr>
+            <tr className="border-t border-white/10">
+              <th className="font-medium text-white/70">Jami:</th>
+              <td className="p-1">
                 {rawMaterial.rawMaterialTotalPrice?.toLocaleString("uz-UZ")}
-              </span>
-            </div>
-          </div>
-
-          {/* Total Paid */}
-          <div className="text-white">
-            <div className="flex items-center gap-1 text-sm">
-              <FaMoneyBillWave className="text-white/70" size={12} />
-              <span className="font-medium text-white/70 text-xs">
-                To'landi:
-              </span>
-              <span className="text-white text-xs ml-1">
+              </td>
+            </tr>
+            <tr className="border-t border-white/10">
+              <th className="font-medium text-white/70">To'landi:</th>
+              <td className="p-1">
                 {rawMaterial.totalPaid.toLocaleString("uz-UZ")}
-              </span>
-            </div>
-          </div>
-
-          {/* Supplier */}
-          <div className="text-white col-span-2">
-            <div className="flex items-center gap-1 text-sm">
-              <FaUser className="text-white/70" size={12} />
-              <span className="font-medium text-white/70 text-xs">
-                Taminotchi:
-              </span>
-              <span className="text-white text-xs ml-1 truncate">
-                {rawMaterial.customerName}
-              </span>
-            </div>
-          </div>
-
-          {/* Phone */}
-          <div className="text-white col-span-2">
-            <div className="flex items-center gap-1 text-sm">
-              <FaPhone className="text-white/70" size={12} />
-              <span className="font-medium text-white/70 text-xs">Tel:</span>
-              <span className="text-white text-xs ml-1">
-                {rawMaterial.phoneNumber}
-              </span>
-            </div>
-          </div>
-        </div>
+              </td>
+            </tr>
+            <tr className="border-t border-white/10">
+              <th className="font-medium text-white/70">Taminotchi:</th>
+              <td className="p-1 truncate">{rawMaterial.customerName}</td>
+            </tr>
+            <tr className="border-t border-white/10">
+              <th className="font-medium text-white/70">Tel:</th>
+              <td className="p-1">{rawMaterial.phoneNumber}</td>
+            </tr>
+          </tbody>
+        </table>
 
         {/* Payment Status */}
-        <div className="text-white flex flex-row w-full pt-1 mt-1 justify-between items-center border-t border-white/10">
-          <span className="font-medium text-white/70 text-xs">To'lov:</span>
+        <div className="text-white flex flex-row w-full pt-0.5 mt-0.5 justify-between items-center border-t border-white/10">
+          <span className="font-medium text-white/70 text-[10px]">To'lov:</span>
           <span
-            className={`px-2 py-0.5 rounded-full text-xs ${
+            className={`px-1.5 py-0.5 rounded-full text-[10px] ${
               rawMaterial.paymentStatus ? "bg-green-600/30" : "bg-orange-600/30"
             }`}
           >

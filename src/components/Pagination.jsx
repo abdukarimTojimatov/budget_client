@@ -62,7 +62,7 @@ const Pagination = ({
             : "bg-gray-700/30 text-gray-400 cursor-not-allowed"
         }`}
       >
-        &laquo; Oldingi
+        &laquo;
       </button>
 
       {/* Page numbers */}
@@ -95,7 +95,7 @@ const Pagination = ({
             : "bg-gray-700/30 text-gray-400 cursor-not-allowed"
         }`}
       >
-        Keyingi &raquo;
+        &raquo;
       </button>
     </div>
   );
