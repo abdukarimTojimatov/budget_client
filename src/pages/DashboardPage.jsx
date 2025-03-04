@@ -338,58 +338,60 @@ const DashboardPage = () => {
           )}
 
           {/* Summary Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <div className="bg-gradient-to-br from-blue-800/30 to-blue-600/30 p-4 rounded-md shadow-md">
-              <h3 className="text-lg font-medium text-white mb-1">
+          <div className="flex flex-wrap gap-4">
+            <div className="bg-gradient-to-br from-blue-800/30 to-blue-600/30 p-3 rounded-md shadow-md w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)]">
+              <h3 className="text-base font-medium text-white mb-1">
                 Jami Buyurtmalar
               </h3>
-              <p className="text-2xl font-bold text-white">
+              <p className="text-lg font-bold text-white">
                 {formatCurrency(summaryStats.totalOrders)}
               </p>
             </div>
-            <div className="bg-gradient-to-br from-red-800/30 to-red-600/30 p-4 rounded-md shadow-md">
-              <h3 className="text-lg font-medium text-white mb-1">
+            <div className="bg-gradient-to-br from-red-800/30 to-red-600/30 p-3 rounded-md shadow-md w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)]">
+              <h3 className="text-base font-medium text-white mb-1">
                 Jami Xarajatlar
               </h3>
-              <p className="text-2xl font-bold text-white">
+              <p className="text-lg font-bold text-white">
                 {formatCurrency(summaryStats.totalExpenses)}
               </p>
             </div>
-            <div className="bg-gradient-to-br from-amber-800/30 to-amber-600/30 p-4 rounded-md shadow-md">
-              <h3 className="text-lg font-medium text-white mb-1">
+            <div className="bg-gradient-to-br from-amber-800/30 to-amber-600/30 p-3 rounded-md shadow-md w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)]">
+              <h3 className="text-base font-medium text-white mb-1">
                 Jami Homashyolar
               </h3>
-              <p className="text-2xl font-bold text-white">
+              <p className="text-lg font-bold text-white">
                 {formatCurrency(summaryStats.totalRawMaterials)}
               </p>
             </div>
-            <div className="bg-gradient-to-br from-purple-800/30 to-purple-600/30 p-4 rounded-md shadow-md">
-              <h3 className="text-lg font-medium text-white mb-1">
+            <div className="bg-gradient-to-br from-purple-800/30 to-purple-600/30 p-3 rounded-md shadow-md w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)]">
+              <h3 className="text-base font-medium text-white mb-1">
                 Jami Ulushlar
               </h3>
-              <p className="text-2xl font-bold text-white">
+              <p className="text-lg font-bold text-white">
                 {formatCurrency(summaryStats.totalSharings)}
               </p>
             </div>
-            <div className="bg-gradient-to-br from-green-800/30 to-green-600/30 p-4 rounded-md shadow-md">
-              <h3 className="text-lg font-medium text-white mb-1">
+            <div className="bg-gradient-to-br from-green-800/30 to-green-600/30 p-3 rounded-md shadow-md w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)]">
+              <h3 className="text-base font-medium text-white mb-1">
                 Yalpi Foyda
               </h3>
-              <p className="text-2xl font-bold text-white">
+              <p className="text-lg font-bold text-white">
                 {formatCurrency(summaryStats.grossProfit)}
               </p>
             </div>
-            <div className="bg-gradient-to-br from-emerald-800/30 to-emerald-600/30 p-4 rounded-md shadow-md">
-              <h3 className="text-lg font-medium text-white mb-1">Sof Foyda</h3>
-              <p className="text-2xl font-bold text-white">
+            <div className="bg-gradient-to-br from-emerald-800/30 to-emerald-600/30 p-3 rounded-md shadow-md w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)]">
+              <h3 className="text-base font-medium text-white mb-1">
+                Sof Foyda
+              </h3>
+              <p className="text-lg font-bold text-white">
                 {formatCurrency(summaryStats.netProfit)}
               </p>
             </div>
-            <div className="bg-gradient-to-br from-indigo-800/30 to-indigo-600/30 p-4 rounded-md shadow-md">
-              <h3 className="text-lg font-medium text-white mb-1">
+            <div className="bg-gradient-to-br from-indigo-800/30 to-indigo-600/30 p-3 rounded-md shadow-md w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)]">
+              <h3 className="text-base font-medium text-white mb-1">
                 Foydalilik
               </h3>
-              <p className="text-2xl font-bold text-white">
+              <p className="text-lg font-bold text-white">
                 {summaryStats.totalOrders > 0
                   ? `${(
                       (summaryStats.netProfit / summaryStats.totalOrders) *

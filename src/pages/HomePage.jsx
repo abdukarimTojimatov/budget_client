@@ -13,7 +13,7 @@ const HomePage = () => {
   return (
     <div className="max-w-7xl mx-auto">
       {/* Header Section */}
-      <div className="flex flex-col md:flex-row justify-between items-center mb-8">
+      <div className="flex flex-row md:flex-row justify-between items-center mb-8">
         {/* <h1 className="text-3xl font-bold text-white mb-4 md:mb-0">
           Xarajatlar Boshqaruvi
         </h1> */}
