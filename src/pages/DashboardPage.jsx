@@ -308,7 +308,7 @@ const DashboardPage = () => {
                 />
               </div>
             </div>
-            <div className="flex items-start mt-2">
+            <div className="flex items-start mt-2 ml-3">
               <button
                 className="bg-blue-800/30 p-1.5 rounded-md text-white hover:bg-blue-600/30 text-sm"
                 onClick={applyDateFilter}
