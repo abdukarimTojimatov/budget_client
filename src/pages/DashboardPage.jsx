@@ -289,20 +289,22 @@ const DashboardPage = () => {
         <>
           {/* Date Range Filter */}
           <div className="flex flex-col justify-start mb-4">
-            <div className="flex items-center">
-              <div className="relative z-50">
+            <div className="flex items-center ml-3">
+              <div className="relative z-50 ">
                 <DatePicker
                   selectsRange={true}
                   startDate={dateRange[0]}
                   endDate={dateRange[1]}
                   onChange={handleDateRangeChange}
-                  className="bg-gray-800/70 p-1.5 rounded-md text-white w-56 text-sm"
+                  className="bg-gray-800/70 p-1.5 rounded-md text-white w-56 text-sm cursor-pointer"
                   placeholderText="Ikki sanani tanlang"
                   dateFormat="yyyy-MM-dd"
                   popperClassName="z-[100]"
                   popperPlacement="bottom-start"
                   wrapperClassName="z-50"
-                  readOnly={true}
+                  onKeyDown={(e) => e.preventDefault()}
+                  showPopperArrow={false}
+                  shouldCloseOnSelect={false}
                 />
               </div>
             </div>
