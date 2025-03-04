@@ -9,8 +9,8 @@ const Filters = ({
   onLimitChange,
 }) => {
   return (
-    <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full sm:w-auto">
-      <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 w-full sm:w-auto">
+    <div className="flex flex-row sm:flex-row items-center sm:items-center gap-2 sm:gap-4 w-full sm:w-auto">
+      <div className="flex flex-col sm:flex-col sm:items-center gap-1 sm:gap-2 w-full sm:w-auto">
         <label htmlFor="category" className="text-white text-sm font-medium">
           Kategoriya:
         </label>

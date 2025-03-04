@@ -5,10 +5,12 @@ import { truncateText } from "../utils/formatDate";
 import { Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import OrderCard from "../components/OrderCard";
+import Pagination from "../components/Pagination";
+import Filters from "../components/Filters";
 
 const OrdersPage = () => {
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(12);
+  const [limit, setLimit] = useState(10);
   const [filters, setFilters] = useState({
     orderCategory: "",
     orderStatus: "",
@@ -24,48 +26,19 @@ const OrdersPage = () => {
     },
   });
 
-  const handleFilterChange = (e) => {
-    setFilters({ ...filters, [e.target.name]: e.target.value });
-    setPage(1);
-  };
-
-  const handleNextPage = () => {
-    if (data?.getOrders?.hasNextPage) {
-      setPage((prev) => prev + 1);
-    }
-  };
-
-  const handlePrevPage = () => {
-    if (data?.getOrders?.hasPrevPage) {
-      setPage((prev) => prev - 1);
-    }
-  };
-
   const handleLimitChange = (event) => {
     setLimit(Number(event.target.value));
     setPage(1);
   };
 
-  const renderPagination = () => {
-    const totalPages = data?.getOrders?.totalPages || 1;
-    const pageNumbers = [];
+  const handleCategoryChange = (event) => {
+    setCategory(event.target.value);
+    setPage(1);
+  };
 
-    for (let i = 1; i <= totalPages; i++) {
-      pageNumbers.push(
-        <button
-          key={i}
-          onClick={() => setPage(i)}
-          className={`mx-1 px-3 py-1 rounded-lg ${
-            page === i
-              ? "bg-blue-700/60 text-white"
-              : "bg-gray-800/50 text-white hover:bg-gray-700/60"
-          }`}
-        >
-          {i}
-        </button>
-      );
-    }
-    return pageNumbers;
+  const handleFilterChange = (e) => {
+    setFilters({ ...filters, [e.target.name]: e.target.value });
+    setPage(1);
   };
 
   return (
@@ -231,39 +204,14 @@ const OrdersPage = () => {
 
         {/* Pagination */}
         {!loading && !error && data?.getOrders?.docs.length > 0 && (
-          <div className="mt-6 flex justify-between items-center">
-            <div className="text-sm text-white">
-              Jami {data?.getOrders?.totalDocs || 0} ta buyurtma, {page} dan{" "}
-              {data?.getOrders?.totalPages} sahifa
-            </div>
-
-            <div className="flex space-x-2">
-              <button
-                onClick={handlePrevPage}
-                disabled={!data?.getOrders?.hasPrevPage}
-                className={`px-3 py-1.5 rounded-lg text-sm font-medium ${
-                  data?.getOrders?.hasPrevPage
-                    ? "bg-blue-800/30 text-white hover:bg-blue-700/40"
-                    : "bg-gray-700/30 text-gray-500 cursor-not-allowed"
-                }`}
-              >
-                &laquo; Oldingi
-              </button>
-
-              <div className="flex space-x-1">{renderPagination()}</div>
-
-              <button
-                onClick={handleNextPage}
-                disabled={!data?.getOrders?.hasNextPage}
-                className={`px-3 py-1.5 rounded-lg text-sm font-medium ${
-                  data?.getOrders?.hasNextPage
-                    ? "bg-blue-800/30 text-white hover:bg-blue-700/40"
-                    : "bg-gray-700/30 text-gray-500 cursor-not-allowed"
-                }`}
-              >
-                Keyingi &raquo;
-              </button>
-            </div>
+          <div className="mt-8 flex justify-center">
+            <Pagination
+              currentPage={page}
+              totalPages={data?.getOrders?.totalPages || 1}
+              hasPrevPage={data?.getOrders?.hasPrevPage}
+              hasNextPage={data?.getOrders?.hasNextPage}
+              onPageChange={setPage}
+            />
           </div>
         )}
       </div>

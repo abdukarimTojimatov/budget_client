@@ -7,9 +7,9 @@ import Pagination from "./Pagination";
 import Filters from "./Filters";
 
 const Cards = () => {
+  const [category, setCategory] = useState("");
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
-  const [category, setCategory] = useState("");
   const { data, loading } = useQuery(GET_EXPENSES, {
     variables: { page, limit, category },
   });
