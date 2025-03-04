@@ -292,21 +292,25 @@ const DashboardPage = () => {
       ) : (
         <>
           {/* Date Range Filter */}
-          <div className="flex justify-between items-center mb-8">
+          <div className="flex justify-start items-start mb-8">
             <div className="flex items-center">
               <label className="text-white mr-2">Sana:</label>
-              <DatePicker
-                selectsRange={true}
-                startDate={dateRange[0]}
-                endDate={dateRange[1]}
-                onChange={handleDateRangeChange}
-                className="bg-gray-800/20 p-2 rounded-lg text-white w-64"
-                placeholderText="Ikki sanani tanlang"
-                dateFormat="yyyy-MM-dd"
-                calendarClassName="bg-gray-800 text-white border border-gray-700 rounded-lg"
-              />
+              <div className="relative z-50">
+                <DatePicker
+                  selectsRange={true}
+                  startDate={dateRange[0]}
+                  endDate={dateRange[1]}
+                  onChange={handleDateRangeChange}
+                  className="bg-gray-800/20 p-2 rounded-lg text-white w-64"
+                  placeholderText="Ikki sanani tanlang"
+                  dateFormat="yyyy-MM-dd"
+                  popperClassName="z-[100]"
+                  popperPlacement="bottom-start"
+                  wrapperClassName="z-50"
+                />
+              </div>
             </div>
-            <div className="flex items-center">
+            <div className="flex items-start">
               <button
                 className="bg-blue-600/20 p-2 rounded-lg text-white hover:bg-blue-600/30"
                 onClick={applyDateFilter}
