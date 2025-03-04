@@ -12,8 +12,9 @@ import {
   Title,
 } from "chart.js";
 import { Doughnut, Bar } from "react-chartjs-2";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
-// Register ChartJS components
 ChartJS.register(
   ArcElement,
   Tooltip,
@@ -27,8 +28,8 @@ ChartJS.register(
 const DashboardPage = () => {
   // Date range state
   const [dateRange, setDateRange] = useState({
-    startDate: "",
-    endDate: "",
+    startDate: null,
+    endDate: null,
   });
 
   // State for various chart data
@@ -99,12 +100,18 @@ const DashboardPage = () => {
   });
 
   // Handle date inputs change
-  const handleDateChange = (e) => {
-    const { name, value } = e.target;
-    setDateRange({
-      ...dateRange,
-      [name]: value,
-    });
+  const handleStartDateChange = (date) => {
+    setDateRange((prev) => ({
+      ...prev,
+      startDate: date,
+    }));
+  };
+
+  const handleEndDateChange = (date) => {
+    setDateRange((prev) => ({
+      ...prev,
+      endDate: date,
+    }));
   };
 
   // Fetch all dashboard statistics in a single query with date range
@@ -114,24 +121,32 @@ const DashboardPage = () => {
     refetch,
   } = useQuery(GET_DASHBOARD_STATISTICS, {
     variables: {
-      startDate: dateRange.startDate || null,
-      endDate: dateRange.endDate || null,
+      startDate: dateRange.startDate
+        ? dateRange.startDate.toISOString().split("T")[0]
+        : null,
+      endDate: dateRange.endDate
+        ? dateRange.endDate.toISOString().split("T")[0]
+        : null,
     },
   });
 
   // Apply date filter
   const applyDateFilter = () => {
     refetch({
-      startDate: dateRange.startDate || null,
-      endDate: dateRange.endDate || null,
+      startDate: dateRange.startDate
+        ? dateRange.startDate.toISOString().split("T")[0]
+        : null,
+      endDate: dateRange.endDate
+        ? dateRange.endDate.toISOString().split("T")[0]
+        : null,
     });
   };
 
   // Reset date filter
   const resetDateFilter = () => {
     setDateRange({
-      startDate: "",
-      endDate: "",
+      startDate: null,
+      endDate: null,
     });
     refetch({
       startDate: null,
@@ -297,20 +312,29 @@ const DashboardPage = () => {
           <div className="flex justify-between items-center mb-8">
             <div className="flex items-center">
               <label className="text-white mr-2">Date Range:</label>
-              <input
-                type="date"
-                name="startDate"
-                value={dateRange.startDate}
-                onChange={handleDateChange}
-                className="bg-gray-800/20 p-2 rounded-lg text-white"
+              <DatePicker
+                selected={dateRange.startDate}
+                onChange={handleStartDateChange}
+                selectsStart
+                startDate={dateRange.startDate}
+                endDate={dateRange.endDate}
+                className="bg-gray-800/20 p-2 rounded-lg text-white w-40"
+                placeholderText="Start Date"
+                dateFormat="yyyy-MM-dd"
+                calendarClassName="bg-gray-800 text-white border border-gray-700 rounded-lg"
               />
               <span className="text-white mx-2">to</span>
-              <input
-                type="date"
-                name="endDate"
-                value={dateRange.endDate}
-                onChange={handleDateChange}
-                className="bg-gray-800/20 p-2 rounded-lg text-white"
+              <DatePicker
+                selected={dateRange.endDate}
+                onChange={handleEndDateChange}
+                selectsEnd
+                startDate={dateRange.startDate}
+                endDate={dateRange.endDate}
+                minDate={dateRange.startDate}
+                className="bg-gray-800/20 p-2 rounded-lg text-white w-40"
+                placeholderText="End Date"
+                dateFormat="yyyy-MM-dd"
+                calendarClassName="bg-gray-800 text-white border border-gray-700 rounded-lg"
               />
             </div>
             <div className="flex items-center">
