@@ -131,19 +131,19 @@ const OrderEditPage = () => {
         Buyurtmani o'zgartish
       </p>
       <form
-        className="w-full max-w-4xl mx-auto flex flex-wrap gap-5 px-5"
+        className="w-full max-w-4xl mx-auto flex flex-wrap gap-3 px-4 sm:px-6 md:px-10"
         onSubmit={handleSubmit}
       >
         {/* ORDER NAME */}
-        <div className="flex-1 min-w-[250px]">
+        <div className="w-full sm:flex-1 min-w-[200px]">
           <label
-            className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+            className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
             htmlFor="orderName"
           >
             Buyurtma nomi
           </label>
           <input
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            className="appearance-none block w-full bg-gray-200 text-gray-700 text-sm border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             id="orderName"
             name="orderName"
             type="text"
@@ -155,15 +155,15 @@ const OrderEditPage = () => {
         </div>
 
         {/* CUSTOMER NAME */}
-        <div className="flex-1 min-w-[250px]">
+        <div className="w-full sm:flex-1 min-w-[200px]">
           <label
-            className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+            className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
             htmlFor="orderCustomerName"
           >
             Mijoz ismi
           </label>
           <input
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            className="appearance-none block w-full bg-gray-200 text-gray-700 text-sm border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             id="orderCustomerName"
             name="orderCustomerName"
             type="text"
@@ -175,15 +175,15 @@ const OrderEditPage = () => {
         </div>
 
         {/* CUSTOMER PHONE NUMBER */}
-        <div className="flex-1 min-w-[250px]">
+        <div className="w-full sm:flex-1 min-w-[200px]">
           <label
-            className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+            className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
             htmlFor="orderCustomerPhoneNumber"
           >
             Mijoz telefon raqami
           </label>
           <input
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            className="appearance-none block w-full bg-gray-200 text-gray-700 text-sm border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             id="orderCustomerPhoneNumber"
             name="orderCustomerPhoneNumber"
             type="text"
@@ -194,15 +194,15 @@ const OrderEditPage = () => {
         </div>
 
         {/* CATEGORY */}
-        <div className="flex-1 min-w-[250px]">
+        <div className="w-full sm:flex-1 min-w-[200px]">
           <label
-            className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+            className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
             htmlFor="orderCategory"
           >
             Buyurtma kategoriyasi
           </label>
           <select
-            className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 text-sm py-2 px-3 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             id="orderCategory"
             name="orderCategory"
             required
@@ -218,15 +218,15 @@ const OrderEditPage = () => {
         </div>
 
         {/* TYPE */}
-        <div className="flex-1 min-w-[250px]">
+        <div className="w-full sm:flex-1 min-w-[200px]">
           <label
-            className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+            className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
             htmlFor="orderType"
           >
             Buyurtma turi
           </label>
           <select
-            className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 text-sm py-2 px-3 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             id="orderType"
             name="orderType"
             required
@@ -241,15 +241,15 @@ const OrderEditPage = () => {
         </div>
 
         {/* ORDER STATUS */}
-        <div className="flex-1 min-w-[250px]">
+        <div className="w-full sm:flex-1 min-w-[200px]">
           <label
-            className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+            className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
             htmlFor="orderStatus"
           >
             Buyurtma holati
           </label>
           <select
-            className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 text-sm py-2 px-3 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             id="orderStatus"
             name="orderStatus"
             required
@@ -265,56 +265,57 @@ const OrderEditPage = () => {
         </div>
 
         {/* DESCRIPTION */}
-        <div className="flex-1 min-w-[250px]">
+        <div className="w-full sm:flex-1 min-w-[200px]">
           <label
-            className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+            className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
             htmlFor="orderDescription"
           >
             Buyurtma tavsifi
           </label>
           <textarea
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            className="appearance-none block w-full bg-gray-200 text-gray-700 text-sm border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             id="orderDescription"
             name="orderDescription"
             required
             placeholder="Buyurtma tavsifi"
             value={formData.orderDescription}
             onChange={handleInputChange}
-            rows={10} // Initial number of rows
-            style={{ maxHeight: "200px", overflowY: "auto" }} // Set max height and enable vertical scrolling
+            rows={8}
+            style={{ maxHeight: "150px", overflowY: "auto" }}
           />
         </div>
+
         {/* EXPENSES DESCRIPTION */}
-        <div className="flex-1 min-w-[250px]">
+        <div className="w-full sm:flex-1 min-w-[200px]">
           <label
-            className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+            className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
             htmlFor="orderExpensesDescription"
           >
             Harajatlar tavsifi
           </label>
           <textarea
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 resize-none overflow-auto"
+            className="appearance-none block w-full bg-gray-200 text-gray-700 text-sm border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 resize-none overflow-auto"
             id="orderExpensesDescription"
             name="orderExpensesDescription"
             required
             placeholder="Harajatlar tavsifi"
             value={formData.orderExpensesDescription}
             onChange={handleInputChange}
-            rows={10} // Initial number of rows
-            style={{ maxHeight: "200px", overflowY: "auto" }} // Set max height and enable vertical scrolling
+            rows={8}
+            style={{ maxHeight: "150px", overflowY: "auto" }}
           />
         </div>
 
         {/* PAYMENT STATUS */}
-        <div className="flex-1 min-w-[250px]">
+        <div className="w-full sm:flex-1 min-w-[200px]">
           <label
-            className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+            className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
             htmlFor="orderPaymentStatus"
           >
             Tolov holati
           </label>
           <select
-            className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 text-sm py-2 px-3 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             id="orderPaymentStatus"
             name="orderPaymentStatus"
             required
@@ -329,36 +330,35 @@ const OrderEditPage = () => {
         </div>
 
         {/* TOTAL AMOUNT */}
-        <div className="flex-1 min-w-[250px]">
+        <div className="w-full sm:flex-1 min-w-[200px]">
           <label
-            className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+            className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
             htmlFor="orderTotalAmount"
           >
             Buyurtma summasi
           </label>
           <input
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            className="appearance-none block w-full bg-gray-200 text-gray-700 text-sm border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             id="orderTotalAmount"
             name="orderTotalAmount"
-            type="text" // Change type to text for better compatibility
+            type="text"
             required
             placeholder="Total Amount"
             value={formData.orderTotalAmount}
-            onChange={handleInputChange} // You can keep this if you want to handle changes, but it won't affect the input
-            // Add this attribute to make the input read-only
+            onChange={handleInputChange}
           />
         </div>
 
         {/* EXPENSES AMOUNT */}
-        <div className="flex-1 min-w-[250px]">
+        <div className="w-full sm:flex-1 min-w-[200px]">
           <label
-            className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+            className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
             htmlFor="orderExpensesAmount"
           >
             Harajatlar summasi
           </label>
           <input
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            className="appearance-none block w-full bg-gray-200 text-gray-700 text-sm border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             id="orderExpensesAmount"
             name="orderExpensesAmount"
             type="string"
@@ -369,15 +369,15 @@ const OrderEditPage = () => {
         </div>
 
         {/* TOTAL PAID */}
-        <div className="flex-1 min-w-[250px]">
+        <div className="w-full sm:flex-1 min-w-[200px]">
           <label
-            className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+            className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
             htmlFor="orderTotalPaid"
           >
             Jami to'landi
           </label>
           <input
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            className="appearance-none block w-full bg-gray-200 text-gray-700 text-sm border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             id="orderTotalPaid"
             name="orderTotalPaid"
             type="string"
@@ -389,15 +389,15 @@ const OrderEditPage = () => {
         </div>
 
         {/* TOTAL DEBT */}
-        <div className="flex-1 min-w-[250px]">
+        <div className="w-full sm:flex-1 min-w-[200px]">
           <label
-            className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+            className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
             htmlFor="orderTotalDebt"
           >
             Jami qarz
           </label>
           <input
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            className="appearance-none block w-full bg-gray-200 text-gray-700 text-sm border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             id="orderTotalDebt"
             name="orderTotalDebt"
             type="string"
@@ -410,16 +410,19 @@ const OrderEditPage = () => {
 
         {/* PAYMENT FIELDS */}
         {formData.orderPayments.map((payment, index) => (
-          <div key={index} className="flex flex-wrap gap-5">
-            <div className="flex-1 min-w-[250px]">
+          <div
+            key={index}
+            className="w-full flex flex-col sm:flex-row gap-3 mb-3 sm:mb-4"
+          >
+            <div className="w-full sm:flex-1 min-w-[120px]">
               <label
-                className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+                className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
                 htmlFor={`paymentType-${index}`}
               >
                 To'lov turi
               </label>
               <select
-                className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 text-sm py-2 px-3 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id={`paymentType-${index}`}
                 name="paymentType"
                 value={payment.paymentType}
@@ -431,15 +434,15 @@ const OrderEditPage = () => {
               </select>
             </div>
 
-            <div className="flex-1 min-w-[250px]">
+            <div className="w-full sm:flex-1 min-w-[120px]">
               <label
-                className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+                className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
                 htmlFor={`amount-${index}`}
               >
                 Miqdor
               </label>
               <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                className="appearance-none block w-full bg-gray-200 text-gray-700 text-sm border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id={`amount-${index}`}
                 name="amount"
                 type="string"
@@ -448,15 +451,15 @@ const OrderEditPage = () => {
               />
             </div>
 
-            <div className="flex-1 min-w-[250px]">
+            <div className="w-full sm:flex-1 min-w-[120px]">
               <label
-                className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+                className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
                 htmlFor={`date-${index}`}
               >
                 Sana
               </label>
               <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                className="appearance-none block w-full bg-gray-200 text-gray-700 text-sm border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id={`date-${index}`}
                 name="date"
                 type="date"
@@ -471,14 +474,14 @@ const OrderEditPage = () => {
         <button
           type="button"
           onClick={addPayment}
-          className="flex-1 min-w-[250px] text-white font-bold w-full rounded px-4 py-2 bg-gradient-to-br from-pink-500 to-pink-500 hover:from-pink-600 hover:to-pink-600"
+          className="w-full sm:flex-1 min-w-[200px] text-white text-sm font-bold rounded px-3 py-2 bg-gradient-to-br from-pink-500 to-pink-500 hover:from-pink-600 hover:to-pink-600"
         >
           To'lov qo'shish
         </button>
 
         {/* SUBMIT BUTTON */}
         <button
-          className="flex-1 min-w-[250px] text-white font-bold w-full rounded px-4 py-2 bg-gradient-to-br from-pink-500 to-pink-500 hover:from-pink-600 hover:to-pink-600"
+          className="w-full sm:flex-1 min-w-[200px] text-white text-sm font-bold rounded px-3 py-2 bg-gradient-to-br from-pink-500 to-pink-500 hover:from-pink-600 hover:to-pink-600"
           type="submit"
           disabled={loadingUpdate}
         >

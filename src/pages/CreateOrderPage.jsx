@@ -145,19 +145,19 @@ const CreateOrderPage = () => {
 
   return (
     <form
-      className="max-w-4xl mx-auto flex flex-wrap items-center gap-5 px-10 pb-5"
+      className="max-w-4xl mx-auto flex flex-wrap items-center gap-3 px-4 sm:px-6 md:px-10 pb-3 sm:pb-5"
       onSubmit={handleSubmit}
     >
       {/* ORDER NAME */}
-      <div className="flex-1 min-w-[250px]">
+      <div className="w-full sm:flex-1 min-w-[200px]">
         <label
-          className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+          className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
           htmlFor="orderName"
         >
           Buyurtma nomi
         </label>
         <input
-          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           id="orderName"
           name="orderName"
           type="text"
@@ -169,15 +169,15 @@ const CreateOrderPage = () => {
       </div>
 
       {/* CUSTOMER NAME */}
-      <div className="flex-1 min-w-[250px]">
+      <div className="w-full sm:flex-1 min-w-[200px]">
         <label
-          className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+          className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
           htmlFor="orderCustomerName"
         >
           Mijoz ismi
         </label>
         <input
-          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           id="orderCustomerName"
           name="orderCustomerName"
           type="text"
@@ -189,15 +189,15 @@ const CreateOrderPage = () => {
       </div>
 
       {/* CUSTOMER PHONE NUMBER */}
-      <div className="flex-1 min-w-[250px]">
+      <div className="w-full sm:flex-1 min-w-[200px]">
         <label
-          className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+          className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
           htmlFor="orderCustomerPhoneNumber"
         >
           Mijoz telefon raqami
         </label>
         <input
-          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           id="orderCustomerPhoneNumber"
           name="orderCustomerPhoneNumber"
           type="text"
@@ -218,15 +218,15 @@ const CreateOrderPage = () => {
       </div>
 
       {/* LOCATION */}
-      <div className="flex-1 min-w-[250px]">
+      <div className="w-full sm:flex-1 min-w-[200px]">
         <label
-          className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+          className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
           htmlFor="orderLocation"
         >
           Manzil
         </label>
         <input
-          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           id="orderLocation"
           name="orderLocation"
           type="text"
@@ -238,15 +238,15 @@ const CreateOrderPage = () => {
       </div>
 
       {/* CATEGORY */}
-      <div className="flex-1 min-w-[250px]">
+      <div className="w-full sm:flex-1 min-w-[200px]">
         <label
-          className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+          className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
           htmlFor="orderCategory"
         >
           Buyurtma kategoriyasi
         </label>
         <select
-          className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-3 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           id="orderCategory"
           name="orderCategory"
           required
@@ -262,15 +262,15 @@ const CreateOrderPage = () => {
       </div>
 
       {/* TYPE */}
-      <div className="flex-1 min-w-[250px]">
+      <div className="w-full sm:flex-1 min-w-[200px]">
         <label
-          className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+          className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
           htmlFor="orderType"
         >
           Buyurtma turi
         </label>
         <select
-          className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-3 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           id="orderType"
           name="orderType"
           required
@@ -285,18 +285,18 @@ const CreateOrderPage = () => {
       </div>
 
       {/* TOTAL AMOUNT */}
-      <div className="flex-1 min-w-[250px]">
+      <div className="w-full sm:flex-1 min-w-[200px]">
         <label
-          className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+          className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
           htmlFor="orderTotalAmount"
         >
           Buyurtma summasi
         </label>
         <input
-          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           id="orderTotalAmount"
           name="orderTotalAmount"
-          type="string" // Change type to number for numeric input
+          type="string"
           required
           placeholder="Buyurtma summasi"
           value={orderData.orderTotalAmount}
@@ -305,15 +305,15 @@ const CreateOrderPage = () => {
       </div>
 
       {/* EXPENSES AMOUNT */}
-      <div className="flex-1 min-w-[250px]">
+      <div className="w-full sm:flex-1 min-w-[200px]">
         <label
-          className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+          className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
           htmlFor="orderExpensesAmount"
         >
           Harajatlar summasi
         </label>
         <input
-          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           id="orderExpensesAmount"
           name="orderExpensesAmount"
           type="string"
@@ -325,15 +325,15 @@ const CreateOrderPage = () => {
       </div>
 
       {/* READY DATE */}
-      <div className="flex-1 min-w-[250px]">
+      <div className="w-full sm:flex-1 min-w-[200px]">
         <label
-          className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+          className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
           htmlFor="orderReadyDate"
         >
           Buyurtma yetkazish vaqti
         </label>
         <input
-          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           name="orderReadyDate"
           type="date"
           value={orderData.orderReadyDate}
@@ -343,18 +343,18 @@ const CreateOrderPage = () => {
 
       {/* PAYMENT SECTION */}
       <div className="w-full">
-        <h3 className="text-white text-lg font-bold mb-4">
+        <h3 className="text-white text-base font-bold mb-2 sm:mb-4">
           To'lov ma'lumotlari
         </h3>
 
         {/* Payment input form */}
-        <div className="flex flex-wrap gap-4 p-4 bg-gray-800 rounded-lg mb-4">
-          <div className="flex-1 min-w-[150px]">
-            <label className="block text-white text-xs font-bold mb-2">
+        <div className="flex flex-wrap gap-2 sm:gap-4 p-3 bg-gray-800 rounded-lg mb-3 sm:mb-4">
+          <div className="w-full sm:flex-1 min-w-[120px]">
+            <label className="block text-white text-xs font-bold mb-1">
               To'lov turi
             </label>
             <select
-              className="w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4"
+              className="w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3"
               name="paymentType"
               value={newPayment.paymentType}
               onChange={handlePaymentChange}
@@ -364,12 +364,12 @@ const CreateOrderPage = () => {
             </select>
           </div>
 
-          <div className="flex-1 min-w-[150px]">
-            <label className="block text-white text-xs font-bold mb-2">
+          <div className="w-full sm:flex-1 min-w-[120px]">
+            <label className="block text-white text-xs font-bold mb-1">
               To'lov miqdori
             </label>
             <input
-              className="w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4"
+              className="w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3"
               type="number"
               name="amount"
               placeholder="Miqdor"
@@ -378,14 +378,14 @@ const CreateOrderPage = () => {
             />
           </div>
 
-          <div className="flex-1 min-w-[150px]">
-            <label className="block text-white text-xs font-bold mb-2">
+          <div className="w-full sm:flex-1 min-w-[120px]">
+            <label className="block text-white text-xs font-bold mb-1">
               To'lov sanasi
             </label>
             <DatePicker
               selected={newPayment.date}
               onChange={handleDateChange}
-              className="w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4"
+              className="w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3"
               dateFormat="yyyy-MM-dd"
             />
           </div>
@@ -393,7 +393,7 @@ const CreateOrderPage = () => {
           <div className="flex items-end w-full sm:w-auto">
             <button
               type="button"
-              className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded w-full sm:w-auto"
+              className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-3 rounded w-full"
               onClick={addPayment}
             >
               To'lov qo'shish
@@ -403,11 +403,13 @@ const CreateOrderPage = () => {
 
         {/* Payment list */}
         {orderData.orderPayments.length > 0 && (
-          <div className="mb-4">
-            <div className="bg-gray-800 rounded-lg p-4">
-              <div className="flex justify-between items-center mb-2">
-                <h4 className="text-white font-bold">To'lovlar ro'yxati</h4>
-                <p className="text-white">
+          <div className="mb-3 sm:mb-4">
+            <div className="bg-gray-800 rounded-lg p-3">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-2">
+                <h4 className="text-white font-bold text-sm">
+                  To'lovlar ro'yxati
+                </h4>
+                <p className="text-white text-sm">
                   Jami: {totalPaymentAmount} / {orderData.orderTotalAmount} (
                   {orderData.orderTotalAmount > 0
                     ? Math.round(
@@ -418,7 +420,7 @@ const CreateOrderPage = () => {
                 </p>
               </div>
               <div className="overflow-x-auto">
-                <table className="min-w-full bg-gray-700 text-white">
+                <table className="min-w-full bg-gray-700 text-white text-sm">
                   <thead>
                     <tr>
                       <th className="p-2 text-left">To'lov turi</th>
@@ -455,44 +457,44 @@ const CreateOrderPage = () => {
       </div>
 
       {/* DESCRIPTION */}
-      <div className="flex-1 min-w-[250px]">
+      <div className="w-full sm:flex-1 min-w-[200px]">
         <label
-          className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+          className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
           htmlFor="orderDescription"
         >
           Buyurtma tavsifi
         </label>
         <textarea
-          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           id="orderDescription"
           name="orderDescription"
           required
           placeholder="Buyurtma tavsifi"
           value={orderData.orderDescription}
           onChange={handleChange}
-          rows={10} // Initial number of rows
-          style={{ maxHeight: "200px", overflowY: "auto" }} // Set max height and enable vertical scrolling
+          rows={8}
+          style={{ maxHeight: "150px", overflowY: "auto" }}
         />
       </div>
 
       {/* EXPENSES DESCRIPTION */}
-      <div className="flex-1 min-w-[250px]">
+      <div className="w-full sm:flex-1 min-w-[200px]">
         <label
-          className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+          className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
           htmlFor="orderExpensesDescription"
         >
           Harajatlar tavsifi
         </label>
         <textarea
-          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 resize-none overflow-auto"
+          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 resize-none overflow-auto"
           id="orderExpensesDescription"
           name="orderExpensesDescription"
           required
           placeholder="Harajatlar tavsifi"
           value={orderData.orderExpensesDescription}
           onChange={handleChange}
-          rows={10}
-          style={{ maxHeight: "200px", overflowY: "auto" }} // Set max height and enable vertical scrolling
+          rows={8}
+          style={{ maxHeight: "150px", overflowY: "auto" }}
         />
       </div>
 
