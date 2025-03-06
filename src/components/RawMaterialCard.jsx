@@ -78,27 +78,41 @@ const RawMaterialCard = ({ rawMaterial }) => {
             <tr className="border-t border-white/10">
               <th className="font-medium text-white/70">Narxi:</th>
               <td className="p-1">
-                {rawMaterial.rawMaterialPrice.toLocaleString("uz-UZ")}
+                {rawMaterial.rawMaterialPrice.toLocaleString("uz-UZ")} so'm
               </td>
             </tr>
             <tr className="border-t border-white/10">
               <th className="font-medium text-white/70">Jami:</th>
               <td className="p-1">
-                {rawMaterial.rawMaterialTotalPrice?.toLocaleString("uz-UZ")}
+                {rawMaterial.rawMaterialTotalPrice?.toLocaleString("uz-UZ")}{" "}
+                so'm
               </td>
             </tr>
             <tr className="border-t border-white/10">
-              <th className="font-medium text-white/70">To'landi:</th>
+              <th className="font-medium text-white/70">Jami:</th>
               <td className="p-1">
-                {rawMaterial.totalPaid.toLocaleString("uz-UZ")}
+                {rawMaterial.rawMaterialTotalPrice?.toLocaleString("uz-UZ")}{" "}
+                so'm
               </td>
             </tr>
             <tr className="border-t border-white/10">
-              <th className="font-medium text-white/70">Taminotchi:</th>
+              <th className="font-medium text-white/70">Qarz:</th>
+              <td className="p-1">
+                {rawMaterial.totalDebt.toLocaleString("uz-UZ")} so'm
+              </td>
+            </tr>
+            <tr className="border-t border-white/10">
+              <th className="font-medium text-white/70">To'lov holati:</th>
+              <td className="p-1">
+                {rawMaterial.paymentStatus ? "To'langan" : "Qarz"}
+              </td>
+            </tr>
+            <tr className="border-t border-white/10">
+              <th className="font-medium text-white/70">Taminotchi ismi:</th>
               <td className="p-1 truncate">{rawMaterial.customerName}</td>
             </tr>
             <tr className="border-t border-white/10">
-              <th className="font-medium text-white/70">Tel:</th>
+              <th className="font-medium text-white/70">Telefon raqami:</th>
               <td className="p-1">{rawMaterial.phoneNumber}</td>
             </tr>
           </tbody>

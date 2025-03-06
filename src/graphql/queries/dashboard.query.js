@@ -19,10 +19,26 @@ export const GET_DASHBOARD_STATISTICS = gql`
         category
         totalAmount
       }
+      customersWithDebt {
+        customerName
+        phoneNumber
+        totalDebt
+        totalPaid
+        totalAmount
+      }
+      suppliersWithDebt {
+        supplierName
+        phoneNumber
+        totalDebt
+        totalPaid
+        totalAmount
+      }
       totalOrders
       totalExpenses
       totalSharings
       totalRawMaterials
+      totalOrderExpenses
+      totalExpensesAmount
       grossProfit
       netProfit
       totalClientDebt

@@ -94,6 +94,8 @@ const DashboardPage = () => {
     totalClientDebt: 0,
     totalRawMaterialPaid: 0,
     totalRawMaterialDebt: 0,
+    totalExpensesAmount: 0,
+    totalOrderExpenses: 0,
   });
 
   // Handle date range change
@@ -270,6 +272,8 @@ const DashboardPage = () => {
         totalClientDebt: stats.totalClientDebt || 0,
         totalRawMaterialPaid: stats.totalRawMaterialPaid || 0,
         totalRawMaterialDebt: stats.totalRawMaterialDebt || 0,
+        totalExpensesAmount: stats.totalExpensesAmount || 0,
+        totalOrderExpenses: stats.totalOrderExpenses || 0,
       });
     }
   }, [dashboardData]);
@@ -371,6 +375,14 @@ const DashboardPage = () => {
                 {formatCurrency(summaryStats.totalSharings)}
               </p>
             </div>
+            <div className="bg-gradient-to-br from-rose-800/30 to-rose-600/30 p-3 rounded-md shadow-md w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)]">
+              <h3 className="text-base font-medium text-white mb-1">
+                Barcha Xarajatlar
+              </h3>
+              <p className="text-lg font-bold text-white">
+                {formatCurrency(summaryStats.totalExpensesAmount)}
+              </p>
+            </div>
             <div className="bg-gradient-to-br from-green-800/30 to-green-600/30 p-3 rounded-md shadow-md w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)]">
               <h3 className="text-base font-medium text-white mb-1">
                 Yalpi Foyda
@@ -398,6 +410,14 @@ const DashboardPage = () => {
                       100
                     ).toFixed(1)}%`
                   : "0%"}
+              </p>
+            </div>
+            <div className="bg-gradient-to-br from-yellow-800/30 to-yellow-600/30 p-3 rounded-md shadow-md w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)]">
+              <h3 className="text-base font-medium text-white mb-1">
+                Buyurtma Xarajatlari
+              </h3>
+              <p className="text-lg font-bold text-white">
+                {formatCurrency(summaryStats.totalOrderExpenses)}
               </p>
             </div>
           </div>
@@ -671,7 +691,7 @@ const DashboardPage = () => {
           </div>
 
           {/* Debt Breakdowns */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             <div className="bg-gray-800/50 p-4 rounded-md shadow-md">
               <h3 className="text-lg font-bold text-[#0e66a4] mb-2">
                 Mijozlar Qarzi
@@ -745,6 +765,95 @@ const DashboardPage = () => {
                   </span>
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* Customer and Supplier Debt Lists */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Customers with Debt */}
+            <div className="bg-gray-800/50 p-4 rounded-md shadow-md">
+              <h3 className="text-lg font-bold text-[#e74c3c] mb-2">
+                Qarzdor Mijozlar
+              </h3>
+              {dashboardData?.dashboardStatistics?.customersWithDebt?.length >
+              0 ? (
+                <div className="overflow-x-auto">
+                  <table className="min-w-full rounded-md bg-gray-700/30 text-white">
+                    <thead>
+                      <tr className="border-b border-gray-600">
+                        <th className="p-2 text-left">Mijoz</th>
+                        <th className="p-2 text-left">Telefon</th>
+                        <th className="p-2 text-right">Qarz</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {dashboardData.dashboardStatistics.customersWithDebt.map(
+                        (customer, index) => (
+                          <tr
+                            key={index}
+                            className="border-b border-gray-600/30"
+                          >
+                            <td className="p-2">{customer.customerName}</td>
+                            <td className="p-2">
+                              {customer.phoneNumber || "-"}
+                            </td>
+                            <td className="p-2 text-right">
+                              {formatCurrency(customer.totalDebt)}
+                            </td>
+                          </tr>
+                        )
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <p className="text-gray-400 text-sm p-4">
+                  Qarzdor mijozlar yo'q
+                </p>
+              )}
+            </div>
+
+            {/* Suppliers we owe money to */}
+            <div className="bg-gray-800/50 p-4 rounded-md shadow-md">
+              <h3 className="text-lg font-bold text-[#e74c3c] mb-2">
+                Qarzimiz Bor Ta'minotchilar
+              </h3>
+              {dashboardData?.dashboardStatistics?.suppliersWithDebt?.length >
+              0 ? (
+                <div className="overflow-x-auto">
+                  <table className="min-w-full rounded-md bg-gray-700/30 text-white">
+                    <thead>
+                      <tr className="border-b border-gray-600">
+                        <th className="p-2 text-left">Ta'minotchi</th>
+                        <th className="p-2 text-left">Telefon</th>
+                        <th className="p-2 text-right">Qarz</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {dashboardData.dashboardStatistics.suppliersWithDebt.map(
+                        (supplier, index) => (
+                          <tr
+                            key={index}
+                            className="border-b border-gray-600/30"
+                          >
+                            <td className="p-2">{supplier.supplierName}</td>
+                            <td className="p-2">
+                              {supplier.phoneNumber || "-"}
+                            </td>
+                            <td className="p-2 text-right">
+                              {formatCurrency(supplier.totalDebt)}
+                            </td>
+                          </tr>
+                        )
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <p className="text-gray-400 text-sm p-4">
+                  Qarzimiz bor ta'minotchilar yo'q
+                </p>
+              )}
             </div>
           </div>
         </>
