@@ -4,6 +4,8 @@ import { CREATE_RAW_MATERIAL } from "../graphql/mutations/rawMaterial.mutation";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { customers } from "../constants/customer";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const CreateRawMaterialPage = () => {
   const navigate = useNavigate();
@@ -17,6 +19,13 @@ const CreateRawMaterialPage = () => {
     rawMaterialCategory: "",
     rawMaterialPrice: 0,
     payments: [], // Initialize payments array
+  });
+
+  // State for new payment input
+  const [newPayment, setNewPayment] = useState({
+    paymentType: "naqd",
+    amount: "",
+    date: new Date()
   });
 
   const [createRawMaterial, { loading }] = useMutation(CREATE_RAW_MATERIAL, {
@@ -46,20 +55,53 @@ const CreateRawMaterialPage = () => {
     }
   };
 
-  const handlePaymentChange = (index, e) => {
+  const handlePaymentChange = (e) => {
     const { name, value } = e.target;
-    const newPayments = [...formData.payments];
-    newPayments[index] = {
-      ...newPayments[index],
-      [name]: name === "amount" ? parseFloat(value) : value,
-    };
-    setFormData({ ...formData, payments: newPayments });
+    setNewPayment(prev => ({
+      ...prev,
+      [name]: name === "amount" ? (value ? parseFloat(value) : "") : value
+    }));
+  };
+
+  const handleDateChange = (date) => {
+    setNewPayment(prev => ({
+      ...prev,
+      date
+    }));
   };
 
   const addPayment = () => {
+    if (!newPayment.amount) {
+      toast.error("To'lov miqdorini kiriting");
+      return;
+    }
+
+    const formattedDate = newPayment.date 
+      ? new Date(newPayment.date).toISOString().split('T')[0]
+      : new Date().toISOString().split('T')[0];
+      
+    const paymentToAdd = {
+      ...newPayment,
+      date: formattedDate
+    };
+
     setFormData({
       ...formData,
-      payments: [...formData.payments, { paymentType: "", amount: 0 }], // Ensure amount is a number
+      payments: [...formData.payments, paymentToAdd]
+    });
+
+    // Reset payment form
+    setNewPayment({
+      paymentType: "naqd",
+      amount: "",
+      date: new Date()
+    });
+  };
+
+  const removePayment = (index) => {
+    setFormData({
+      ...formData,
+      payments: formData.payments.filter((_, i) => i !== index)
     });
   };
 
@@ -77,6 +119,12 @@ const CreateRawMaterialPage = () => {
   };
 
   const totalPrice = formData.rawMaterialQuantity * formData.rawMaterialPrice;
+  
+  // Calculate total payment amount
+  const totalPaymentAmount = formData.payments.reduce(
+    (sum, payment) => sum + (payment.amount || 0), 
+    0
+  );
 
   return (
     <form
@@ -274,40 +322,113 @@ const CreateRawMaterialPage = () => {
           readOnly
         />
       </div>
-      <div className="flex flex-col gap-4">
-        <h3 className="text-white font-bold">To'lovlar</h3>
-        {formData.payments.map((payment, index) => (
-          <div key={index} className="flex flex-col sm:flex-row gap-4">
+
+      {/* PAYMENT SECTION */}
+      <div className="w-full">
+        <h3 className="text-white text-lg font-bold mb-4">To'lov ma'lumotlari</h3>
+        
+        {/* Payment input form */}
+        <div className="flex flex-wrap gap-4 p-4 bg-gray-800 rounded-lg mb-4">
+          <div className="flex-1 min-w-[150px]">
+            <label className="block text-white text-xs font-bold mb-2">
+              To'lov turi
+            </label>
             <select
+              className="w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4"
               name="paymentType"
-              value={payment.paymentType}
-              onChange={(e) => handlePaymentChange(index, e)}
-              className="flex-1 bg-gray-200 text-gray-700 py-3 px-4 rounded"
-              required
+              value={newPayment.paymentType}
+              onChange={handlePaymentChange}
             >
-              <option value="">To'lov turini tanlang</option>
-              <option value="naqd">naqd</option>
-              <option value="plastik">plastik</option>
+              <option value="naqd">Naqd</option>
+              <option value="plastik">Plastik</option>
             </select>
+          </div>
+          
+          <div className="flex-1 min-w-[150px]">
+            <label className="block text-white text-xs font-bold mb-2">
+              To'lov miqdori
+            </label>
             <input
+              className="w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4"
               type="number"
               name="amount"
-              placeholder="Summa"
-              value={payment.amount}
-              onChange={(e) => handlePaymentChange(index, e)}
-              className="flex-1 bg-gray-200 text-gray-700 py-3 px-4 rounded"
-              required
+              placeholder="Miqdor"
+              value={newPayment.amount}
+              onChange={handlePaymentChange}
             />
           </div>
-        ))}
-        <button
-          type="button"
-          onClick={addPayment}
-          className="bg-blue-500 text-white py-2 rounded"
-        >
-          To'lov qo'shish
-        </button>
+          
+          <div className="flex-1 min-w-[150px]">
+            <label className="block text-white text-xs font-bold mb-2">
+              To'lov sanasi
+            </label>
+            <DatePicker
+              selected={newPayment.date}
+              onChange={handleDateChange}
+              className="w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4"
+              dateFormat="yyyy-MM-dd"
+            />
+          </div>
+          
+          <div className="flex items-end w-full sm:w-auto">
+            <button
+              type="button"
+              className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded w-full sm:w-auto"
+              onClick={addPayment}
+            >
+              To'lov qo'shish
+            </button>
+          </div>
+        </div>
+        
+        {/* Payment list */}
+        {formData.payments.length > 0 && (
+          <div className="mb-4">
+            <div className="bg-gray-800 rounded-lg p-4">
+              <div className="flex justify-between items-center mb-2">
+                <h4 className="text-white font-bold">To'lovlar ro'yxati</h4>
+                <p className="text-white">
+                  Jami: {totalPaymentAmount} / {totalPrice} (
+                  {totalPrice > 0 
+                    ? Math.round((totalPaymentAmount / totalPrice) * 100) 
+                    : 0}%)
+                </p>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="min-w-full bg-gray-700 text-white">
+                  <thead>
+                    <tr>
+                      <th className="p-2 text-left">To'lov turi</th>
+                      <th className="p-2 text-left">Miqdor</th>
+                      <th className="p-2 text-left">Sana</th>
+                      <th className="p-2 text-left">Amallar</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {formData.payments.map((payment, index) => (
+                      <tr key={index} className="border-t border-gray-600">
+                        <td className="p-2">{payment.paymentType === 'naqd' ? 'Naqd' : 'Plastik'}</td>
+                        <td className="p-2">{payment.amount}</td>
+                        <td className="p-2">{payment.date}</td>
+                        <td className="p-2">
+                          <button
+                            type="button"
+                            className="text-red-500 hover:text-red-700"
+                            onClick={() => removePayment(index)}
+                          >
+                            O'chirish
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
+
       {/* Submit Button */}
       <button
         className="w-full py-3 px-4 mb-5 rounded bg-gradient-to-br from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold disabled:opacity-70 disabled:cursor-not-allowed"

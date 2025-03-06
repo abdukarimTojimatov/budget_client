@@ -3,6 +3,8 @@ import { useMutation } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 import { CREATE_ORDER } from "../graphql/mutations/order.mutation"; // Adjust the path as necessary
 import toast from "react-hot-toast";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const CreateOrderPage = () => {
   const navigate = useNavigate();
@@ -18,6 +20,14 @@ const CreateOrderPage = () => {
     orderExpensesDescription: "",
     orderLocation: "",
     orderReadyDate: "",
+    orderPayments: [],
+  });
+
+  // State for new payment input
+  const [newPayment, setNewPayment] = useState({
+    paymentType: "naqd",
+    amount: "",
+    date: new Date(),
   });
 
   const [createOrder, { loading }] = useMutation(CREATE_ORDER, {
@@ -35,6 +45,7 @@ const CreateOrderPage = () => {
         orderExpensesDescription: "",
         orderLocation: "",
         orderReadyDate: "",
+        orderPayments: [],
       });
       navigate("/orders");
     },
@@ -54,12 +65,69 @@ const CreateOrderPage = () => {
     }));
   };
 
+  const handlePaymentChange = (e) => {
+    const { name, value } = e.target;
+    setNewPayment((prev) => ({
+      ...prev,
+      [name]: name === "amount" ? Number(value) : value,
+    }));
+  };
+
+  const handleDateChange = (date) => {
+    setNewPayment((prev) => ({
+      ...prev,
+      date,
+    }));
+  };
+
+  const addPayment = () => {
+    if (!newPayment.amount) {
+      toast.error("To'lov miqdorini kiriting");
+      return;
+    }
+
+    const formattedDate = newPayment.date
+      ? new Date(newPayment.date).toISOString().split("T")[0]
+      : new Date().toISOString().split("T")[0];
+
+    const paymentToAdd = {
+      ...newPayment,
+      date: formattedDate,
+    };
+
+    setOrderData((prev) => ({
+      ...prev,
+      orderPayments: [...prev.orderPayments, paymentToAdd],
+    }));
+
+    // Reset payment form
+    setNewPayment({
+      paymentType: "naqd",
+      amount: "",
+      date: new Date(),
+    });
+  };
+
+  const removePayment = (index) => {
+    setOrderData((prev) => ({
+      ...prev,
+      orderPayments: prev.orderPayments.filter((_, i) => i !== index),
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log("order", orderData);
+      const orderDataToSubmit = {
+        ...orderData,
+        orderPayments: orderData.orderPayments.length
+          ? orderData.orderPayments
+          : undefined,
+      };
+
+      console.log("order", orderDataToSubmit);
       await createOrder({
-        variables: { input: orderData },
+        variables: { input: orderDataToSubmit },
         refetchQueries: ["GetOrders"],
       });
       navigate("/orders");
@@ -68,6 +136,12 @@ const CreateOrderPage = () => {
       toast.error(error.message);
     }
   };
+
+  // Calculate total payment amount
+  const totalPaymentAmount = orderData.orderPayments.reduce(
+    (sum, payment) => sum + (payment.amount || 0),
+    0
+  );
 
   return (
     <form
@@ -249,6 +323,8 @@ const CreateOrderPage = () => {
           onChange={handleChange}
         />
       </div>
+
+      {/* READY DATE */}
       <div className="flex-1 min-w-[250px]">
         <label
           className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
@@ -264,6 +340,120 @@ const CreateOrderPage = () => {
           onChange={handleChange}
         />
       </div>
+
+      {/* PAYMENT SECTION */}
+      <div className="w-full">
+        <h3 className="text-white text-lg font-bold mb-4">
+          To'lov ma'lumotlari
+        </h3>
+
+        {/* Payment input form */}
+        <div className="flex flex-wrap gap-4 p-4 bg-gray-800 rounded-lg mb-4">
+          <div className="flex-1 min-w-[150px]">
+            <label className="block text-white text-xs font-bold mb-2">
+              To'lov turi
+            </label>
+            <select
+              className="w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4"
+              name="paymentType"
+              value={newPayment.paymentType}
+              onChange={handlePaymentChange}
+            >
+              <option value="naqd">Naqd</option>
+              <option value="plastik">Plastik</option>
+            </select>
+          </div>
+
+          <div className="flex-1 min-w-[150px]">
+            <label className="block text-white text-xs font-bold mb-2">
+              To'lov miqdori
+            </label>
+            <input
+              className="w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4"
+              type="number"
+              name="amount"
+              placeholder="Miqdor"
+              value={newPayment.amount}
+              onChange={handlePaymentChange}
+            />
+          </div>
+
+          <div className="flex-1 min-w-[150px]">
+            <label className="block text-white text-xs font-bold mb-2">
+              To'lov sanasi
+            </label>
+            <DatePicker
+              selected={newPayment.date}
+              onChange={handleDateChange}
+              className="w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4"
+              dateFormat="yyyy-MM-dd"
+            />
+          </div>
+
+          <div className="flex items-end w-full sm:w-auto">
+            <button
+              type="button"
+              className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded w-full sm:w-auto"
+              onClick={addPayment}
+            >
+              To'lov qo'shish
+            </button>
+          </div>
+        </div>
+
+        {/* Payment list */}
+        {orderData.orderPayments.length > 0 && (
+          <div className="mb-4">
+            <div className="bg-gray-800 rounded-lg p-4">
+              <div className="flex justify-between items-center mb-2">
+                <h4 className="text-white font-bold">To'lovlar ro'yxati</h4>
+                <p className="text-white">
+                  Jami: {totalPaymentAmount} / {orderData.orderTotalAmount} (
+                  {orderData.orderTotalAmount > 0
+                    ? Math.round(
+                        (totalPaymentAmount / orderData.orderTotalAmount) * 100
+                      )
+                    : 0}
+                  %)
+                </p>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="min-w-full bg-gray-700 text-white">
+                  <thead>
+                    <tr>
+                      <th className="p-2 text-left">To'lov turi</th>
+                      <th className="p-2 text-left">Miqdor</th>
+                      <th className="p-2 text-left">Sana</th>
+                      <th className="p-2 text-left">Amallar</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {orderData.orderPayments.map((payment, index) => (
+                      <tr key={index} className="border-t border-gray-600">
+                        <td className="p-2">
+                          {payment.paymentType === "naqd" ? "Naqd" : "Plastik"}
+                        </td>
+                        <td className="p-2">{payment.amount}</td>
+                        <td className="p-2">{payment.date}</td>
+                        <td className="p-2">
+                          <button
+                            type="button"
+                            className="text-red-500 hover:text-red-700"
+                            onClick={() => removePayment(index)}
+                          >
+                            O'chirish
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
       {/* DESCRIPTION */}
       <div className="flex-1 min-w-[250px]">
         <label
