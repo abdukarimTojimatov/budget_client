@@ -6,7 +6,11 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   darkMode: "class",
   theme: {
-    // rest of the code
+    extend: {
+      fontSize: {
+        xxs: "10px", // Yangi o‘lcham qo‘shish
+      },
+    },
   },
   plugins: [
     addVariablesForColors,

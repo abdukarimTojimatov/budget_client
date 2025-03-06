@@ -134,7 +134,7 @@ const OrderEditPage = () => {
         className="w-full max-w-4xl mx-auto flex flex-wrap gap-3 px-4 sm:px-6 md:px-10"
         onSubmit={handleSubmit}
       >
-        {/* ORDER NAME */}
+        {/* Order Name */}
         <div className="w-full sm:flex-1 min-w-[200px]">
           <label
             className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
@@ -143,57 +143,57 @@ const OrderEditPage = () => {
             Buyurtma nomi
           </label>
           <input
-            className="appearance-none block w-full bg-gray-200 text-gray-700 text-sm border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
             id="orderName"
             name="orderName"
             type="text"
             required
-            placeholder="Order Name"
+            placeholder="Buyurtma nomini kiriting"
             value={formData.orderName}
             onChange={handleInputChange}
           />
         </div>
 
-        {/* CUSTOMER NAME */}
-        <div className="w-full sm:flex-1 min-w-[200px]">
-          <label
-            className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
-            htmlFor="orderCustomerName"
-          >
-            Mijoz ismi
-          </label>
-          <input
-            className="appearance-none block w-full bg-gray-200 text-gray-700 text-sm border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            id="orderCustomerName"
-            name="orderCustomerName"
-            type="text"
-            required
-            placeholder="Customer Name"
-            value={formData.orderCustomerName}
-            onChange={handleInputChange}
-          />
+        {/* Customer Name and Phone Number */}
+        <div className="flex flex-col sm:flex-row gap-3 w-full">
+          <div className="w-full sm:flex-1 min-w-[200px]">
+            <label
+              className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
+              htmlFor="orderCustomerName"
+            >
+              Mijoz ismi
+            </label>
+            <input
+              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
+              id="orderCustomerName"
+              name="orderCustomerName"
+              type="text"
+              required
+              placeholder="Mijoz ismini kiriting"
+              value={formData.orderCustomerName}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="w-full sm:flex-1 min-w-[200px]">
+            <label
+              className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
+              htmlFor="orderCustomerPhoneNumber"
+            >
+              Telefon raqami
+            </label>
+            <input
+              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
+              id="orderCustomerPhoneNumber"
+              name="orderCustomerPhoneNumber"
+              type="text"
+              placeholder="Telefon raqamini kiriting"
+              value={formData.orderCustomerPhoneNumber}
+              onChange={handleInputChange}
+            />
+          </div>
         </div>
 
-        {/* CUSTOMER PHONE NUMBER */}
-        <div className="w-full sm:flex-1 min-w-[200px]">
-          <label
-            className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
-            htmlFor="orderCustomerPhoneNumber"
-          >
-            Mijoz telefon raqami
-          </label>
-          <input
-            className="appearance-none block w-full bg-gray-200 text-gray-700 text-sm border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            id="orderCustomerPhoneNumber"
-            name="orderCustomerPhoneNumber"
-            type="text"
-            placeholder="Customer Phone Number"
-            value={formData.orderCustomerPhoneNumber}
-            onChange={handleInputChange}
-          />
-        </div>
-
-        {/* CATEGORY */}
+        {/* Category */}
         <div className="w-full sm:flex-1 min-w-[200px]">
           <label
             className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
@@ -202,7 +202,7 @@ const OrderEditPage = () => {
             Buyurtma kategoriyasi
           </label>
           <select
-            className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 text-sm py-2 px-3 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-3 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
             id="orderCategory"
             name="orderCategory"
             required
@@ -217,7 +217,7 @@ const OrderEditPage = () => {
           </select>
         </div>
 
-        {/* TYPE */}
+        {/* Type */}
         <div className="w-full sm:flex-1 min-w-[200px]">
           <label
             className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
@@ -226,7 +226,7 @@ const OrderEditPage = () => {
             Buyurtma turi
           </label>
           <select
-            className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 text-sm py-2 px-3 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-3 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
             id="orderType"
             name="orderType"
             required
@@ -240,7 +240,7 @@ const OrderEditPage = () => {
           </select>
         </div>
 
-        {/* ORDER STATUS */}
+        {/* Order Status */}
         <div className="w-full sm:flex-1 min-w-[200px]">
           <label
             className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
@@ -249,7 +249,7 @@ const OrderEditPage = () => {
             Buyurtma holati
           </label>
           <select
-            className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 text-sm py-2 px-3 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-3 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
             id="orderStatus"
             name="orderStatus"
             required
@@ -264,58 +264,58 @@ const OrderEditPage = () => {
           </select>
         </div>
 
-        {/* DESCRIPTION */}
+        {/* Description */}
         <div className="w-full sm:flex-1 min-w-[200px]">
           <label
             className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
             htmlFor="orderDescription"
           >
-            Buyurtma tavsifi
+            Izoh
           </label>
           <textarea
-            className="appearance-none block w-full bg-gray-200 text-gray-700 text-sm border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
             id="orderDescription"
             name="orderDescription"
             required
-            placeholder="Buyurtma tavsifi"
+            placeholder="Buyurtma haqida ta'rif yozing"
             value={formData.orderDescription}
             onChange={handleInputChange}
-            rows={8}
-            style={{ maxHeight: "150px", overflowY: "auto" }}
+            rows={3}
+            style={{ maxHeight: "150px" }}
           />
         </div>
 
-        {/* EXPENSES DESCRIPTION */}
+        {/* Expenses Description */}
         <div className="w-full sm:flex-1 min-w-[200px]">
           <label
             className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
             htmlFor="orderExpensesDescription"
           >
-            Harajatlar tavsifi
+            Harajatlar izohi
           </label>
           <textarea
-            className="appearance-none block w-full bg-gray-200 text-gray-700 text-sm border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 resize-none overflow-auto"
+            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
             id="orderExpensesDescription"
             name="orderExpensesDescription"
             required
-            placeholder="Harajatlar tavsifi"
+            placeholder="Harajatlar haqida ta'rif yozing"
             value={formData.orderExpensesDescription}
             onChange={handleInputChange}
-            rows={8}
-            style={{ maxHeight: "150px", overflowY: "auto" }}
+            rows={3}
+            style={{ maxHeight: "150px" }}
           />
         </div>
 
-        {/* PAYMENT STATUS */}
+        {/* Payment Status */}
         <div className="w-full sm:flex-1 min-w-[200px]">
           <label
             className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
             htmlFor="orderPaymentStatus"
           >
-            Tolov holati
+            To'lov holati
           </label>
           <select
-            className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 text-sm py-2 px-3 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-3 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
             id="orderPaymentStatus"
             name="orderPaymentStatus"
             required
@@ -324,168 +324,169 @@ const OrderEditPage = () => {
           >
             <option value="">Tanlang</option>
             <option value="tolanmadi">To'lanmadi</option>
-            <option value="qismanTolandi">Qisman to'landi Paid</option>
+            <option value="qismanTolandi">Qisman to'landi</option>
             <option value="tolandi">To'landi</option>
           </select>
         </div>
 
-        {/* TOTAL AMOUNT */}
-        <div className="w-full sm:flex-1 min-w-[200px]">
-          <label
-            className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
-            htmlFor="orderTotalAmount"
-          >
-            Buyurtma summasi
-          </label>
-          <input
-            className="appearance-none block w-full bg-gray-200 text-gray-700 text-sm border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            id="orderTotalAmount"
-            name="orderTotalAmount"
-            type="text"
-            required
-            placeholder="Total Amount"
-            value={formData.orderTotalAmount}
-            onChange={handleInputChange}
-          />
-        </div>
-
-        {/* EXPENSES AMOUNT */}
-        <div className="w-full sm:flex-1 min-w-[200px]">
-          <label
-            className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
-            htmlFor="orderExpensesAmount"
-          >
-            Harajatlar summasi
-          </label>
-          <input
-            className="appearance-none block w-full bg-gray-200 text-gray-700 text-sm border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            id="orderExpensesAmount"
-            name="orderExpensesAmount"
-            type="string"
-            placeholder="Expenses Amount"
-            value={formData.orderExpensesAmount}
-            onChange={handleInputChange}
-          />
-        </div>
-
-        {/* TOTAL PAID */}
-        <div className="w-full sm:flex-1 min-w-[200px]">
-          <label
-            className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
-            htmlFor="orderTotalPaid"
-          >
-            Jami to'landi
-          </label>
-          <input
-            className="appearance-none block w-full bg-gray-200 text-gray-700 text-sm border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            id="orderTotalPaid"
-            name="orderTotalPaid"
-            type="string"
-            placeholder="Total Paid"
-            value={formData.orderTotalPaid}
-            onChange={handleInputChange}
-            readOnly
-          />
-        </div>
-
-        {/* TOTAL DEBT */}
-        <div className="w-full sm:flex-1 min-w-[200px]">
-          <label
-            className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
-            htmlFor="orderTotalDebt"
-          >
-            Jami qarz
-          </label>
-          <input
-            className="appearance-none block w-full bg-gray-200 text-gray-700 text-sm border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            id="orderTotalDebt"
-            name="orderTotalDebt"
-            type="string"
-            placeholder="Total Debt"
-            value={formData.orderTotalDebt}
-            onChange={handleInputChange}
-            readOnly
-          />
-        </div>
-
-        {/* PAYMENT FIELDS */}
-        {formData.orderPayments.map((payment, index) => (
-          <div
-            key={index}
-            className="w-full flex flex-col sm:flex-row gap-3 mb-3 sm:mb-4"
-          >
-            <div className="w-full sm:flex-1 min-w-[120px]">
-              <label
-                className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
-                htmlFor={`paymentType-${index}`}
-              >
-                To'lov turi
-              </label>
-              <select
-                className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 text-sm py-2 px-3 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                id={`paymentType-${index}`}
-                name="paymentType"
-                value={payment.paymentType}
-                onChange={(e) => handlePaymentChange(index, e)}
-              >
-                <option value="">Tanlang</option>
-                <option value="naqd">naqd</option>
-                <option value="plastik">plastik</option>
-              </select>
-            </div>
-
-            <div className="w-full sm:flex-1 min-w-[120px]">
-              <label
-                className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
-                htmlFor={`amount-${index}`}
-              >
-                Miqdor
-              </label>
-              <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 text-sm border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                id={`amount-${index}`}
-                name="amount"
-                type="string"
-                value={payment.amount}
-                onChange={(e) => handlePaymentChange(index, e)}
-              />
-            </div>
-
-            <div className="w-full sm:flex-1 min-w-[120px]">
-              <label
-                className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
-                htmlFor={`date-${index}`}
-              >
-                Sana
-              </label>
-              <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 text-sm border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                id={`date-${index}`}
-                name="date"
-                type="date"
-                value={payment.date}
-                onChange={(e) => handlePaymentChange(index, e)}
-              />
-            </div>
+        {/* Financial Fields */}
+        <div className="flex flex-col sm:flex-row gap-3 w-full">
+          <div className="w-full sm:flex-1 min-w-[200px]">
+            <label
+              className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
+              htmlFor="orderTotalAmount"
+            >
+              Buyurtma summasi
+            </label>
+            <input
+              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
+              id="orderTotalAmount"
+              name="orderTotalAmount"
+              type="number"
+              required
+              placeholder="Summasini kiriting"
+              value={formData.orderTotalAmount}
+              onChange={handleInputChange}
+            />
           </div>
-        ))}
+          <div className="w-full sm:flex-1 min-w-[200px]">
+            <label
+              className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
+              htmlFor="orderExpensesAmount"
+            >
+              Harajatlar summasi
+            </label>
+            <input
+              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
+              id="orderExpensesAmount"
+              name="orderExpensesAmount"
+              type="number"
+              placeholder="Harajatlar summasini kiriting"
+              value={formData.orderExpensesAmount}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="w-full sm:flex-1 min-w-[200px]">
+            <label
+              className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
+              htmlFor="orderTotalPaid"
+            >
+              Jami to'landi
+            </label>
+            <input
+              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
+              id="orderTotalPaid"
+              name="orderTotalPaid"
+              type="number"
+              placeholder="To'langan summasini kiriting"
+              value={formData.orderTotalPaid}
+              onChange={handleInputChange}
+              readOnly
+            />
+          </div>
+          <div className="w-full sm:flex-1 min-w-[200px]">
+            <label
+              className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
+              htmlFor="orderTotalDebt"
+            >
+              Jami qarz
+            </label>
+            <input
+              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
+              id="orderTotalDebt"
+              name="orderTotalDebt"
+              type="number"
+              placeholder="Qarz summasini kiriting"
+              value={formData.orderTotalDebt}
+              onChange={handleInputChange}
+              readOnly
+            />
+          </div>
+        </div>
 
-        {/* ADD PAYMENT BUTTON */}
+        {/* Payments Section */}
+        <div className="w-full">
+          <h3 className="text-white font-bold text-lg mb-3">To'lovlar</h3>
+          {formData.orderPayments.length > 0 ? (
+            formData.orderPayments.map((payment, index) => (
+              <div
+                key={index}
+                className="flex flex-wrap gap-3 mb-3 p-3 bg-gray-800 rounded-lg"
+              >
+                <div className="w-full sm:flex-1 min-w-[120px]">
+                  <label
+                    className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
+                    htmlFor={`paymentType-${index}`}
+                  >
+                    To'lov turi
+                  </label>
+                  <select
+                    className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-3 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
+                    id={`paymentType-${index}`}
+                    name="paymentType"
+                    value={payment.paymentType}
+                    onChange={(e) => handlePaymentChange(index, e)}
+                  >
+                    <option value="">Tanlang</option>
+                    <option value="naqd">Naqd</option>
+                    <option value="plastik">Plastik</option>
+                  </select>
+                </div>
+                <div className="w-full sm:flex-1 min-w-[120px]">
+                  <label
+                    className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
+                    htmlFor={`amount-${index}`}
+                  >
+                    Miqdor
+                  </label>
+                  <input
+                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
+                    id={`amount-${index}`}
+                    name="amount"
+                    type="number"
+                    value={payment.amount}
+                    onChange={(e) => handlePaymentChange(index, e)}
+                  />
+                </div>
+                <div className="w-full sm:flex-1 min-w-[120px]">
+                  <label
+                    className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
+                    htmlFor={`date-${index}`}
+                  >
+                    Sana
+                  </label>
+                  <input
+                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
+                    id={`date-${index}`}
+                    name="date"
+                    type="date"
+                    value={payment.date}
+                    onChange={(e) => handlePaymentChange(index, e)}
+                  />
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-400 text-sm">Hech to'lov qo'shilmagan.</p>
+          )}
+        </div>
+
+        {/* Add Payment Button */}
         <button
           type="button"
           onClick={addPayment}
-          className="w-full sm:flex-1 min-w-[200px] text-white text-sm font-bold rounded px-3 py-2 bg-gradient-to-br from-pink-500 to-pink-500 hover:from-pink-600 hover:to-pink-600"
+          className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-3 rounded transition-colors duration-200 text-sm"
         >
           To'lov qo'shish
         </button>
 
-        {/* SUBMIT BUTTON */}
+        {/* Submit Button */}
         <button
-          className="w-full sm:flex-1 min-w-[200px] text-white text-sm font-bold rounded px-3 py-2 bg-gradient-to-br from-pink-500 to-pink-500 hover:from-pink-600 hover:to-pink-600"
           type="submit"
           disabled={loadingUpdate}
+          className="w-full bg-pink-600 hover:bg-pink-700 text-white font-bold py-2 px-3 rounded transition-colors duration-200 disabled:opacity-50 text-sm"
         >
-          {loadingUpdate ? "Updating..." : "Update Order"}
+          {loadingUpdate ? "Yangilanmoqda..." : "Buyurtmani yangilash"}
         </button>
       </form>
     </div>

@@ -32,7 +32,7 @@ const SharingCards = () => {
     <div className="w-full px-3 min-h-[40vh]">
       {hasNoSharings ? (
         <div className="flex items-center justify-center min-h-[200px] bg-gray-800/50 rounded-xlshadow-lg">
-          <p className="text-4xl font-bold text-white/80">
+          <p className="text-xl font-bold text-white/80">
             Taqsimotlar mavjud emas
           </p>
         </div>

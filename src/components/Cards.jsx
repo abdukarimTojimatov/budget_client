@@ -32,7 +32,7 @@ const Cards = () => {
     <div className="w-full px-3 min-h-[40vh]">
       {hasNoExpenses ? (
         <div className="flex items-center justify-center min-h-[200px] bg-gray-800/50 rounded-xl p-8 shadow-lg">
-          <p className="text-4xl font-bold text-white/80">
+          <p className="text-xl sm:text-xl font-bold text-white/80">
             Harajatlar mavjud emas
           </p>
         </div>

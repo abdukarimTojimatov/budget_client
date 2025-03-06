@@ -100,19 +100,19 @@ const EditRawMaterialPage = () => {
         Xom ashyo o'zgartirish
       </p>
       <form
-        className="w-full max-w-4xl mx-auto flex flex-wrap gap-5 px-5"
+        className="w-full max-w-4xl mx-auto flex flex-wrap gap-3 px-4 sm:px-6 md:px-10"
         onSubmit={handleSubmit}
       >
         {/* Raw Material Name */}
-        <div className="flex-1 min-w-[250px]">
+        <div className="w-full sm:flex-1 min-w-[200px]">
           <label
-            className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+            className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
             htmlFor="rawMaterialName"
           >
             Xom ashyo nomi
           </label>
           <input
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
             id="rawMaterialName"
             name="rawMaterialName"
             type="text"
@@ -124,36 +124,37 @@ const EditRawMaterialPage = () => {
         </div>
 
         {/* Description */}
-        <div className="flex-1 min-w-[250px]">
+        <div className="w-full sm:flex-1 min-w-[200px]">
           <label
-            className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+            className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
             htmlFor="rawMaterialDescription"
           >
             Izoh
           </label>
           <textarea
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
             id="rawMaterialDescription"
             name="rawMaterialDescription"
             required
             placeholder="Xom ashyo haqida ta'rif yozing"
             value={formData.rawMaterialDescription}
             onChange={handleInputChange}
-            rows={4}
+            rows={3}
+            style={{ maxHeight: "150px" }}
           />
         </div>
 
         {/* Quantity and Price */}
-        <div className="flex flex-col sm:flex-row gap-4 w-full">
-          <div className="flex-1">
+        <div className="flex flex-col sm:flex-row gap-3 w-full">
+          <div className="w-full sm:flex-1 min-w-[200px]">
             <label
-              className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+              className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
               htmlFor="rawMaterialQuantity"
             >
               Miqdori
             </label>
             <input
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
               id="rawMaterialQuantity"
               name="rawMaterialQuantity"
               type="number"
@@ -163,15 +164,15 @@ const EditRawMaterialPage = () => {
               onChange={handleInputChange}
             />
           </div>
-          <div className="flex-1">
+          <div className="w-full sm:flex-1 min-w-[200px]">
             <label
-              className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+              className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
               htmlFor="rawMaterialPrice"
             >
               Narxi
             </label>
             <input
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
               id="rawMaterialPrice"
               name="rawMaterialPrice"
               type="number"
@@ -184,15 +185,15 @@ const EditRawMaterialPage = () => {
         </div>
 
         {/* Unit of Measurement */}
-        <div className="flex-1 min-w-[250px]">
+        <div className="w-full sm:flex-1 min-w-[200px]">
           <label
-            className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+            className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
             htmlFor="unitOfMeasurement"
           >
             O'lchov birligi
           </label>
           <input
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
             id="unitOfMeasurement"
             name="unitOfMeasurement"
             type="text"
@@ -204,15 +205,15 @@ const EditRawMaterialPage = () => {
         </div>
 
         {/* Category */}
-        <div className="flex-1 min-w-[250px]">
+        <div className="w-full sm:flex-1 min-w-[200px]">
           <label
-            className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+            className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
             htmlFor="rawMaterialCategory"
           >
             Kategoriya
           </label>
           <input
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
             id="rawMaterialCategory"
             name="rawMaterialCategory"
             type="text"
@@ -224,16 +225,16 @@ const EditRawMaterialPage = () => {
         </div>
 
         {/* Customer Information */}
-        <div className="flex flex-col sm:flex-row gap-4 w-full">
-          <div className="flex-1">
+        <div className="flex flex-col sm:flex-row gap-3 w-full">
+          <div className="w-full sm:flex-1 min-w-[200px]">
             <label
-              className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+              className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
               htmlFor="customerName"
             >
               Mijoz ismi
             </label>
             <input
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
               id="customerName"
               name="customerName"
               type="text"
@@ -242,15 +243,15 @@ const EditRawMaterialPage = () => {
               onChange={handleInputChange}
             />
           </div>
-          <div className="flex-1">
+          <div className="w-full sm:flex-1 min-w-[200px]">
             <label
-              className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+              className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
               htmlFor="phoneNumber"
             >
               Telefon raqami
             </label>
             <input
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
               id="phoneNumber"
               name="phoneNumber"
               type="text"
@@ -262,24 +263,23 @@ const EditRawMaterialPage = () => {
         </div>
 
         {/* Payments Section */}
-        {/* Payments Section */}
         <div className="w-full">
-          <h3 className="text-white font-bold text-lg mb-4">To'lovlar</h3>
+          <h3 className="text-white font-bold text-lg mb-3">To'lovlar</h3>
           {formData?.payments?.length > 0 ? (
             formData.payments.map((payment, index) => (
               <div
                 key={index}
-                className="flex flex-wrap gap-4 mb-4 p-4 bg-gray-800 rounded-lg"
+                className="flex flex-wrap gap-3 mb-3 p-3 bg-gray-800 rounded-lg"
               >
-                <div className="flex-1 min-w-[200px]">
+                <div className="w-full sm:flex-1 min-w-[120px]">
                   <label
-                    className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+                    className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
                     htmlFor={`paymentType-${index}`}
                   >
                     To'lov turi
                   </label>
                   <select
-                    className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-3 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
                     id={`paymentType-${index}`}
                     name="paymentType"
                     value={payment.paymentType}
@@ -291,15 +291,15 @@ const EditRawMaterialPage = () => {
                   </select>
                 </div>
 
-                <div className="flex-1 min-w-[200px]">
+                <div className="w-full sm:flex-1 min-w-[120px]">
                   <label
-                    className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+                    className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
                     htmlFor={`amount-${index}`}
                   >
                     Miqdor
                   </label>
                   <input
-                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
                     id={`amount-${index}`}
                     name="amount"
                     type="number"
@@ -308,15 +308,15 @@ const EditRawMaterialPage = () => {
                   />
                 </div>
 
-                <div className="flex-1 min-w-[200px]">
+                <div className="w-full sm:flex-1 min-w-[120px]">
                   <label
-                    className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
+                    className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
                     htmlFor={`date-${index}`}
                   >
                     Sana
                   </label>
                   <input
-                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
                     id={`date-${index}`}
                     name="date"
                     type="date"
@@ -327,7 +327,7 @@ const EditRawMaterialPage = () => {
               </div>
             ))
           ) : (
-            <p className="text-gray-400">Hech to'lov qo'shilmagan.</p>
+            <p className="text-gray-400 text-sm">Hech to'lov qo'shilmagan.</p>
           )}
         </div>
 
@@ -335,7 +335,7 @@ const EditRawMaterialPage = () => {
         <button
           type="button"
           onClick={addPayment}
-          className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded transition-colors duration-200"
+          className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-3 rounded transition-colors duration-200 text-sm"
         >
           To'lov qo'shish
         </button>
@@ -344,7 +344,7 @@ const EditRawMaterialPage = () => {
         <button
           type="submit"
           disabled={loadingUpdate}
-          className="w-full bg-pink-600 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded transition-colors duration-200 disabled:opacity-50"
+          className="w-full bg-pink-600 hover:bg-pink-700 text-white font-bold py-2 px-3 rounded transition-colors duration-200 disabled:opacity-50 text-sm"
         >
           {loadingUpdate ? "Yangilanmoqda..." : "Xom ashyoni yangilash"}
         </button>

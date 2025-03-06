@@ -293,7 +293,7 @@ const DashboardPage = () => {
         <>
           {/* Date Range Filter */}
           <div className="flex flex-col justify-start mb-4">
-            <div className="flex items-center ml-6">
+            <div className="flex items-center ml-2">
               <div className="relative z-50 ">
                 <DatePicker
                   selectsRange={true}
@@ -312,7 +312,7 @@ const DashboardPage = () => {
                 />
               </div>
             </div>
-            <div className="flex items-start mt-2 ml-6">
+            <div className="flex items-start mt-2 ml-2">
               <button
                 className="bg-blue-800/30 p-1.5 rounded-md text-white hover:bg-blue-600/30 text-sm"
                 onClick={applyDateFilter}
@@ -342,16 +342,16 @@ const DashboardPage = () => {
           )}
 
           {/* Summary Cards */}
-          <div className="flex flex-wrap gap-4 justify-center">
-            <div className="bg-gradient-to-br from-blue-800/30 to-blue-600/30 p-3 rounded-md shadow-md w-5/12 sm:w-5/12 lg:w-3/10">
-              <h3 className="text-base font-medium text-white mb-1">
+          <div className="flex flex-wrap gap-1 justify-center">
+            <div className="bg-gradient-to-br from-blue-800/30 to-blue-600/30 p-3 rounded-md shadow-md w-[48.0%] sm:w-5/12 lg:w-3/10">
+              <h3 className="text-base font-medium text-white sm:text-xxs mb-1">
                 Jami Buyurtmalar
               </h3>
-              <p className="text-lg font-bold text-white">
+              <span className="text-lg font-bold text-white">
                 {formatCurrency(summaryStats.totalOrders)}
-              </p>
+              </span>
             </div>
-            <div className="bg-gradient-to-br from-red-800/30 to-red-600/30 p-3 rounded-md shadow-md w-5/12 sm:w-5/12 lg:w-3/10">
+            <div className="bg-gradient-to-br from-red-800/30 to-red-600/30 p-3 rounded-md shadow-md w-[48.0%] sm:w-5/12 lg:w-3/10">
               <h3 className="text-base font-medium text-white mb-1">
                 Jami Xarajatlar
               </h3>
@@ -359,7 +359,7 @@ const DashboardPage = () => {
                 {formatCurrency(summaryStats.totalExpenses)}
               </p>
             </div>
-            <div className="bg-gradient-to-br from-amber-800/30 to-amber-600/30 p-3 rounded-md shadow-md w-5/12 sm:w-5/12 lg:w-3/10">
+            <div className="bg-gradient-to-br from-amber-800/30 to-amber-600/30 p-3 rounded-md shadow-md w-[48.0%] sm:w-5/12 lg:w-3/10">
               <h3 className="text-base font-medium text-white mb-1">
                 Jami Homashyolar
               </h3>
@@ -367,7 +367,7 @@ const DashboardPage = () => {
                 {formatCurrency(summaryStats.totalRawMaterials)}
               </p>
             </div>
-            <div className="bg-gradient-to-br from-purple-800/30 to-purple-600/30 p-3 rounded-md shadow-md w-5/12 sm:w-5/12 lg:w-3/10">
+            <div className="bg-gradient-to-br from-purple-800/30 to-purple-600/30 p-3 rounded-md shadow-md w-[48.0%] sm:w-5/12 lg:w-3/10">
               <h3 className="text-base font-medium text-white mb-1">
                 Jami Ulushlar
               </h3>
@@ -375,15 +375,7 @@ const DashboardPage = () => {
                 {formatCurrency(summaryStats.totalSharings)}
               </p>
             </div>
-            <div className="bg-gradient-to-br from-rose-800/30 to-rose-600/30 p-3 rounded-md shadow-md w-5/12 sm:w-5/12 lg:w-3/10">
-              <h3 className="text-base font-medium text-white mb-1">
-                Barcha Xarajatlar
-              </h3>
-              <p className="text-lg font-bold text-white">
-                {formatCurrency(summaryStats.totalExpensesAmount)}
-              </p>
-            </div>
-            <div className="bg-gradient-to-br from-green-800/30 to-green-600/30 p-3 rounded-md shadow-md w-5/12 sm:w-5/12 lg:w-3/10">
+            <div className="bg-gradient-to-br from-green-800/30 to-green-600/30 p-3 rounded-md shadow-md w-[48.0%] sm:w-5/12 lg:w-3/10">
               <h3 className="text-base font-medium text-white mb-1">
                 Yalpi Foyda
               </h3>
@@ -391,7 +383,7 @@ const DashboardPage = () => {
                 {formatCurrency(summaryStats.grossProfit)}
               </p>
             </div>
-            <div className="bg-gradient-to-br from-emerald-800/30 to-emerald-600/30 p-3 rounded-md shadow-md w-5/12 sm:w-5/12 lg:w-3/10">
+            <div className="bg-gradient-to-br from-emerald-800/30 to-emerald-600/30 p-3 rounded-md shadow-md w-[48.0%] sm:w-5/12 lg:w-3/10">
               <h3 className="text-base font-medium text-white mb-1">
                 Sof Foyda
               </h3>
@@ -399,7 +391,7 @@ const DashboardPage = () => {
                 {formatCurrency(summaryStats.netProfit)}
               </p>
             </div>
-            <div className="bg-gradient-to-br from-indigo-800/30 to-indigo-600/30 p-3 rounded-md shadow-md w-5/12 sm:w-5/12 lg:w-3/10">
+            <div className="bg-gradient-to-br from-indigo-800/30 to-indigo-600/30 p-3 rounded-md shadow-md w-[48.0%] sm:w-5/12 lg:w-3/10">
               <h3 className="text-base font-medium text-white mb-1">
                 Foydalilik
               </h3>
@@ -412,7 +404,7 @@ const DashboardPage = () => {
                   : "0%"}
               </p>
             </div>
-            <div className="bg-gradient-to-br from-yellow-800/30 to-yellow-600/30 p-3 rounded-md shadow-md w-5/12 sm:w-5/12 lg:w-3/10">
+            <div className="bg-gradient-to-br from-yellow-800/30 to-yellow-600/30 p-3 rounded-md shadow-md w-[48.0%] sm:w-6/12 lg:w-3/10">
               <h3 className="text-base font-medium text-white mb-1">
                 Buyurtma Xarajatlari
               </h3>
@@ -421,7 +413,6 @@ const DashboardPage = () => {
               </p>
             </div>
           </div>
-
           {/* Charts Section */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4 mb-6">
             <div className="bg-gray-800/50 p-4 rounded-md shadow-md">
