@@ -128,216 +128,218 @@ const CreateRawMaterialPage = () => {
 
   return (
     <form
-      className="max-w-4xl mx-auto flex flex-wrap items-center gap-3 px-4 sm:px-6 md:px-10 pb-3 sm:pb-5"
+      className="w-full max-w-2xl flex flex-col gap-3 px-4 sm:px-6 md:px-10 mx-auto"
       onSubmit={handleSubmit}
     >
-      {/* ORDER NAME */}
-      <div className="w-full sm:flex-1 min-w-[200px]">
+      {/* Unit of Measurement */}
+      <div className="flex flex-col sm:flex-row gap-3">
+        <div className="w-full sm:flex-1 min-w-[200px]">
+          <label
+            className="block uppercase tracking-wide text-white text-sm font-bold mb-1"
+            htmlFor="unitOfMeasurement"
+          >
+            O'lchov birligi
+          </label>
+          <select
+            className="block appearance-none w-full bg-gray-200 border text-gray-700 py-2 px-3 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
+            id="unitOfMeasurement"
+            name="unitOfMeasurement"
+            value={formData.unitOfMeasurement}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Tanlang</option>
+            <option value="kg">Kilogram</option>
+            <option value="gr">Gramm</option>
+            <option value="meter">Metr</option>
+            <option value="dona">Dona</option>
+            <option value="liter">Liter</option>
+            <option value="qop">Qop</option>
+            <option value="metrkv">Metr kvadrat</option>
+          </select>
+        </div>
+      </div>
+
+      {/* Category */}
+      <div className="flex flex-col sm:flex-row gap-3">
+        <div className="w-full sm:flex-1 min-w-[200px]">
+          <label
+            className="block uppercase tracking-wide text-white text-sm font-bold mb-1"
+            htmlFor="rawMaterialCategory"
+          >
+            Kategoriya
+          </label>
+          <select
+            className="block appearance-none w-full bg-gray-200 border text-gray-700 py-2 px-3 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
+            id="rawMaterialCategory"
+            name="rawMaterialCategory"
+            value={formData.rawMaterialCategory}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Tanlang</option>
+            <option value="Machalka">Machalka</option>
+            <option value="Mehanizm">Mehanizm</option>
+            <option value="Kraska">Kraska</option>
+            <option value="Temir">Temir</option>
+            <option value="Material">Material</option>
+          </select>
+        </div>
+      </div>
+
+      {/* Raw Material Name */}
+      <div className="flex flex-col gap-1">
         <label
-          className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
-          htmlFor="orderName"
+          className="block uppercase tracking-wide text-white text-sm font-bold mb-1"
+          htmlFor="rawMaterialName"
         >
-          Buyurtma nomi
+          Xom ashyo nomi
         </label>
         <input
-          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-          id="orderName"
-          name="orderName"
+          className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
+          id="rawMaterialName"
+          name="rawMaterialName"
           type="text"
+          placeholder="Xom ashyo nomini kiriting"
+          value={formData.rawMaterialName}
+          onChange={handleChange}
           required
-          placeholder="Buyurtma nomi"
-          value={orderData.orderName}
-          onChange={handleChange}
         />
       </div>
 
-      {/* CUSTOMER NAME */}
-      <div className="w-full sm:flex-1 min-w-[200px]">
+      {/* Description */}
+      <div className="flex flex-col gap-1">
         <label
-          className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
-          htmlFor="orderCustomerName"
+          className="block uppercase tracking-wide text-white text-sm font-bold mb-1"
+          htmlFor="rawMaterialDescription"
         >
-          Mijoz ismi
+          Izoh
+        </label>
+        <textarea
+          className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
+          id="rawMaterialDescription"
+          name="rawMaterialDescription"
+          placeholder="Xom ashyo haqida ta'rif yozing"
+          value={formData.rawMaterialDescription}
+          onChange={handleChange}
+          rows={8}
+          style={{ maxHeight: "150px" }}
+        />
+      </div>
+
+      {/* Quantity and Price */}
+      <div className="flex flex-col sm:flex-row gap-3">
+        <div className="w-full sm:flex-1 min-w-[200px]">
+          <label
+            className="block uppercase tracking-wide text-white text-sm font-bold mb-1"
+            htmlFor="rawMaterialQuantity"
+          >
+            Miqdori
+          </label>
+          <input
+            className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
+            id="rawMaterialQuantity"
+            name="rawMaterialQuantity"
+            type="number"
+            placeholder="Miqdor kiriting"
+            value={formData.rawMaterialQuantity}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="w-full sm:flex-1 min-w-[200px]">
+          <label
+            className="block uppercase tracking-wide text-white text-sm font-bold mb-1"
+            htmlFor="rawMaterialPrice"
+          >
+            Narxi
+          </label>
+          <input
+            className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
+            id="rawMaterialPrice"
+            name="rawMaterialPrice"
+            type="number"
+            placeholder="Narx kiriting"
+            value={formData.rawMaterialPrice}
+            onChange={handleChange}
+            required
+          />
+        </div>
+      </div>
+
+      {/* Total Price */}
+      <div className="flex flex-col gap-1">
+        <label
+          className="block uppercase tracking-wide text-white text-sm font-bold mb-1"
+          htmlFor="totalPrice"
+        >
+          Jami Narxi
         </label>
         <input
-          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-          id="orderCustomerName"
-          name="orderCustomerName"
+          className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
+          id="totalPrice"
+          name="totalPrice"
           type="text"
-          required
-          placeholder="Mijoz ismi"
-          value={orderData.orderCustomerName}
-          onChange={handleChange}
+          value={totalPrice}
+          readOnly
         />
       </div>
 
-      {/* CUSTOMER PHONE NUMBER */}
-      <div className="w-full sm:flex-1 min-w-[200px]">
+      {/* Customer Name and Phone Number */}
+      <div className="flex flex-col gap-3">
         <label
-          className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
-          htmlFor="orderCustomerPhoneNumber"
+          className="block uppercase tracking-wide text-white text-sm font-bold mb-1"
+          htmlFor="customerName"
         >
-          Mijoz telefon raqami
-        </label>
-        <input
-          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-          id="orderCustomerPhoneNumber"
-          name="orderCustomerPhoneNumber"
-          type="text"
-          placeholder="Mijoz telefon raqami"
-          value={orderData.orderCustomerPhoneNumber || "+998"} // Set default value
-          onChange={handleChange}
-          onFocus={(e) => {
-            if (e.target.value === "") {
-              e.target.value = "+998"; // Auto-fill on focus if empty
-            }
-          }}
-          onBlur={(e) => {
-            if (e.target.value === "+998") {
-              e.target.value = "+998"; // Keep it as +998 if nothing else is entered
-            }
-          }}
-        />
-      </div>
-
-      {/* LOCATION */}
-      <div className="w-full sm:flex-1 min-w-[200px]">
-        <label
-          className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
-          htmlFor="orderLocation"
-        >
-          Manzil
-        </label>
-        <input
-          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-          id="orderLocation"
-          name="orderLocation"
-          type="text"
-          required
-          placeholder="Manzil"
-          value={orderData.orderLocation}
-          onChange={handleChange}
-        />
-      </div>
-
-      {/* CATEGORY */}
-      <div className="w-full sm:flex-1 min-w-[200px]">
-        <label
-          className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
-          htmlFor="orderCategory"
-        >
-          Buyurtma kategoriyasi
+          Ismi
         </label>
         <select
-          className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-3 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-          id="orderCategory"
-          name="orderCategory"
+          name="customerName"
+          onChange={handleCustomerChange}
+          className="block appearance-none w-full bg-gray-200 text-gray-700 py-2 px-3 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
           required
-          value={orderData.orderCategory}
-          onChange={handleChange}
         >
-          <option value="">Kategoriyani tanlang</option>
-          <option value="oshxona">Oshxona mebel</option>
-          <option value="yotoqxona">Yotoqxona mebel</option>
-          <option value="yumshoq mebel">Yumshoq mebel</option>
-          <option value="boshqa">Boshqalar</option>
+          <option value="">Ismni tanlang</option>
+          {customers.map((customer) => (
+            <option key={customer._id} value={customer.name}>
+              {customer.name}
+            </option>
+          ))}
         </select>
       </div>
 
-      {/* TYPE */}
-      <div className="w-full sm:flex-1 min-w-[200px]">
+      {/* Phone Number */}
+      <div className="flex flex-col gap-3">
         <label
-          className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
-          htmlFor="orderType"
+          className="block uppercase tracking-wide text-white text-sm font-bold mb-1"
+          htmlFor="phoneNumber"
         >
-          Buyurtma turi
-        </label>
-        <select
-          className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-3 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-          id="orderType"
-          name="orderType"
-          required
-          value={orderData.orderType}
-          onChange={handleChange}
-        >
-          <option value="">Tanlang</option>
-          <option value="bozor">Bozor</option>
-          <option value="buyurtma">Buyurtma</option>
-          <option value="boshqa">Boshqalar</option>
-        </select>
-      </div>
-
-      {/* TOTAL AMOUNT */}
-      <div className="w-full sm:flex-1 min-w-[200px]">
-        <label
-          className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
-          htmlFor="orderTotalAmount"
-        >
-          Buyurtma summasi
+          Telefon raqami
         </label>
         <input
-          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-          id="orderTotalAmount"
-          name="orderTotalAmount"
-          type="string"
-          required
-          placeholder="Buyurtma summasi"
-          value={orderData.orderTotalAmount}
-          onChange={handleChange}
-        />
-      </div>
-
-      {/* EXPENSES AMOUNT */}
-      <div className="w-full sm:flex-1 min-w-[200px]">
-        <label
-          className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
-          htmlFor="orderExpensesAmount"
-        >
-          Harajatlar summasi
-        </label>
-        <input
-          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-          id="orderExpensesAmount"
-          name="orderExpensesAmount"
-          type="string"
-          required
-          placeholder="Harajatlar summasi"
-          value={orderData.orderExpensesAmount}
-          onChange={handleChange}
-        />
-      </div>
-
-      {/* READY DATE */}
-      <div className="w-full sm:flex-1 min-w-[200px]">
-        <label
-          className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
-          htmlFor="orderReadyDate"
-        >
-          Buyurtma yetkazish vaqti
-        </label>
-        <input
-          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-          name="orderReadyDate"
-          type="date"
-          value={orderData.orderReadyDate}
-          onChange={handleChange}
+          className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
+          id="phoneNumber"
+          name="phoneNumber"
+          type="text"
+          value={formData.phoneNumber}
+          readOnly
         />
       </div>
 
       {/* PAYMENT SECTION */}
       <div className="w-full">
-        <h3 className="text-white text-base font-bold mb-2 sm:mb-4">
+        <h3 className="text-white text-lg font-bold mb-3">
           To'lov ma'lumotlari
         </h3>
 
         {/* Payment input form */}
-        <div className="flex flex-wrap gap-2 sm:gap-4 p-3 bg-gray-800 rounded-lg mb-3 sm:mb-4">
+        <div className="flex flex-col sm:flex-row flex-wrap gap-3 p-3 bg-gray-800 rounded-lg mb-3 sm:mb-4">
           <div className="w-full sm:flex-1 min-w-[120px]">
             <label className="block text-white text-xs font-bold mb-1">
               To'lov turi
             </label>
             <select
-              className="w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3"
+              className="w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 text-sm"
               name="paymentType"
               value={newPayment.paymentType}
               onChange={handlePaymentChange}
@@ -352,7 +354,7 @@ const CreateRawMaterialPage = () => {
               To'lov miqdori
             </label>
             <input
-              className="w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3"
+              className="w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 text-sm"
               type="number"
               name="amount"
               placeholder="Miqdor"
@@ -368,15 +370,15 @@ const CreateRawMaterialPage = () => {
             <DatePicker
               selected={newPayment.date}
               onChange={handleDateChange}
-              className="w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3"
+              className="w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 text-sm"
               dateFormat="yyyy-MM-dd"
             />
           </div>
 
-          <div className="flex items-end w-full sm:w-auto">
+          <div className="flex items-end w-full sm:w-auto mt-2 sm:mt-0">
             <button
               type="button"
-              className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-3 rounded w-full"
+              className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-3 rounded w-full sm:w-auto text-sm"
               onClick={addPayment}
             >
               To'lov qo'shish
@@ -385,19 +387,17 @@ const CreateRawMaterialPage = () => {
         </div>
 
         {/* Payment list */}
-        {orderData.orderPayments.length > 0 && (
-          <div className="mb-3 sm:mb-4">
+        {formData.payments.length > 0 && (
+          <div className="mb-3">
             <div className="bg-gray-800 rounded-lg p-3">
-              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-2">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2">
                 <h4 className="text-white font-bold text-sm">
                   To'lovlar ro'yxati
                 </h4>
                 <p className="text-white text-sm">
-                  Jami: {totalPaymentAmount} / {orderData.orderTotalAmount} (
-                  {orderData.orderTotalAmount > 0
-                    ? Math.round(
-                        (totalPaymentAmount / orderData.orderTotalAmount) * 100
-                      )
+                  Jami: {totalPaymentAmount} / {totalPrice} (
+                  {totalPrice > 0
+                    ? Math.round((totalPaymentAmount / totalPrice) * 100)
                     : 0}
                   %)
                 </p>
@@ -413,7 +413,7 @@ const CreateRawMaterialPage = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {orderData.orderPayments.map((payment, index) => (
+                    {formData.payments.map((payment, index) => (
                       <tr key={index} className="border-t border-gray-600">
                         <td className="p-2">
                           {payment.paymentType === "naqd" ? "Naqd" : "Plastik"}
@@ -439,55 +439,13 @@ const CreateRawMaterialPage = () => {
         )}
       </div>
 
-      {/* DESCRIPTION */}
-      <div className="w-full sm:flex-1 min-w-[200px]">
-        <label
-          className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
-          htmlFor="orderDescription"
-        >
-          Buyurtma tavsifi
-        </label>
-        <textarea
-          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-          id="orderDescription"
-          name="orderDescription"
-          required
-          placeholder="Buyurtma tavsifi"
-          value={orderData.orderDescription}
-          onChange={handleChange}
-          rows={8}
-          style={{ maxHeight: "150px", overflowY: "auto" }}
-        />
-      </div>
-
-      {/* EXPENSES DESCRIPTION */}
-      <div className="w-full sm:flex-1 min-w-[200px]">
-        <label
-          className="block uppercase tracking-wide text-white text-xs font-bold mb-1"
-          htmlFor="orderExpensesDescription"
-        >
-          Harajatlar tavsifi
-        </label>
-        <textarea
-          className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 resize-none overflow-auto"
-          id="orderExpensesDescription"
-          name="orderExpensesDescription"
-          required
-          placeholder="Harajatlar tavsifi"
-          value={orderData.orderExpensesDescription}
-          onChange={handleChange}
-          rows={8}
-          style={{ maxHeight: "150px", overflowY: "auto" }}
-        />
-      </div>
-
-      {/* SUBMIT BUTTON */}
+      {/* Submit Button */}
       <button
-        className="text-white font-bold w-full rounded px-4 py-2 bg-gradient-to-br from-pink-500 to-pink-500 hover:from-pink-600 hover:to-pink-600"
+        className="w-full py-2 px-3 mb-3 rounded bg-gradient-to-br from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold disabled:opacity-70 disabled:cursor-not-allowed text-sm"
         type="submit"
         disabled={loading}
       >
-        {loading ? "Saqlash..." : "Saqlash"}
+        {loading ? "Saqlanmoqda..." : "Saqlash"}
       </button>
     </form>
   );
