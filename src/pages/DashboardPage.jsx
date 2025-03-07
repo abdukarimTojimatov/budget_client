@@ -175,7 +175,7 @@ const DashboardPage = () => {
 
       // Process sharing data
       if (stats.sharings && stats.sharings.length > 0) {
-        const categories = stats.sharings.map((stat) => stat.category);
+        const categories = stats.sharings.map((stat) => stat.categoryName || (stat.category && stat.category.name) || 'Uncategorized');
         const amounts = stats.sharings.map((stat) => stat.totalAmount);
 
         // Generate colors
@@ -204,7 +204,7 @@ const DashboardPage = () => {
 
       // Process raw material data
       if (stats.rawMaterials && stats.rawMaterials.length > 0) {
-        const categories = stats.rawMaterials.map((stat) => stat.category);
+        const categories = stats.rawMaterials.map((stat) => stat.categoryName || (stat.category && stat.category.name) || 'Uncategorized');
         const amounts = stats.rawMaterials.map((stat) => stat.totalAmount);
 
         // Generate colors

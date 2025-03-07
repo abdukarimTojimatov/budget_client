@@ -6,7 +6,10 @@ export const CREATE_EXPENSE = gql`
       _id
       description
       paymentType
-      category
+      category {
+        _id
+        name
+      }
       amount
       date
     }
@@ -19,7 +22,10 @@ export const UPDATE_EXPENSE = gql`
       _id
       description
       paymentType
-      category
+      category {
+        _id
+        name
+      }
       amount
       date
     }
@@ -32,7 +38,10 @@ export const DELETE_EXPENSE = gql`
       _id
       description
       paymentType
-      category
+      category {
+        _id
+        name
+      }
       amount
       date
     }

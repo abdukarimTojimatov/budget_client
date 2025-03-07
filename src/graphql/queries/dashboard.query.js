@@ -16,11 +16,19 @@ export const GET_DASHBOARD_STATISTICS = gql`
         totalAmount
       }
       sharings {
-        category
+        category {
+          _id
+          name
+        }
+        categoryName
         totalAmount
       }
       rawMaterials {
-        category
+        category {
+          _id
+          name
+        }
+        categoryName
         totalAmount
       }
       customersWithDebt {
