@@ -50,8 +50,8 @@ const Pagination = ({
     return pageNumbers;
   };
 
-  return (
-    <div className="flex items-center justify-center space-x-2">
+  return totalPages > 1 ? (
+    <div className="flex items-center justify-center space-x-2 mb-2">
       {/* Previous button */}
       <button
         onClick={() => hasPrevPage && onPageChange(currentPage - 1)}
@@ -98,7 +98,7 @@ const Pagination = ({
         &raquo;
       </button>
     </div>
-  );
+  ) : null;
 };
 
 export default Pagination;

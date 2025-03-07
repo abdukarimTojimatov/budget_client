@@ -31,6 +31,7 @@ const CreateRawMaterialPage = () => {
   const [createRawMaterial, { loading }] = useMutation(CREATE_RAW_MATERIAL, {
     onCompleted: () => {
       toast.success("Muvaffaqiyatli yangilandi");
+
       navigate("/rawMaterial");
     },
     onError: (error) => {

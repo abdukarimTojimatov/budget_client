@@ -25,7 +25,7 @@ const OrderCard = ({ order }) => {
   const getCardClass = () => {
     const statusColors = {
       tolandi: "from-emerald-800/50 to-emerald-800/80",
-      qismantolandi: "from-blue-800/40 to-blue-500/60",
+      qisman: "from-blue-800/40 to-blue-500/60",
       tolanmadi: "from-red-700/40 to-red-500/50",
     };
     return (
@@ -131,8 +131,6 @@ const OrderCard = ({ order }) => {
             </tr>
           </tbody>
         </table>
-
-        {/* Status and Payment Status */}
         <div className="flex justify-between items-center mt-0.5 pt-0.5 border-t border-white/10">
           <div className="flex items-center">
             <span className="font-medium text-white/70 text-[10px] sm:text-xs">
@@ -154,7 +152,7 @@ const OrderCard = ({ order }) => {
               className={`ml-1 px-1.5 py-0.5 rounded-full text-[10px] sm:text-xs ${
                 order.orderPaymentStatus.toLowerCase() === "tolandi"
                   ? "bg-green-600/30"
-                  : order.orderPaymentStatus.toLowerCase() === "qismantolandi"
+                  : order.orderPaymentStatus.toLowerCase() === "qisman"
                   ? "bg-orange-600/30"
                   : "bg-red-600/30"
               }`}

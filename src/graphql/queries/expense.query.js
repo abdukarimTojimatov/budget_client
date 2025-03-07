@@ -37,7 +37,6 @@ export const GET_EXPENSE = gql`
         _id
         name
       }
-      categoryName
       amount
       date
     }

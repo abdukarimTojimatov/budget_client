@@ -36,7 +36,7 @@ const FilterBar = ({ onFilterChange }) => {
         className="p-2 border rounded"
       >
         <option value="">All Statuses</option>
-        <option value="qabul qilingan">Qabul Qilingan</option>
+        <option value="yangi">yangi</option>
         <option value="tayyorlanayabdi">Tayyorlanayabdi</option>
         <option value="tayyor">Tayyor</option>
         <option value="ornatildi">Ornatildi</option>
@@ -49,7 +49,7 @@ const FilterBar = ({ onFilterChange }) => {
       >
         <option value="">Payment Status</option>
         <option value="tolanmadi">Not Paid</option>
-        <option value="qismanTolandi">Partially Paid</option>
+        <option value="qisman">Partially Paid</option>
         <option value="tolandi">Fully Paid</option>
       </select>
     </div>

@@ -94,7 +94,7 @@ const RawMaterialsPage = () => {
 
   return (
     <div className="max-w-7xl mx-auto">
-      <div className="flex justify-start gap-3 items-center px-4">
+      <div className="flex justify-start gap-3 items-center ml-3 mr-3">
         {/* Filter Toggle Button */}
         <button
           onClick={() => setIsFiltersOpen(!isFiltersOpen)}
@@ -207,12 +207,65 @@ const RawMaterialsPage = () => {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-        {data?.getRawMaterials?.docs.map((rawMaterial) => (
-          <RawMaterialCard key={rawMaterial._id} rawMaterial={rawMaterial} />
-        ))}
-      </div>
-      {data?.getRawMaterials?.docs &&
+      {/* Loading State */}
+      {loading && (
+        <div className="flex justify-center items-center min-h-[200px]">
+          <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
+
+      {/* Error State */}
+      {error && (
+        <div className="p-8 bg-red-800/20 rounded-xl text-white text-center">
+          Error fetching rawMaterials. Please try again later.
+        </div>
+      )}
+
+      {!loading && !error && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 p-4">
+          {data?.getRawMaterials?.docs.length === 0 ? (
+            <div className="col-span-full bg-gray-800/50 rounded-xl px-6 py-12 flex flex-col items-center justify-center text-center">
+              <svg
+                className="w-16 h-16 text-gray-600 mb-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="1.5"
+                  d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
+                ></path>
+              </svg>
+              <p className="text-lg font-medium text-white">
+                Homashyolar topilmadi
+              </p>
+              <p className="text-gray-400 mt-1 mb-6">
+                Filtrlash parametrlarini o'zgartiring yoki yangi homashyolar
+                qo'shing
+              </p>
+              <Link
+                to="/orders/create"
+                className="bg-blue-800/40 hover:bg-blue-700/50 px-4 py-2 rounded-lg text-white transition-colors duration-200 text-sm"
+              >
+                + Yangi qo'shish
+              </Link>
+            </div>
+          ) : (
+            data?.getRawMaterials?.docs.map((rawMaterial) => (
+              <RawMaterialCard
+                key={rawMaterial._id}
+                rawMaterial={rawMaterial}
+              />
+            ))
+          )}
+        </div>
+      )}
+      {!loading &&
+        !error &&
+        data?.getRawMaterials?.docs &&
         data?.getRawMaterials?.docs.length > 0 && (
           <div className="mt-8 flex justify-center">
             <Pagination

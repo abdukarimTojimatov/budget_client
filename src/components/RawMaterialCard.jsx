@@ -69,6 +69,13 @@ const RawMaterialCard = ({ rawMaterial }) => {
               <td className="p-1">{rawMaterial.rawMaterialName}</td>
             </tr>
             <tr className="border-t border-white/10">
+              <th className="font-medium text-white/90">Izoh:</th>
+              <td className="p-1">
+                {rawMaterial.rawMaterialDescription}
+                so'm
+              </td>
+            </tr>
+            <tr className="border-t border-white/10">
               <th className="font-medium text-white/90">Miqdori:</th>
               <td className="p-1">
                 {rawMaterial.rawMaterialQuantity}{" "}
@@ -82,48 +89,40 @@ const RawMaterialCard = ({ rawMaterial }) => {
               </td>
             </tr>
             <tr className="border-t border-white/10">
-              <th className="font-medium text-white/90">Jami:</th>
+              <th className="font-medium text-white/90">Jami narxi:</th>
               <td className="p-1">
                 {rawMaterial.rawMaterialTotalPrice?.toLocaleString("uz-UZ")}{" "}
                 so'm
               </td>
             </tr>
             <tr className="border-t border-white/10">
-              <th className="font-medium text-white/90">Jami:</th>
+              <th className="font-medium text-white/90">To'langan:</th>
               <td className="p-1">
-                {rawMaterial.rawMaterialTotalPrice?.toLocaleString("uz-UZ")}{" "}
-                so'm
+                {rawMaterial.totalPaid.toLocaleString("uz-UZ")} so'm
               </td>
             </tr>
             <tr className="border-t border-white/10">
-              <th className="font-medium text-white/90">Qarz:</th>
+              <th className="font-medium text-white/90">Qarzimiz:</th>
               <td className="p-1">
                 {rawMaterial.totalDebt.toLocaleString("uz-UZ")} so'm
               </td>
             </tr>
             <tr className="border-t border-white/10">
-              <th className="font-medium text-white/90">To'lov holati:</th>
-              <td className="p-1">
-                {rawMaterial.paymentStatus ? "To'langan" : "Qarz"}
-              </td>
-            </tr>
-            <tr className="border-t border-white/10">
-              <th className="font-medium text-white/90">Taminotchi ismi:</th>
+              <th className="font-medium text-white/90">Taminotchi:</th>
               <td className="p-1 truncate">{rawMaterial.customerName}</td>
             </tr>
             <tr className="border-t border-white/10">
-              <th className="font-medium text-white/90">Telefon raqami:</th>
+              <th className="font-medium text-white/90">Telefoni:</th>
               <td className="p-1">{rawMaterial.phoneNumber}</td>
             </tr>
             <tr className="border-t border-white/10">
-              <th className="font-medium text-white/90">Telefon raqami:</th>
+              <th className="font-medium text-white/90">Sana:</th>
               <td className="p-1">{rawMaterial.date}</td>
             </tr>
           </tbody>
         </table>
 
-        {/* Payment Status */}
-        <div className="text-white flex flex-row w-full pt-0.5 justify-between items-center border-t border-white/10">
+        <div className="text-white flex flex-row pt-0.5 justify-between items-center border-t border-white/10">
           <span className="font-medium text-white/70 text-[10px] mt-1">
             To'lov:
           </span>

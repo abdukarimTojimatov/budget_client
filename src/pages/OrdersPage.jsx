@@ -64,10 +64,10 @@ const OrdersPage = () => {
           </button>
           <Link
             to="/orders/create"
-            className="px-4 py-2 rounded-lg ml-4 flex items-start gap-2 transition-colors bg-blue-800/30 hover:bg-blue-700/40 text-white"
+            className="px-4 py-2 rounded-lg ml-3 flex items-start gap-2 transition-colors bg-blue-800/30 hover:bg-blue-700/40 text-white"
           >
             <span className="text-xs sm:text-sm md:text-base">
-              Yangi buyurtma
+              Yangi qo'shish
             </span>
             <span>
               <FiPlusCircle className="h-6 w-6 pl-2" />
@@ -111,7 +111,7 @@ const OrdersPage = () => {
                 className="w-full bg-gray-700/80 text-white rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-600"
               >
                 <option value="">Hammasi</option>
-                <option value="qabul qilingan">qabul qilingan</option>
+                <option value="yangi">yangi</option>
                 <option value="tayyorlanayabdi">tayyorlanayabdi</option>
                 <option value="tayyor">tayyor</option>
                 <option value="ornatildi">ornatildi</option>
@@ -147,7 +147,7 @@ const OrdersPage = () => {
               >
                 <option value="">Hammasi</option>
                 <option value="tolanmadi">tolanmadi</option>
-                <option value="qismanTolandi">qismanTolandi</option>
+                <option value="qisman">qisman</option>
                 <option value="tolandi">tolandi</option>
               </select>
             </div>
@@ -186,7 +186,7 @@ const OrdersPage = () => {
 
         {/* Grid View of Orders */}
         {!loading && !error && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4">
             {data?.getOrders?.docs.length === 0 ? (
               <div className="col-span-full bg-gray-800/50 rounded-xl px-6 py-12 flex flex-col items-center justify-center text-center">
                 <svg
@@ -214,15 +214,12 @@ const OrdersPage = () => {
                   to="/orders/create"
                   className="bg-blue-800/40 hover:bg-blue-700/50 px-4 py-2 rounded-lg text-white transition-colors duration-200 text-sm"
                 >
-                  + Yangi buyurtma qo'shish
+                  + Yangi qo'shish
                 </Link>
               </div>
             ) : (
               data?.getOrders?.docs.map((order) => (
-                <div
-                  key={order._id}
-                  className="transform py-2 px-4 transition-transform duration-200 hover:scale-[1.02]"
-                >
+                <div key={order._id} className="">
                   <OrderCard order={order} />
                 </div>
               ))

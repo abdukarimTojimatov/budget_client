@@ -257,7 +257,7 @@ const OrderEditPage = () => {
             onChange={handleInputChange}
           >
             <option value="">Tanlang</option>
-            <option value="qabul qilingan">Qabul qilingan</option>
+            <option value="yangi">yangi</option>
             <option value="tayyorlanayabdi">Tayyorlanayabdi</option>
             <option value="tayyor">Tayyor</option>
             <option value="ornatildi">O'rnatildi</option>
@@ -324,7 +324,7 @@ const OrderEditPage = () => {
           >
             <option value="">Tanlang</option>
             <option value="tolanmadi">To'lanmadi</option>
-            <option value="qismanTolandi">Qisman to'landi</option>
+            <option value="qisman">Qisman to'landi</option>
             <option value="tolandi">To'landi</option>
           </select>
         </div>

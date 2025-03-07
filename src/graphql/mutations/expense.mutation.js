@@ -34,16 +34,6 @@ export const UPDATE_EXPENSE = gql`
 
 export const DELETE_EXPENSE = gql`
   mutation DeleteExpense($id: ID!) {
-    deleteExpense(id: $id) {
-      _id
-      description
-      paymentType
-      category {
-        _id
-        name
-      }
-      amount
-      date
-    }
+    deleteExpense(id: $id)
   }
 `;
