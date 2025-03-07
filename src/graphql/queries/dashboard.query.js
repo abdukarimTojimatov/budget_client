@@ -8,7 +8,11 @@ export const GET_DASHBOARD_STATISTICS = gql`
         orderTotalAmount
       }
       expenses {
-        category
+        category {
+          _id
+          name
+        }
+        categoryName
         totalAmount
       }
       sharings {

@@ -2,17 +2,20 @@ import React, { useState } from "react";
 import { useQuery } from "@apollo/client";
 import Card from "./Card";
 import { GET_EXPENSES } from "../graphql/queries/expense.query";
-import expenseCategories from "../constants/expenceCategories";
+import { GET_EXPENSE_CATEGORIES } from "../graphql/queries/expenseCategory.query";
 import Pagination from "./Pagination";
 import Filters from "./Filters";
 
 const Cards = () => {
-  const [category, setCategory] = useState("");
+  const [categoryId, setCategoryId] = useState("");
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const { data, loading } = useQuery(GET_EXPENSES, {
-    variables: { page, limit, category },
+    variables: { page, limit, categoryId },
   });
+  
+  // Fetch categories from the database
+  const { data: categoriesData, loading: categoriesLoading } = useQuery(GET_EXPENSE_CATEGORIES);
 
   const handleLimitChange = (event) => {
     setLimit(Number(event.target.value));
@@ -20,7 +23,7 @@ const Cards = () => {
   };
 
   const handleCategoryChange = (event) => {
-    setCategory(event.target.value);
+    setCategoryId(event.target.value);
     setPage(1);
   };
 
@@ -44,8 +47,9 @@ const Cards = () => {
             </h2> */}
             <div className="w-full sm:w-auto bg-gray-800/50 rounded-lg p-3">
               <Filters
-                categories={expenseCategories}
-                category={category}
+                categories={categoriesData?.getExpenseCategories?.docs || []}
+                categoryId={categoryId}
+                loading={categoriesLoading}
                 onCategoryChange={handleCategoryChange}
                 limit={limit}
                 onLimitChange={handleLimitChange}

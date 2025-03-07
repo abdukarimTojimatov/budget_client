@@ -19,6 +19,7 @@ import { Toaster } from "react-hot-toast";
 import SharingPage from "./pages/SharingPage";
 import SharingEditPage from "./pages/SharingEditPage";
 import DashboardPage from "./pages/DashboardPage";
+import EmployeesPage from "./pages/EmployeesPage";
 
 function App() {
   const { loading, data } = useQuery(GET_AUTHENTICATED_USER);
@@ -92,6 +93,12 @@ function App() {
           path="/expenses"
           element={data?.authUser ? <HomePage /> : <Navigate to="/login" />}
         />
+        {/* <Route
+          path="/employees"
+          element={
+            data?.authUser ? <EmployeesPage /> : <Navigate to="/login" />
+          }
+        /> */}
         <Route
           path="/rawMaterial/create"
           element={

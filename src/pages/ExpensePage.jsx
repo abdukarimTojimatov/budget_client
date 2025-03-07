@@ -1,5 +1,4 @@
 import React from "react";
-import expenceCategories from "../constants/expenceCategories"; // Import categories
 import { useMutation, useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
@@ -7,9 +6,13 @@ import {
   GET_EXPENSE,
   GET_EXPENSES_STATISTICS,
 } from "../graphql/queries/expense.query";
+import { GET_EXPENSE_CATEGORIES } from "../graphql/queries/expenseCategory.query";
 import { UPDATE_EXPENSE } from "../graphql/mutations/expense.mutation";
 import toast from "react-hot-toast";
 import ExpenseFormSkeleton from "../skeletons/ExpenseFormSkeleton";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import CategoryForm from "../components/CategoryForm";
 
 const ExpensePage = () => {
   const { id } = useParams();
@@ -19,25 +22,43 @@ const ExpensePage = () => {
     variables: { id: id },
   });
 
+  const { data: categoriesData, loading: categoriesLoading } = useQuery(
+    GET_EXPENSE_CATEGORIES,
+    {
+      variables: { limit: 100 },
+      fetchPolicy: "network-only",
+    }
+  );
+
   const [updateExpense, { loading: loadingUpdate }] =
     useMutation(UPDATE_EXPENSE);
+
+  const [showCategoryForm, setShowCategoryForm] = useState(false);
 
   const [formData, setFormData] = useState({
     description: data?.getExpense?.description || "",
     paymentType: data?.getExpense?.paymentType || "",
-    category: data?.getExpense?.category || "",
+    category: data?.getExpense?.category?._id || "",
     amount: data?.getExpense?.amount || "",
     date: data?.getExpense?.date || "",
   });
 
+  const [selectedDate, setSelectedDate] = useState(
+    data?.getExpense?.date ? new Date(data.getExpense.date) : new Date()
+  );
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const amount = parseFloat(formData.amount);
+    // Format the date to YYYY-MM-DD
+    const formattedDate = selectedDate.toISOString().split("T")[0];
+
     try {
       await updateExpense({
         variables: {
           input: {
             ...formData,
+            date: formattedDate,
             amount,
             _id: id,
           },
@@ -64,10 +85,14 @@ const ExpensePage = () => {
       setFormData({
         description: data?.getExpense?.description,
         paymentType: data?.getExpense?.paymentType,
-        category: data?.getExpense?.category,
+        category: data?.getExpense?.category?._id || "",
         amount: data?.getExpense?.amount,
         date: data?.getExpense?.date,
       });
+
+      if (data.getExpense.date) {
+        setSelectedDate(new Date(data.getExpense.date));
+      }
     }
   }, [data]);
 
@@ -138,29 +163,32 @@ const ExpensePage = () => {
           >
             Kategoriya
           </label>
-          <div className="relative">
+          <div className="flex">
             <select
-              className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded-l leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               id="category"
               name="category"
               onChange={handleInputChange}
-              defaultValue={formData.category}
+              value={formData.category}
+              disabled={categoriesLoading}
             >
-              {expenceCategories?.map((cat) => (
-                <option key={cat.value} value={cat.value}>
-                  {cat.label}
-                </option>
-              ))}
+              {categoriesLoading ? (
+                <option value="">Yuklanmoqda...</option>
+              ) : (
+                categoriesData?.getExpenseCategories?.docs?.map((cat) => (
+                  <option key={cat._id} value={cat._id}>
+                    {cat.name}
+                  </option>
+                ))
+              )}
             </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-              <svg
-                className="fill-current h-4 w-4"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-              >
-                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-              </svg>
-            </div>
+            <button
+              type="button"
+              onClick={() => setShowCategoryForm(true)}
+              className="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded-r focus:outline-none focus:ring-2 focus:ring-pink-500"
+            >
+              +
+            </button>
           </div>
         </div>
         <div className="flex flex-wrap gap-3">
@@ -192,15 +220,20 @@ const ExpensePage = () => {
             >
               Sana
             </label>
-            <input
-              type="date"
+            <DatePicker
+              selected={selectedDate}
+              onChange={(date) => {
+                setSelectedDate(date);
+                setFormData((prev) => ({
+                  ...prev,
+                  date: date.toISOString().split("T")[0],
+                }));
+              }}
+              dateFormat="yyyy-MM-dd"
               name="date"
               id="date"
-              className="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-[11px] px-4 mb-3 leading-tight focus:outline-none
-						 focus:bg-white"
-              placeholder="Sanani tanlang"
-              value={formData.date}
-              onChange={handleInputChange}
+              className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+              placeholderText="Sanani tanlang"
             />
           </div>
         </div>
@@ -214,6 +247,17 @@ const ExpensePage = () => {
           {loadingUpdate ? "Updating..." : "Update Expenses"}
         </button>
       </form>
+
+      {/* Category Form Modal */}
+      {showCategoryForm && (
+        <CategoryForm
+          onClose={() => setShowCategoryForm(false)}
+          onCategoryCreated={(newCategory) => {
+            // Auto-select the newly created category
+            setFormData((prev) => ({ ...prev, category: newCategory._id }));
+          }}
+        />
+      )}
     </div>
   );
 };

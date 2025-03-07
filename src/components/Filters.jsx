@@ -3,7 +3,8 @@ import React from "react";
 
 const Filters = ({
   categories,
-  category,
+  categoryId,
+  loading,
   onCategoryChange,
   limit,
   onLimitChange,
@@ -16,16 +17,21 @@ const Filters = ({
         </label>
         <select
           id="category"
-          value={category}
+          value={categoryId}
           onChange={onCategoryChange}
           className="w-full sm:w-auto bg-gray-700/80 text-white rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-600"
+          disabled={loading}
         >
           <option value="">Barchasi</option>
-          {categories?.map((cat) => (
-            <option key={cat.value} value={cat.value}>
-              {cat.label}
-            </option>
-          ))}
+          {loading ? (
+            <option value="" disabled>Yuklanmoqda...</option>
+          ) : (
+            Array.isArray(categories) ? categories.map((cat) => (
+              <option key={cat._id} value={cat._id}>
+                {cat.name}
+              </option>
+            )) : (<option value="" disabled>Kategoriyalar mavjud emas</option>)
+          )}
         </select>
       </div>
 

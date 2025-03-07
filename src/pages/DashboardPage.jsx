@@ -146,7 +146,7 @@ const DashboardPage = () => {
 
       // Process expense data
       if (stats.expenses && stats.expenses.length > 0) {
-        const categories = stats.expenses.map((stat) => stat.category);
+        const categories = stats.expenses.map((stat) => stat.categoryName || (stat.category && stat.category.name) || 'Uncategorized');
         const amounts = stats.expenses.map((stat) => stat.totalAmount);
 
         // Generate colors

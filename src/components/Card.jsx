@@ -20,11 +20,14 @@ const categoryColorMap = {
 
 const Card = ({ expense, authUser }) => {
   let { category, amount, date, paymentType, description, userId } = expense;
-  const cardClass = categoryColorMap[category] || categoryColorMap.default;
+  // Extract category name for display
+  const categoryName = category?.name || 'Uncategorized';
+  const cardClass = categoryColorMap[categoryName] || categoryColorMap.default;
   const [deleteExpense, { loading }] = useMutation(DELETE_EXPENSE);
-
+  
   description = description[0]?.toUpperCase() + description.slice(1);
-  category = category[0]?.toUpperCase() + category.slice(1);
+  // Format category name for display
+  const displayCategory = categoryName[0]?.toUpperCase() + categoryName.slice(1);
   paymentType = paymentType[0]?.toUpperCase() + paymentType.slice(1);
 
   const handleDelete = async () => {
@@ -58,7 +61,7 @@ const Card = ({ expense, authUser }) => {
           <div className="flex items-center">
             <div className="w-1.5 h-1.5 rounded-full bg-white mr-0.5"></div>
             <h2 className="text-base sm:text-lg font-bold text-white ml-2">
-              {category}
+              {displayCategory}
             </h2>
           </div>
           <div className="flex items-center gap-1">
