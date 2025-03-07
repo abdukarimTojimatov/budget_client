@@ -41,17 +41,19 @@ const OrdersPage = () => {
   return (
     <div className="max-w-7xl mx-auto">
       <div className="flex flex-col">
-        <div className="flex justify-between items-center mb-6 ">
+        <div className="flex justify-start items-center ml-3 mr-3">
           {/* <h1 className="text-2xl font-bold text-white">Buyurtmalar</h1> */}
           <button
             onClick={() => setIsFiltersOpen(!isFiltersOpen)}
-            className={`px-4 py-2 rounded-lg ml-4 flex items-start gap-2 transition-colors ${
+            className={`px-4 py-2 rounded-lg flex items-start gap-2 transition-colors ${
               isFiltersOpen
                 ? "bg-red-800/30 hover:bg-red-700/40 text-white"
                 : "bg-blue-800/30 hover:bg-blue-700/40 text-white"
             }`}
           >
-            <span className="">{isFiltersOpen ? "Yopish" : "Filtrlash"}</span>
+            <span className="text-xs sm:text-sm md:text-base">
+              {isFiltersOpen ? "Yopish" : "Filtrlash"}
+            </span>
             <span>
               {isFiltersOpen ? (
                 <FiMinusCircle className="h-6 w-6" />
@@ -64,7 +66,9 @@ const OrdersPage = () => {
             to="/orders/create"
             className="px-4 py-2 rounded-lg ml-4 flex items-start gap-2 transition-colors bg-blue-800/30 hover:bg-blue-700/40 text-white"
           >
-            <span className="">Yangi buyurtma</span>
+            <span className="text-xs sm:text-sm md:text-base">
+              Yangi buyurtma
+            </span>
             <span>
               <FiPlusCircle className="h-6 w-6 pl-2" />
             </span>
@@ -75,7 +79,7 @@ const OrdersPage = () => {
         <div
           className={`${
             isFiltersOpen ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
-          } bg-gray-800/50 p-4 rounded-xl shadow-lg border border-gray-700/30 mb-2 ml-4 mr-4`}
+          } bg-gray-800/50 p-4 rounded-xl shadow-lg border border-gray-700/30 ml-4 mr-4`}
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             <div>

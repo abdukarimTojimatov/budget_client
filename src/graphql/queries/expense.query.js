@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const GET_EXPENSES = gql`
-  query GetExpenses($page: Int, $limit: Int, $categoryId: ID) {
-    getExpenses(page: $page, limit: $limit, categoryId: $categoryId) {
+  query GetExpenses($page: Int, $limit: Int, $categoryId: ID, $startDate: String, $endDate: String) {
+    getExpenses(page: $page, limit: $limit, categoryId: $categoryId, startDate: $startDate, endDate: $endDate) {
       docs {
         _id
         description

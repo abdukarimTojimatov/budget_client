@@ -1,32 +1,36 @@
-import React, { useState, useEffect } from "react";
-import SharingCards from "../components/SharingCards";
-import SharingForm from "../components/SharingForm";
+import React, { useState } from "react";
+import Cards from "../components/Cards";
 import { FiPlusCircle, FiMinusCircle } from "react-icons/fi";
+import ExpenseForm from "../components/ExpenseForm";
 import { useQuery } from "@apollo/client";
-import { GET_SHARINGS } from "../graphql/queries/sharing.query";
-import sharingCategories from "../constants/sharingCategories";
-import Pagination from "../components/Pagination";
+import { GET_EXPENSE_CATEGORIES } from "../graphql/queries/expenseCategory.query";
 import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
-const SharingPage = () => {
-  const [isSharingFormOpen, setIsSharingFormOpen] = useState(false);
+const ExpensesPage = () => {
+  const [isExpenseFormOpen, setIsExpenseFormOpen] = useState(false);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
-  const [page, setPage] = useState(1);
+  const [categoryId, setCategoryId] = useState("");
   const [limit, setLimit] = useState(10);
-  const [category, setCategory] = useState("");
+  const [page, setPage] = useState(1);
   const [dateRange, setDateRange] = useState([null, null]);
   const [startDate, endDate] = dateRange;
 
   const [filterState, setFilterState] = useState({
     page: 1,
     limit: 10,
-    category: "",
+    categoryId: "",
     startDate: null,
     endDate: null,
   });
 
-  const toggleSharingForm = () => {
-    setIsSharingFormOpen(!isSharingFormOpen);
+  // Fetch categories for filter dropdown
+  const { data: categoriesData, loading: categoriesLoading } = useQuery(
+    GET_EXPENSE_CATEGORIES
+  );
+
+  const toggleExpenseForm = () => {
+    setIsExpenseFormOpen(!isExpenseFormOpen);
   };
 
   const handleLimitChange = (event) => {
@@ -34,38 +38,28 @@ const SharingPage = () => {
   };
 
   const handleCategoryChange = (event) => {
-    setCategory(event.target.value);
+    setCategoryId(event.target.value);
   };
 
   const applyFilters = () => {
-    // Format dates correctly accounting for timezone
-    const formatDate = (date) => {
-      if (!date) return null;
-      // Create a new date with local timezone information preserved
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, "0");
-      const day = String(date.getDate()).padStart(2, "0");
-      return `${year}-${month}-${day}`;
-    };
-
     setFilterState({
       page,
       limit,
-      category,
-      startDate: formatDate(startDate),
-      endDate: formatDate(endDate),
+      categoryId,
+      startDate: startDate ? startDate.toISOString().split("T")[0] : null,
+      endDate: endDate ? endDate.toISOString().split("T")[0] : null,
     });
   };
 
   const clearFilters = () => {
-    setCategory("");
+    setCategoryId("");
     setLimit(10);
     setPage(1);
     setDateRange([null, null]);
     setFilterState({
       page: 1,
       limit: 10,
-      category: "",
+      categoryId: "",
       startDate: null,
       endDate: null,
     });
@@ -98,18 +92,18 @@ const SharingPage = () => {
 
           {/* Add New Button */}
           <button
-            onClick={toggleSharingForm}
+            onClick={toggleExpenseForm}
             className={`px-4 py-2 rounded-lg flex items-start gap-2 transition-colors ${
-              isSharingFormOpen
+              isExpenseFormOpen
                 ? "bg-red-800/30 hover:bg-red-700/40 text-white"
                 : "bg-blue-800/30 hover:bg-blue-700/40 text-white"
             }`}
           >
             <span className="text-xs sm:text-sm md:text-base">
-              {isSharingFormOpen ? "Yopish" : "Yangi qo'shish"}
+              {isExpenseFormOpen ? "Yopish" : "Yangi qo'shish"}
             </span>
             <span>
-              {isSharingFormOpen ? (
+              {isExpenseFormOpen ? (
                 <FiMinusCircle className="h-6 w-6" />
               ) : (
                 <FiPlusCircle className="h-6 w-6 pl-2" />
@@ -117,28 +111,28 @@ const SharingPage = () => {
             </span>
           </button>
         </div>
-
-        {/* Filters Section */}
         <div
           className={`${
             isFiltersOpen ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
-          } bg-gray-800/50 p-4 rounded-xl shadow-lg border border-gray-700/30overflow-hidden transition-all duration-300 ease-in-out`}
+          } bg-gray-800/50 p-4 rounded-xl shadow-lg border border-gray-700/30 overflow-hidden transition-all duration-300 ease-in-out`}
         >
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {/* Category Filter */}
             <div>
               <label className="block text-white text-sm font-medium mb-1">
                 Kategoriya
               </label>
               <select
-                name="category"
-                value={category}
+                name="categoryId"
+                value={categoryId}
                 onChange={handleCategoryChange}
                 className="w-full bg-gray-700/80 text-white rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-600"
+                disabled={categoriesLoading}
               >
                 <option value="">Hammasi</option>
-                {sharingCategories.map((cat) => (
-                  <option key={cat.value} value={cat.value}>
-                    {cat.label}
+                {categoriesData?.getExpenseCategories?.docs?.map((cat) => (
+                  <option key={cat._id} value={cat._id}>
+                    {cat.name}
                   </option>
                 ))}
               </select>
@@ -153,13 +147,17 @@ const SharingPage = () => {
                 selectsRange={true}
                 startDate={startDate}
                 endDate={endDate}
-                onChange={(update) => setDateRange(update)}
+                onChange={(update) => {
+                  setDateRange(update);
+                }}
+                isClearable={true}
                 className="w-full bg-gray-700/80 text-white rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-600"
-                placeholderText="Sana tanlang"
+                placeholderText="Sanani tanlang"
                 dateFormat="yyyy/MM/dd"
               />
             </div>
 
+            {/* Limit Dropdown */}
             <div>
               <label className="block text-white text-sm font-medium mb-1">
                 Cheklov
@@ -175,6 +173,8 @@ const SharingPage = () => {
                 <option value="50">50</option>
               </select>
             </div>
+
+            {/* Action Buttons */}
             <div className="flex items-end">
               <button
                 onClick={applyFilters}
@@ -191,25 +191,21 @@ const SharingPage = () => {
             </div>
           </div>
         </div>
-
-        {/* Add Form Section */}
         <div
           className={`transition-all duration-500 ease-in-out overflow-hidden ${
-            isSharingFormOpen
+            isExpenseFormOpen
               ? "max-h-[1000px] opacity-100"
               : "max-h-0 opacity-0"
           }`}
         >
           <div className="bg-gray-800/50 p-6 rounded-xl shadow-lg border border-gray-700/30">
-            <SharingForm toggleSharingForm={toggleSharingForm} />
+            <ExpenseForm toggleExpenseForm={toggleExpenseForm} />
           </div>
         </div>
-
-        {/* Render the SharingCards component with filtered props */}
-        <SharingCards
+        <Cards
           initialPage={filterState.page}
           initialLimit={filterState.limit}
-          initialCategory={filterState.category}
+          initialCategoryId={filterState.categoryId}
           initialStartDate={filterState.startDate}
           initialEndDate={filterState.endDate}
         />
@@ -218,4 +214,4 @@ const SharingPage = () => {
   );
 };
 
-export default SharingPage;
+export default ExpensesPage;

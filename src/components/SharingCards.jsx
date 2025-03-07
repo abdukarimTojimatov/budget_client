@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import SharingCard from "./SharingCard";
 import { GET_SHARINGS } from "../graphql/queries/sharing.query";
@@ -6,12 +6,45 @@ import sharingCategories from "../constants/sharingCategories";
 import Pagination from "./Pagination";
 import Filters from "./Filters";
 
-const SharingCards = () => {
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
-  const [category, setCategory] = useState("");
+const SharingCards = ({
+  initialPage = 1,
+  initialLimit = 10,
+  initialCategory = "",
+  initialStartDate = null,
+  initialEndDate = null,
+}) => {
+  const [page, setPage] = useState(initialPage);
+  const [limit, setLimit] = useState(initialLimit);
+  const [category, setCategory] = useState(initialCategory);
+  const [startDate, setStartDate] = useState(initialStartDate);
+  const [endDate, setEndDate] = useState(initialEndDate);
+
+  // Update local state when props change
+  useEffect(() => {
+    setPage(initialPage);
+    setLimit(initialLimit);
+    setCategory(initialCategory);
+    setStartDate(initialStartDate);
+    setEndDate(initialEndDate);
+  }, [
+    initialPage,
+    initialLimit,
+    initialCategory,
+    initialStartDate,
+    initialEndDate,
+  ]);
+  // Format dates properly for GraphQL if they exist
+  const formattedStartDate = startDate || null;
+  const formattedEndDate = endDate || null;
+
   const { data, loading } = useQuery(GET_SHARINGS, {
-    variables: { page, limit, category },
+    variables: {
+      page,
+      limit,
+      category,
+      startDate: formattedStartDate,
+      endDate: formattedEndDate,
+    },
   });
 
   const handleLimitChange = (event) => {
@@ -37,24 +70,9 @@ const SharingCards = () => {
           </p>
         </div>
       ) : (
-        <div className="space-y-8">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            {/* <h2 className="text-2xl sm:text-3xl font-bold text-white">
-              Barcha taqsimotlar
-            </h2> */}
-            <div className="w-full sm:w-auto bg-gray-800/50 rounded-lg p-3">
-              <Filters
-                categories={sharingCategories}
-                category={category}
-                onCategoryChange={handleCategoryChange}
-                limit={limit}
-                onLimitChange={handleLimitChange}
-              />
-            </div>
-          </div>
-
+        <div className="">
           {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {[...Array(6)].map((_, index) => (
                 <div
                   key={index}
@@ -63,7 +81,7 @@ const SharingCards = () => {
               ))}
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {data?.getSharings?.docs.map((sharing) => (
                 <SharingCard sharing={sharing} key={sharing._id} />
               ))}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import Card from "./Card";
 import { GET_EXPENSES } from "../graphql/queries/expense.query";
@@ -6,16 +6,51 @@ import { GET_EXPENSE_CATEGORIES } from "../graphql/queries/expenseCategory.query
 import Pagination from "./Pagination";
 import Filters from "./Filters";
 
-const Cards = () => {
-  const [categoryId, setCategoryId] = useState("");
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
+const Cards = ({
+  initialPage = 1,
+  initialLimit = 10,
+  initialCategoryId = "",
+  initialStartDate = null,
+  initialEndDate = null,
+}) => {
+  const [categoryId, setCategoryId] = useState(initialCategoryId);
+  const [page, setPage] = useState(initialPage);
+  const [limit, setLimit] = useState(initialLimit);
+  const [startDate, setStartDate] = useState(initialStartDate);
+  const [endDate, setEndDate] = useState(initialEndDate);
+
+  // Update local state when props change
+  useEffect(() => {
+    setCategoryId(initialCategoryId);
+    setPage(initialPage);
+    setLimit(initialLimit);
+    setStartDate(initialStartDate);
+    setEndDate(initialEndDate);
+  }, [
+    initialCategoryId,
+    initialPage,
+    initialLimit,
+    initialStartDate,
+    initialEndDate,
+  ]);
+  // Format dates properly for GraphQL if they exist
+  const formattedStartDate = startDate || null;
+  const formattedEndDate = endDate || null;
+
   const { data, loading } = useQuery(GET_EXPENSES, {
-    variables: { page, limit, categoryId },
+    variables: {
+      page,
+      limit,
+      categoryId,
+      startDate: formattedStartDate,
+      endDate: formattedEndDate,
+    },
   });
-  
+
   // Fetch categories from the database
-  const { data: categoriesData, loading: categoriesLoading } = useQuery(GET_EXPENSE_CATEGORIES);
+  const { data: categoriesData, loading: categoriesLoading } = useQuery(
+    GET_EXPENSE_CATEGORIES
+  );
 
   const handleLimitChange = (event) => {
     setLimit(Number(event.target.value));
@@ -40,25 +75,9 @@ const Cards = () => {
           </p>
         </div>
       ) : (
-        <div className="space-y-8">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            {/* <h2 className="text-2xl sm:text-3xl font-bold text-white">
-              Barcha harajatlar
-            </h2> */}
-            <div className="w-full sm:w-auto bg-gray-800/50 rounded-lg p-3">
-              <Filters
-                categories={categoriesData?.getExpenseCategories?.docs || []}
-                categoryId={categoryId}
-                loading={categoriesLoading}
-                onCategoryChange={handleCategoryChange}
-                limit={limit}
-                onLimitChange={handleLimitChange}
-              />
-            </div>
-          </div>
-
+        <div className="">
           {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {[...Array(6)].map((_, index) => (
                 <div
                   key={index}
@@ -67,7 +86,7 @@ const Cards = () => {
               ))}
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {data?.getExpenses?.docs.map((expense) => (
                 <Card expense={expense} key={expense._id} />
               ))}

@@ -4,6 +4,7 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import ExpensePage from "./pages/ExpensePage";
+import ExpensesPage from "./pages/ExpensesPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import CreateOrderPage from "./pages/CreateOrderPage";
 import OrdersPage from "./pages/OrdersPage";
@@ -91,7 +92,7 @@ function App() {
         />
         <Route
           path="/expenses"
-          element={data?.authUser ? <HomePage /> : <Navigate to="/login" />}
+          element={data?.authUser ? <ExpensesPage /> : <Navigate to="/login" />}
         />
         {/* <Route
           path="/employees"

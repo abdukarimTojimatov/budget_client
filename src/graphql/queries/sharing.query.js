@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const GET_SHARINGS = gql`
-  query GetSharings($page: Int, $limit: Int, $category: String) {
-    getSharings(page: $page, limit: $limit, category: $category) {
+  query GetSharings($page: Int, $limit: Int, $category: String, $startDate: String, $endDate: String) {
+    getSharings(page: $page, limit: $limit, category: $category, startDate: $startDate, endDate: $endDate) {
       docs {
         _id
         sharingDescription

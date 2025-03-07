@@ -21,13 +21,14 @@ const categoryColorMap = {
 const Card = ({ expense, authUser }) => {
   let { category, amount, date, paymentType, description, userId } = expense;
   // Extract category name for display
-  const categoryName = category?.name || 'Uncategorized';
+  const categoryName = category?.name || "Uncategorized";
   const cardClass = categoryColorMap[categoryName] || categoryColorMap.default;
   const [deleteExpense, { loading }] = useMutation(DELETE_EXPENSE);
-  
+
   description = description[0]?.toUpperCase() + description.slice(1);
   // Format category name for display
-  const displayCategory = categoryName[0]?.toUpperCase() + categoryName.slice(1);
+  const displayCategory =
+    categoryName[0]?.toUpperCase() + categoryName.slice(1);
   paymentType = paymentType[0]?.toUpperCase() + paymentType.slice(1);
 
   const handleDelete = async () => {
@@ -53,7 +54,7 @@ const Card = ({ expense, authUser }) => {
 
   return (
     <div
-      className={`rounded-xl p-6 bg-gradient-to-br ${cardClass} shadow-lg backdrop-blur-sm border border-gray-700/20`}
+      className={`rounded-xl p-6 bg-gradient-to-br from-emerald-700/40 to-emerald-600/70 shadow-lg backdrop-blur-sm border border-gray-700/20`}
     >
       <div className="flex flex-col gap-1">
         {/* Header with category and action buttons */}

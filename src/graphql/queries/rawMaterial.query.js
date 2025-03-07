@@ -1,8 +1,20 @@
 import { gql } from "@apollo/client";
 
 export const GET_RAW_MATERIALS = gql`
-  query GetRawMaterials($page: Int, $limit: Int) {
-    getRawMaterials(page: $page, limit: $limit) {
+  query GetRawMaterials(
+    $page: Int
+    $limit: Int
+    $category: ID
+    $startDate: String
+    $endDate: String
+  ) {
+    getRawMaterials(
+      page: $page
+      limit: $limit
+      category: $category
+      startDate: $startDate
+      endDate: $endDate
+    ) {
       docs {
         _id
         customerName
