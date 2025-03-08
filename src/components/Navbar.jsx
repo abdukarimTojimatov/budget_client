@@ -27,12 +27,7 @@ const Navbar = () => {
             >
               Dashboard
             </button>
-            <button
-              onClick={() => handleNavigation("/sharings")}
-              className="text-white hover:text-indigo-400 transition-colors duration-200 text-sm sm:text-base md:text-lg lg:text-xl"
-            >
-              Ulush
-            </button>
+
             <button
               onClick={() => handleNavigation("/orders")}
               className="text-white hover:text-indigo-400 transition-colors duration-200 text-sm sm:text-base md:text-lg lg:text-xl"
@@ -50,6 +45,12 @@ const Navbar = () => {
               className="text-white hover:text-indigo-400 transition-colors duration-200 text-sm sm:text-base md:text-lg lg:text-xl"
             >
               Harajat
+            </button>
+            <button
+              onClick={() => handleNavigation("/sharings")}
+              className="text-white hover:text-indigo-400 transition-colors duration-200 text-sm sm:text-base md:text-lg lg:text-xl"
+            >
+              Ulush
             </button>
           </div>
         </div>

@@ -121,7 +121,6 @@ const RawMaterialCard = ({ rawMaterial }) => {
             </tr>
           </tbody>
         </table>
-
         <div className="text-white flex flex-row pt-0.5 justify-between items-center border-t border-white/10">
           <span className="font-medium text-white/70 text-[10px] mt-1">
             To'lov:
