@@ -69,3 +69,12 @@ export const DELETE_ORDER = gql`
     }
   }
 `;
+
+export const UPLOAD_ORDER_IMAGE = gql`
+  mutation UploadOrderImage($orderId: ID!, $file: Upload!) {
+    uploadOrderImage(orderId: $orderId, file: $file) {
+      _id
+      images
+    }
+  }
+`;

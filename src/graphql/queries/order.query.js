@@ -42,6 +42,7 @@ export const GET_ORDERS = gql`
           amount
           date
         }
+        images
       }
       totalDocs
       limit
@@ -79,6 +80,7 @@ export const GET_ORDER = gql`
         amount
         date
       }
+      images
       date
     }
   }

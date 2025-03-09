@@ -5,13 +5,15 @@ import { useParams, useNavigate } from "react-router-dom";
 import { GET_ORDER } from "../graphql/queries/order.query"; // Adjust the path as necessary
 import { UPDATE_ORDER } from "../graphql/mutations/order.mutation"; // Adjust the path as necessary
 import OrderFormSkeleton from "../skeletons/OrderFormSkeleton"; // Adjust the path as necessary
+import ImageUploader from "../components/ImageUpload/ImageUploader";
+import ImageGallery from "../components/ImageUpload/ImageGallery";
 import toast from "react-hot-toast";
 
 const OrderEditPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   console.log("id", id);
-  const { loading, data } = useQuery(GET_ORDER, {
+  const { loading, data, refetch } = useQuery(GET_ORDER, {
     variables: { id: id },
   });
 
@@ -479,6 +481,22 @@ const OrderEditPage = () => {
         >
           To'lov qo'shish
         </button>
+
+        {/* Images Section */}
+        <div className="w-full mt-4">
+          <h3 className="text-white font-bold text-lg mb-3">Rasmlar</h3>
+          {id && <ImageUploader orderId={id} />}
+          {data?.getOrder?.images && (
+            <ImageGallery
+              images={data.getOrder.images}
+              orderId={id}
+              onImageDeleted={() => {
+                refetch();
+                toast.success("Order information updated");
+              }}
+            />
+          )}
+        </div>
 
         {/* Submit Button */}
         <button

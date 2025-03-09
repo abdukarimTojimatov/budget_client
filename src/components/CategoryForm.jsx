@@ -9,7 +9,7 @@ const CategoryForm = ({ onClose, onCategoryCreated }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!name.trim()) {
       toast.error("Kategoriya nomi kiritilishi shart");
       return;
@@ -17,18 +17,18 @@ const CategoryForm = ({ onClose, onCategoryCreated }) => {
 
     try {
       const { data } = await createCategory({
-        variables: { 
-          input: { name: name.trim() } 
+        variables: {
+          input: { name: name.trim() },
         },
         refetchQueries: ["GetExpenseCategories"],
       });
-      
+
       toast.success("Kategoriya muvaffaqiyatli yaratildi");
-      
+
       if (onCategoryCreated) {
         onCategoryCreated(data.createExpenseCategory);
       }
-      
+
       onClose();
     } catch (error) {
       toast.error(error.message || "Kategoriya yaratishda xatolik yuz berdi");
@@ -40,19 +40,30 @@ const CategoryForm = ({ onClose, onCategoryCreated }) => {
       <div className="bg-gray-800 rounded-lg p-6 w-full max-w-md">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl text-white font-bold">Yangi kategoriya</h2>
-          <button 
-            onClick={onClose}
-            className="text-gray-400 hover:text-white"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+          <button onClick={onClose} className="text-gray-400 hover:text-white">
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M6 18L18 6M6 6l12 12"
+              ></path>
             </svg>
           </button>
         </div>
-        
+
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="name" className="block text-white text-sm font-bold mb-2">
+            <label
+              htmlFor="name"
+              className="block text-white text-sm font-bold mb-2"
+            >
               Kategoriya nomi
             </label>
             <input
@@ -64,7 +75,7 @@ const CategoryForm = ({ onClose, onCategoryCreated }) => {
               placeholder="Kategoriya nomini kiriting"
             />
           </div>
-          
+
           <div className="flex justify-end">
             <button
               type="button"

@@ -1,13 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaTrash } from "react-icons/fa";
 import { HiPencilAlt } from "react-icons/hi";
+import { FaImages } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { DELETE_ORDER } from "../graphql/mutations/order.mutation";
 import toast from "react-hot-toast";
+import { baseURL } from "../utils/apiConfig";
+
+// Import Swiper components and styles
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 const OrderCard = ({ order }) => {
   const [deleteOrder, { loading }] = useMutation(DELETE_ORDER);
+  const [showImageGallery, setShowImageGallery] = useState(false);
+  const [initialSlide, setInitialSlide] = useState(0);
 
   const handleDelete = async () => {
     try {
@@ -129,9 +140,23 @@ const OrderCard = ({ order }) => {
               <th className="font-medium text-white/70">Sana:</th>
               <td className="p-1">{order.date}</td>
             </tr>
+            <tr className="border-t border-white/10">
+              <th className="font-medium text-white/70">Holati:</th>
+              <td className="p-1">{order.orderStatus}</td>
+            </tr>{" "}
+            <tr className="border-t border-white/10">
+              <th className="font-medium text-white/70 ">To'lov:</th>
+              <td
+                className={`p-1 rounded-full ${getCardClass(
+                  order.orderStatus
+                )}`}
+              >
+                {order.orderPaymentStatus}
+              </td>
+            </tr>
           </tbody>
         </table>
-        <div className="flex justify-between items-center mt-0.5 pt-0.5 border-t border-white/10">
+        {/* <div className="flex justify-between items-center mt-0.5 pt-0.5 border-t border-white/10">
           <div className="flex items-center">
             <span className="font-medium text-white/70 text-[10px] sm:text-xs">
               Holati:
@@ -160,8 +185,86 @@ const OrderCard = ({ order }) => {
               {order.orderPaymentStatus}
             </span>
           </div>
-        </div>
+        </div> */}
+
+        {/* Image thumbnail section - only visible if there are images */}
+        {order.images && order.images.length > 0 && (
+          <div className="border-t border-white/10 pt-2">
+            <div className="flex items-center justify-between">
+              <span className="text-white/70 text-[10px] sm:text-xs flex items-center gap-1">
+                <FaImages className="text-white/90" />
+                Rasmlar: {order.images.length}
+              </span>
+              <div className="flex">
+                {order.images.slice(0, 3).map((imageUrl, index) => (
+                  <div
+                    key={index}
+                    className="relative h-8 w-8 cursor-pointer ml-1 rounded overflow-hidden"
+                    onClick={() => {
+                      setInitialSlide(index);
+                      setShowImageGallery(true);
+                    }}
+                  >
+                    <img
+                      src={`${baseURL}${imageUrl}`}
+                      alt={`Order ${order.orderName} image ${index + 1}`}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                ))}
+                {order.images.length > 3 && (
+                  <div className="h-8 w-8 bg-gray-700/50 flex items-center justify-center rounded ml-1 text-[10px]">
+                    +{order.images.length - 3}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
+
+      {/* Swiper Image Gallery */}
+      {showImageGallery && order.images && order.images.length > 0 && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4"
+          onClick={() => setShowImageGallery(false)}
+        >
+          <div
+            className="relative w-full max-w-4xl max-h-screen"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="absolute top-4 right-4 text-white text-2xl bg-gray-800 rounded-full w-10 h-10 flex items-center justify-center z-50"
+              onClick={() => setShowImageGallery(false)}
+            >
+              &times;
+            </button>
+
+            <Swiper
+              modules={[Navigation, Pagination]}
+              navigation
+              pagination={{ clickable: true }}
+              spaceBetween={30}
+              slidesPerView={1}
+              initialSlide={initialSlide}
+              className="h-[80vh] w-full"
+            >
+              {order.images.map((imageUrl, index) => (
+                <SwiperSlide
+                  key={index}
+                  className="flex items-center justify-center"
+                >
+                  <img
+                    src={`${baseURL}${imageUrl}`}
+                    alt={`Order ${order.orderName} image ${index + 1}`}
+                    className="max-h-full max-w-full object-contain"
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
