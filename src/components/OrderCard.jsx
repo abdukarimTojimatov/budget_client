@@ -121,6 +121,12 @@ const OrderCard = ({ order }) => {
               </td>
             </tr>
             <tr className="border-t border-white/10">
+              <th className="font-medium text-white/70">Jami:</th>
+              <td className="p-1">
+                {order.orderExpensesAmount.toLocaleString("uz-UZ")} so'm
+              </td>
+            </tr>
+            <tr className="border-t border-white/10">
               <th className="font-medium text-white/70">To'landi:</th>
               <td className="p-1">
                 {order.orderTotalPaid?.toLocaleString("uz-UZ") || "0"} so'm
