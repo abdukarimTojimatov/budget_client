@@ -234,12 +234,20 @@ const OrderCard = ({ order }) => {
       {/* Swiper Image Gallery */}
       {showImageGallery && order.images && order.images.length > 0 && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-black bg-opacity-95 z-[9999] flex items-center justify-center p-4 overflow-hidden"
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+          }}
           onClick={() => setShowImageGallery(false)}
         >
           <div
-            className="relative w-full max-w-4xl max-h-screen"
+            className="relative w-full max-w-4xl max-h-[90vh] overflow-hidden"
             onClick={(e) => e.stopPropagation()}
+            style={{ isolation: 'isolate' }}
           >
             <button
               className="absolute top-4 right-4 text-white text-2xl bg-gray-800 rounded-full w-10 h-10 flex items-center justify-center z-50"
@@ -256,7 +264,7 @@ const OrderCard = ({ order }) => {
               spaceBetween={30}
               slidesPerView={1}
               initialSlide={initialSlide}
-              className="h-[80vh] w-full"
+              className="h-[80vh] w-full overflow-hidden swiper-no-swiping-container"
             >
               {order.images.map((imageUrl, index) => (
                 <SwiperSlide

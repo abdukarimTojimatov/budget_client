@@ -17,8 +17,8 @@ const graphqlURI = isLocalhost
   ? "http://localhost:4000/graphql"
   : `http://${window.location.hostname}:4000/graphql`;
 
-console.log(`Current hostname: ${window.location.hostname}`);
-console.log(`Using GraphQL endpoint: ${graphqlURI}`);
+// console.log(`Current hostname: ${window.location.hostname}`);
+// console.log(`Using GraphQL endpoint: ${graphqlURI}`);
 
 const client = new ApolloClient({
   uri: graphqlURI,
