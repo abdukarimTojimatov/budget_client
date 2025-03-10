@@ -8,6 +8,6 @@ const isLocalhost =
 const protocol = window.location.protocol; // Will be 'http:' or 'https:'
 const baseURL = isLocalhost
   ? "http://localhost:4000"
-  : `${protocol}//${window.location.hostname}/api`;
+  : `${protocol}//${window.location.hostname}`;
 
 export { baseURL };

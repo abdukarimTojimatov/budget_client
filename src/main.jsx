@@ -17,7 +17,7 @@ const serverIP = "92.112.180.30"; // Your server IP
 const protocol = window.location.protocol; // Will be 'http:' or 'https:'
 const graphqlURI = isLocalhost
   ? "http://localhost:4000/graphql"
-  : `${protocol}//${window.location.hostname}/api/graphql`;
+  : `${protocol}//${window.location.hostname}/graphql`;
 
 // console.log(`Current hostname: ${window.location.hostname}`);
 // console.log(`Using GraphQL endpoint: ${graphqlURI}`);
