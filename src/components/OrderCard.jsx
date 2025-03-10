@@ -10,10 +10,12 @@ import { baseURL } from "../utils/apiConfig";
 
 // Import Swiper components and styles
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules";
+import { Navigation, Pagination, Zoom } from "swiper/modules";
+import { FaDownload } from "react-icons/fa";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import "swiper/css/zoom";
 
 const OrderCard = ({ order }) => {
   const [deleteOrder, { loading }] = useMutation(DELETE_ORDER);
@@ -247,9 +249,10 @@ const OrderCard = ({ order }) => {
             </button>
 
             <Swiper
-              modules={[Navigation, Pagination]}
+              modules={[Navigation, Pagination, Zoom]}
               navigation
               pagination={{ clickable: true }}
+              zoom={{ maxRatio: 3 }}
               spaceBetween={30}
               slidesPerView={1}
               initialSlide={initialSlide}
@@ -260,11 +263,26 @@ const OrderCard = ({ order }) => {
                   key={index}
                   className="flex items-center justify-center"
                 >
-                  <img
-                    src={`${baseURL}${imageUrl}`}
-                    alt={`Order ${order.orderName} image ${index + 1}`}
-                    className="max-h-full max-w-full object-contain"
-                  />
+                  <div className="swiper-zoom-container">
+                    <img
+                      src={`${baseURL}${imageUrl}`}
+                      alt={`Order ${order.orderName} image ${index + 1}`}
+                      className="max-h-full max-w-full object-contain"
+                    />
+                  </div>
+                  
+                  {/* Download button */}
+                  <a
+                    href={`${baseURL}${imageUrl}`}
+                    download={`order-${order._id}-image-${index + 1}.jpg`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="absolute bottom-4 right-4 z-50 bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-lg transition-colors"
+                    title="Download image"
+                  >
+                    <FaDownload />
+                  </a>
                 </SwiperSlide>
               ))}
             </Swiper>
