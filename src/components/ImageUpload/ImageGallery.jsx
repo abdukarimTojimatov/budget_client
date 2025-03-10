@@ -23,7 +23,9 @@ const ImageGallery = ({ images = [], orderId, onImageDeleted }) => {
     setSelectedImage(null);
   };
 
-  const handleDeleteImage = async (imageUrl, orderId) => {
+  const handleDeleteImage = async (imageUrl, orderId, e) => {
+    // Prevent default behavior which might cause navigation
+    if (e) e.preventDefault();
     if (!orderId) return;
 
     try {
@@ -42,7 +44,8 @@ const ImageGallery = ({ images = [], orderId, onImageDeleted }) => {
 
         // Notify parent component about the image deletion
         if (onImageDeleted) {
-          onImageDeleted(imageUrl);
+          // Pass the event to prevent navigation
+          onImageDeleted(imageUrl, e);
         }
       }
     } catch (error) {
@@ -78,7 +81,7 @@ const ImageGallery = ({ images = [], orderId, onImageDeleted }) => {
                 onClick={(e) => e.stopPropagation()}
               >
                 <button
-                  onClick={() => handleDeleteImage(imageUrl, orderId)}
+                  onClick={(e) => handleDeleteImage(imageUrl, orderId, e)}
                   className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
                   title="Delete image"
                 >

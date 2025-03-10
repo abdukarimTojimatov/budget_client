@@ -293,18 +293,21 @@ const OrderCard = ({ order }) => {
                     </div>
                     
                     {/* Download button */}
-                    <a
-                      href={`${baseURL}${imageUrl}`}
-                      download={`order-${order._id}-image-${index + 1}.jpg`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        // Extract filename from the image URL
+                        const filename = imageUrl.split('/').pop();
+                        
+                        // Use the dedicated download endpoint
+                        window.location.href = `${baseURL}/api/download-order-image/${encodeURIComponent(filename)}`;
+                      }}
                       className="absolute bottom-4 right-4 z-[999999] bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-lg transition-colors"
                       title="Download image"
                       style={{ touchAction: 'manipulation' }}
                     >
                       <FaDownload />
-                    </a>
+                    </button>
                   </SwiperSlide>
                 ))}
               </Swiper>

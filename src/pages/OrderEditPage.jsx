@@ -490,9 +490,10 @@ const OrderEditPage = () => {
             <ImageGallery
               images={data.getOrder.images}
               orderId={id}
-              onImageDeleted={() => {
+              onImageDeleted={(imageUrl, e) => {
+                // Prevent any navigation event
+                if (e) e.preventDefault();
                 refetch();
-                toast.success("Order information updated");
               }}
             />
           )}
