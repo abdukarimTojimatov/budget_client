@@ -13,9 +13,10 @@ const isLocalhost =
 const serverIP = "92.112.180.30"; // Your server IP
 
 // Use the current hostname for the GraphQL endpoint to handle custom domains
+// Use HTTPS protocol for production to avoid mixed content errors
 const graphqlURI = isLocalhost
   ? "http://localhost:4000/graphql"
-  : `http://${window.location.hostname}:4000/graphql`;
+  : `https://${window.location.hostname}:4000/graphql`;
 
 // console.log(`Current hostname: ${window.location.hostname}`);
 // console.log(`Using GraphQL endpoint: ${graphqlURI}`);
