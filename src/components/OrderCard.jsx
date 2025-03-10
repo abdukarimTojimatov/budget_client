@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaTrash } from "react-icons/fa";
 import { HiPencilAlt } from "react-icons/hi";
 import { FaImages } from "react-icons/fa";
@@ -7,11 +7,13 @@ import { useMutation } from "@apollo/client";
 import { DELETE_ORDER } from "../graphql/mutations/order.mutation";
 import toast from "react-hot-toast";
 import { baseURL } from "../utils/apiConfig";
+import { createPortal } from "react-dom";
 
 // Import Swiper components and styles
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Zoom } from "swiper/modules";
 import { FaDownload } from "react-icons/fa";
+import { FaTimes } from "react-icons/fa";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -231,72 +233,86 @@ const OrderCard = ({ order }) => {
         )}
       </div>
 
-      {/* Swiper Image Gallery */}
-      {showImageGallery && order.images && order.images.length > 0 && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-95 z-[9999] flex items-center justify-center p-4 overflow-hidden"
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100vw',
-            height: '100vh',
-          }}
-          onClick={() => setShowImageGallery(false)}
-        >
-          <div
-            className="relative w-full max-w-4xl max-h-[90vh] overflow-hidden"
-            onClick={(e) => e.stopPropagation()}
-            style={{ isolation: 'isolate' }}
+      {/* Image Gallery Portal - rendered outside the normal DOM flow */}
+      {showImageGallery && order.images && order.images.length > 0 && 
+        createPortal(
+          <div 
+            className="fixed inset-0 bg-black bg-opacity-95 flex items-center justify-center p-2 overflow-hidden"
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              width: '100%',
+              height: '100%',
+              zIndex: 999999,
+              touchAction: 'none',
+            }}
+            onClick={() => setShowImageGallery(false)}
           >
-            <button
-              className="absolute top-4 right-4 text-white text-2xl bg-gray-800 rounded-full w-10 h-10 flex items-center justify-center z-50"
-              onClick={() => setShowImageGallery(false)}
+            <div 
+              className="relative w-full max-w-4xl max-h-[90vh]"
+              onClick={(e) => e.stopPropagation()}
+              style={{ 
+                isolation: 'isolate',
+                touchAction: 'none',
+              }}
             >
-              &times;
-            </button>
+              <button
+                className="absolute top-4 right-4 text-white bg-gray-800 rounded-full w-10 h-10 flex items-center justify-center z-[999999]"
+                onClick={() => setShowImageGallery(false)}
+                style={{ touchAction: 'manipulation' }}
+              >
+                <FaTimes />
+              </button>
 
-            <Swiper
-              modules={[Navigation, Pagination, Zoom]}
-              navigation
-              pagination={{ clickable: true }}
-              zoom={{ maxRatio: 3 }}
-              spaceBetween={30}
-              slidesPerView={1}
-              initialSlide={initialSlide}
-              className="h-[80vh] w-full overflow-hidden swiper-no-swiping-container"
-            >
-              {order.images.map((imageUrl, index) => (
-                <SwiperSlide
-                  key={index}
-                  className="flex items-center justify-center"
-                >
-                  <div className="swiper-zoom-container">
-                    <img
-                      src={`${baseURL}${imageUrl}`}
-                      alt={`Order ${order.orderName} image ${index + 1}`}
-                      className="max-h-full max-w-full object-contain"
-                    />
-                  </div>
-                  
-                  {/* Download button */}
-                  <a
-                    href={`${baseURL}${imageUrl}`}
-                    download={`order-${order._id}-image-${index + 1}.jpg`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="absolute bottom-4 right-4 z-50 bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-lg transition-colors"
-                    title="Download image"
+              <Swiper
+                modules={[Navigation, Pagination, Zoom]}
+                navigation
+                pagination={{ clickable: true }}
+                zoom={{ maxRatio: 3, toggle: true }}
+                spaceBetween={30}
+                slidesPerView={1}
+                initialSlide={initialSlide}
+                className="h-[80vh] w-full"
+                style={{ touchAction: 'pan-y' }}
+                preventInteractionOnTransition={true}
+              >
+                {order.images.map((imageUrl, index) => (
+                  <SwiperSlide
+                    key={index}
+                    className="flex items-center justify-center"
                   >
-                    <FaDownload />
-                  </a>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
-        </div>
-      )}
+                    <div className="swiper-zoom-container">
+                      <img
+                        src={`${baseURL}${imageUrl}`}
+                        alt={`Order ${order.orderName} image ${index + 1}`}
+                        className="max-h-full max-w-full object-contain"
+                      />
+                    </div>
+                    
+                    {/* Download button */}
+                    <a
+                      href={`${baseURL}${imageUrl}`}
+                      download={`order-${order._id}-image-${index + 1}.jpg`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="absolute bottom-4 right-4 z-[999999] bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-lg transition-colors"
+                      title="Download image"
+                      style={{ touchAction: 'manipulation' }}
+                    >
+                      <FaDownload />
+                    </a>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
+          </div>,
+          document.body
+        )
+      }
     </div>
   );
 };
