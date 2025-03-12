@@ -377,7 +377,6 @@ const CreateOrderPage = () => {
               onChange={handlePaymentChange}
             />
           </div>
-
           <div className="w-full sm:flex-1 min-w-[120px]">
             <label className="block text-white text-xs font-bold mb-1">
               To'lov sanasi

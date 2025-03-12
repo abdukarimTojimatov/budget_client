@@ -49,7 +49,8 @@ const OrderEditPage = () => {
         orderPayments: formData.orderPayments.map(
           ({ __typename, ...payment }) => ({
             ...payment,
-            amount: Number(payment.amount),
+            // Convert empty string to 0 and ensure amount is a number when submitting
+            amount: payment.amount === "" ? 0 : Number(payment.amount),
           })
         ),
       };
@@ -84,8 +85,16 @@ const OrderEditPage = () => {
   const handlePaymentChange = (index, e) => {
     const { name, value } = e.target;
     const updatedPayments = [...formData.orderPayments];
-    // Convert amount to number immediately when it's changed
-    updatedPayments[index][name] = name === "amount" ? Number(value) : value;
+    
+    // Store the raw value for amount fields to allow for partial input like '.' or empty string
+    if (name === "amount") {
+      // Allow empty string or valid numeric input including partial numbers
+      if (value === "" || !isNaN(value)) {
+        updatedPayments[index][name] = value;
+      }
+    } else {
+      updatedPayments[index][name] = value;
+    }
 
     setFormData((prevData) => ({
       ...prevData,

@@ -36,6 +36,7 @@ const CreateRawMaterialPage = () => {
     onError: (error) => {
       toast.error(error.message);
     },
+    refetchQueries: ["GetRawMaterials",""],
   });
 
   const handleSubmit = async (e) => {
