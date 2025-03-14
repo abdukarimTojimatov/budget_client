@@ -18,7 +18,7 @@ const categoryColorMap = {
   default: "from-gray-800/50 to-gray-600/50",
 };
 
-const Card = ({ expense, authUser }) => {
+const Card = ({ expense, authUser, onEdit }) => {
   let { category, amount, date, paymentType, description, userId } = expense;
   // Extract category name for display
   const categoryName = category?.name || "Uncategorized";
@@ -54,14 +54,14 @@ const Card = ({ expense, authUser }) => {
 
   return (
     <div
-      className={`rounded-xl p-6 bg-gradient-to-br from-emerald-700/40 to-emerald-600/70 shadow-lg backdrop-blur-sm border border-gray-700/20`}
+      className={`rounded-xl p-6 bg-gradient-to-br bg-cyan-800/80 shadow-lg backdrop-blur-sm border border-gray-700/20`}
     >
       <div className="flex flex-col gap-1">
         {/* Header with category and action buttons */}
         <div className="flex flex-row items-center justify-between mb-0.5">
           <div className="flex items-center">
             <div className="w-1.5 h-1.5 rounded-full bg-white mr-0.5"></div>
-            <h2 className="text-base sm:text-lg font-bold text-white ml-2">
+            <h2 className="text-base sm:text-lg font-bold text-red-300 ml-2">
               {displayCategory}
             </h2>
           </div>
@@ -76,11 +76,12 @@ const Card = ({ expense, authUser }) => {
             ) : (
               <div className="w-4 h-4 border-t-2 border-b-2 border-white/50 rounded-full animate-spin"></div>
             )}
-            <Link to={`/expenses/${expense._id}`}>
-              <button className="p-1 bg-blue-500/20 rounded-full hover:bg-blue-500/30 transition-colors duration-200">
-                <HiPencilAlt className="text-white/90" size={12} />
-              </button>
-            </Link>
+            <button
+              onClick={() => onEdit && onEdit(expense._id)}
+              className="p-1 bg-blue-500/20 rounded-full hover:bg-blue-500/30 transition-colors duration-200"
+            >
+              <HiPencilAlt className="text-white/90" size={12} />
+            </button>
           </div>
         </div>
 

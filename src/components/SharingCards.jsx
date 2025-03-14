@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import SharingCard from "./SharingCard";
+import SharingEditModal from "./SharingEditModal";
 import { GET_SHARINGS } from "../graphql/queries/sharing.query";
 import sharingCategories from "../constants/sharingCategories";
 import Pagination from "./Pagination";
@@ -18,6 +19,8 @@ const SharingCards = ({
   const [category, setCategory] = useState(initialCategory);
   const [startDate, setStartDate] = useState(initialStartDate);
   const [endDate, setEndDate] = useState(initialEndDate);
+  const [editingSharingId, setEditingSharingId] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   // Update local state when props change
   useEffect(() => {
@@ -60,6 +63,16 @@ const SharingCards = ({
   const hasNoSharings =
     !loading &&
     (!data?.getSharings?.docs || data?.getSharings?.docs.length === 0);
+    
+  const handleEditClick = (sharingId) => {
+    setEditingSharingId(sharingId);
+    setShowEditModal(true);
+  };
+  
+  const handleCloseEditModal = () => {
+    setShowEditModal(false);
+    setEditingSharingId(null);
+  };
 
   return (
     <div className="w-full px-3 min-h-[40vh]">
@@ -83,7 +96,11 @@ const SharingCards = ({
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {data?.getSharings?.docs.map((sharing) => (
-                <SharingCard sharing={sharing} key={sharing._id} />
+                <SharingCard 
+                  sharing={sharing} 
+                  key={sharing._id} 
+                  onEditClick={handleEditClick}
+                />
               ))}
             </div>
           )}
@@ -100,6 +117,15 @@ const SharingCards = ({
             </div>
           )}
         </div>
+      )}
+      
+      {/* Edit Modal outside of SharingCard */}
+      {showEditModal && editingSharingId && (
+        <SharingEditModal
+          isOpen={showEditModal}
+          onClose={handleCloseEditModal}
+          sharingId={editingSharingId}
+        />
       )}
     </div>
   );

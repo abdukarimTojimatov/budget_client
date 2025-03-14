@@ -19,7 +19,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/zoom";
 
-const OrderCard = ({ order }) => {
+const OrderCard = ({ order, onEdit }) => {
   const [deleteOrder, { loading }] = useMutation(DELETE_ORDER);
   const [showImageGallery, setShowImageGallery] = useState(false);
   const [initialSlide, setInitialSlide] = useState(0);
@@ -60,15 +60,13 @@ const OrderCard = ({ order }) => {
   };
 
   return (
-    <div
-      className={`rounded-xl p-3 sm:p-4 bg-gradient-to-br ${getCardClass()} shadow-lg backdrop-blur-sm border border-gray-700/20`}
-    >
+    <div className="rounded-xl p-3 sm:p-4 bg-gradient-to-br bg-cyan-800/80 shadow-lg backdrop-blur-sm border border-gray-700/20">
       <div className="flex flex-col gap-1">
         {/* Header with order number and action buttons */}
         <div className="flex flex-row items-center justify-between mb-0.5">
           <div className="flex items-center">
             <div className="w-1.5 h-1.5 rounded-full bg-white mr-0.5"></div>
-            <h2 className="text-sm sm:text-base font-bold text-white">
+            <h2 className="text-sm sm:text-base font-bold text-red-300 ml-2">
               {order.orderAutoNumber}
             </h2>
           </div>
@@ -83,11 +81,12 @@ const OrderCard = ({ order }) => {
             ) : (
               <div className="w-4 h-4 border-t-2 border-b-2 border-white/50 rounded-full animate-spin"></div>
             )}
-            <Link to={`/orders/${order._id}`}>
-              <button className="p-1 bg-blue-500/20 rounded-full hover:bg-blue-500/30 transition-colors duration-200">
-                <HiPencilAlt className="text-white/90" size={12} />
-              </button>
-            </Link>
+            <button
+              onClick={() => onEdit && onEdit(order._id)}
+              className="p-1 bg-blue-500/20 rounded-full hover:bg-blue-500/30 transition-colors duration-200"
+            >
+              <HiPencilAlt className="text-white/90" size={12} />
+            </button>
           </div>
         </div>
 
@@ -157,9 +156,13 @@ const OrderCard = ({ order }) => {
             <tr className="border-t border-white/10">
               <th className="font-medium text-white/70 ">To'lov:</th>
               <td
-                className={`p-1 rounded-full ${getCardClass(
-                  order.orderStatus
-                )}`}
+                className={`p-1 rounded-full ${
+                  order.orderPaymentStatus === "tolandi"
+                    ? "bg-green-600/30"
+                    : order.orderPaymentStatus === "qisman"
+                    ? "bg-red-600"
+                    : "bg-red-600"
+                }`}
               >
                 {order.orderPaymentStatus}
               </td>
@@ -234,35 +237,37 @@ const OrderCard = ({ order }) => {
       </div>
 
       {/* Image Gallery Portal - rendered outside the normal DOM flow */}
-      {showImageGallery && order.images && order.images.length > 0 && 
+      {showImageGallery &&
+        order.images &&
+        order.images.length > 0 &&
         createPortal(
-          <div 
+          <div
             className="fixed inset-0 bg-black bg-opacity-95 flex items-center justify-center p-2 overflow-hidden"
             style={{
-              position: 'fixed',
+              position: "fixed",
               top: 0,
               left: 0,
               right: 0,
               bottom: 0,
-              width: '100%',
-              height: '100%',
+              width: "100%",
+              height: "100%",
               zIndex: 999999,
-              touchAction: 'none',
+              touchAction: "none",
             }}
             onClick={() => setShowImageGallery(false)}
           >
-            <div 
+            <div
               className="relative w-full max-w-4xl max-h-[90vh]"
               onClick={(e) => e.stopPropagation()}
-              style={{ 
-                isolation: 'isolate',
-                touchAction: 'none',
+              style={{
+                isolation: "isolate",
+                touchAction: "none",
               }}
             >
               <button
                 className="absolute top-4 right-4 text-white bg-gray-800 rounded-full w-10 h-10 flex items-center justify-center z-[999999]"
                 onClick={() => setShowImageGallery(false)}
-                style={{ touchAction: 'manipulation' }}
+                style={{ touchAction: "manipulation" }}
               >
                 <FaTimes />
               </button>
@@ -276,7 +281,7 @@ const OrderCard = ({ order }) => {
                 slidesPerView={1}
                 initialSlide={initialSlide}
                 className="h-[80vh] w-full"
-                style={{ touchAction: 'pan-y' }}
+                style={{ touchAction: "pan-y" }}
                 preventInteractionOnTransition={true}
               >
                 {order.images.map((imageUrl, index) => (
@@ -291,20 +296,22 @@ const OrderCard = ({ order }) => {
                         className="max-h-full max-w-full object-contain"
                       />
                     </div>
-                    
+
                     {/* Download button */}
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
                         // Extract filename from the image URL
-                        const filename = imageUrl.split('/').pop();
-                        
+                        const filename = imageUrl.split("/").pop();
+
                         // Use the dedicated download endpoint
-                        window.location.href = `${baseURL}/api/download-order-image/${encodeURIComponent(filename)}`;
+                        window.location.href = `${baseURL}/api/download-order-image/${encodeURIComponent(
+                          filename
+                        )}`;
                       }}
                       className="absolute bottom-4 right-4 z-[999999] bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-lg transition-colors"
                       title="Download image"
-                      style={{ touchAction: 'manipulation' }}
+                      style={{ touchAction: "manipulation" }}
                     >
                       <FaDownload />
                     </button>
@@ -314,8 +321,7 @@ const OrderCard = ({ order }) => {
             </div>
           </div>,
           document.body
-        )
-      }
+        )}
     </div>
   );
 };

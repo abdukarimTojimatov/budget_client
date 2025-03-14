@@ -12,6 +12,7 @@ const Cards = ({
   initialCategoryId = "",
   initialStartDate = null,
   initialEndDate = null,
+  onEdit,
 }) => {
   const [categoryId, setCategoryId] = useState(initialCategoryId);
   const [page, setPage] = useState(initialPage);
@@ -88,7 +89,7 @@ const Cards = ({
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {data?.getExpenses?.docs.map((expense) => (
-                <Card expense={expense} key={expense._id} />
+                <Card expense={expense} key={expense._id} onEdit={onEdit} />
               ))}
             </div>
           )}

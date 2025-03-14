@@ -4,7 +4,6 @@ import { MdOutlinePayments } from "react-icons/md";
 import { FaSackDollar, FaCalendarDays } from "react-icons/fa6";
 import { FaTrash, FaUser } from "react-icons/fa";
 import { HiPencilAlt } from "react-icons/hi";
-import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useMutation } from "@apollo/client";
 import { DELETE_SHARING } from "../graphql/mutations/sharing.mutation";
@@ -16,7 +15,7 @@ const categoryColorMap = {
   default: "from-purple-800/50 to-purple-600/50",
 };
 
-const SharingCard = ({ sharing }) => {
+const SharingCard = ({ sharing, onEditClick }) => {
   let {
     sharingCategoryType,
     sharingAmount,
@@ -52,15 +51,13 @@ const SharingCard = ({ sharing }) => {
   };
 
   return (
-    <div
-      className={`rounded-xl p-6 bg-gradient-to-br ${cardClass} shadow-lg backdrop-blur-sm border border-gray-700/20`}
-    >
+    <div className="rounded-xl p-6 bg-gradient-to-br bg-cyan-800/80 shadow-lg backdrop-blur-sm border border-gray-700/20">
       <div className="flex flex-col gap-1">
         {/* Header with category and action buttons */}
         <div className="flex flex-row items-center justify-between mb-0.5">
           <div className="flex items-center">
             <div className="w-1.5 h-1.5 rounded-full bg-white mr-0.5"></div>
-            <h2 className="text-base sm:text-lg font-bold text-white truncate max-w-[150px]">
+            <h2 className="text-base sm:text-lg font-bold text-red-300 truncate max-w-[150px] ml-2">
               {sharingCategoryType}
             </h2>
           </div>
@@ -75,11 +72,12 @@ const SharingCard = ({ sharing }) => {
             ) : (
               <div className="w-4 h-4 border-t-2 border-b-2 border-white/50 rounded-full animate-spin"></div>
             )}
-            <Link to={`/sharings/${sharing._id}`}>
-              <button className="p-1 bg-blue-500/20 rounded-full hover:bg-blue-500/30 transition-colors duration-200">
-                <HiPencilAlt className="text-white/90" size={12} />
-              </button>
-            </Link>
+            <button
+              onClick={() => onEditClick && onEditClick(sharing._id)}
+              className="p-1 bg-blue-500/20 rounded-full hover:bg-blue-500/30 transition-colors duration-200"
+            >
+              <HiPencilAlt className="text-white/90" size={12} />
+            </button>
           </div>
         </div>
 
@@ -111,4 +109,5 @@ const SharingCard = ({ sharing }) => {
     </div>
   );
 };
+
 export default SharingCard;

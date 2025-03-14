@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SharingCards from "../components/SharingCards";
-import SharingForm from "../components/SharingForm";
+import SharingModal from "../components/SharingModal";
 import { FiPlusCircle, FiMinusCircle } from "react-icons/fi";
 import { useQuery } from "@apollo/client";
 import { GET_SHARINGS } from "../graphql/queries/sharing.query";
@@ -25,8 +25,12 @@ const SharingPage = () => {
     endDate: null,
   });
 
-  const toggleSharingForm = () => {
-    setIsSharingFormOpen(!isSharingFormOpen);
+  const openSharingModal = () => {
+    setIsSharingFormOpen(true);
+  };
+
+  const closeSharingModal = () => {
+    setIsSharingFormOpen(false);
   };
 
   const handleLimitChange = (event) => {
@@ -98,22 +102,14 @@ const SharingPage = () => {
 
           {/* Add New Button */}
           <button
-            onClick={toggleSharingForm}
-            className={`px-4 py-2 rounded-lg flex items-start gap-2 transition-colors ${
-              isSharingFormOpen
-                ? "bg-red-800/30 hover:bg-red-700/40 text-white"
-                : "bg-blue-800/30 hover:bg-blue-700/40 text-white"
-            }`}
+            onClick={openSharingModal}
+            className="px-4 py-2 rounded-lg flex items-start gap-2 transition-colors bg-blue-800/30 hover:bg-blue-700/40 text-white"
           >
             <span className="text-xs sm:text-sm md:text-base">
-              {isSharingFormOpen ? "Yopish" : "Yangi qo'shish"}
+              Yangi qo'shish
             </span>
             <span>
-              {isSharingFormOpen ? (
-                <FiMinusCircle className="h-6 w-6" />
-              ) : (
-                <FiPlusCircle className="h-6 w-6 pl-2" />
-              )}
+              <FiPlusCircle className="h-6 w-6 pl-2" />
             </span>
           </button>
         </div>
@@ -192,18 +188,8 @@ const SharingPage = () => {
           </div>
         </div>
 
-        {/* Add Form Section */}
-        <div
-          className={`transition-all duration-500 ease-in-out overflow-hidden ${
-            isSharingFormOpen
-              ? "max-h-[1000px] opacity-100"
-              : "max-h-0 opacity-0"
-          }`}
-        >
-          <div className="bg-gray-800/50 p-6 rounded-xl shadow-lg border border-gray-700/30">
-            <SharingForm toggleSharingForm={toggleSharingForm} />
-          </div>
-        </div>
+        {/* Sharing Modal */}
+        <SharingModal isOpen={isSharingFormOpen} onClose={closeSharingModal} />
 
         {/* Render the SharingCards component with filtered props */}
         <SharingCards

@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import { FaTrash } from "react-icons/fa";
 import { HiPencilAlt } from "react-icons/hi";
 
-const RawMaterialCard = ({ rawMaterial }) => {
+const RawMaterialCard = ({ rawMaterial, onEdit }) => {
   const [deleteRawMaterial, { loading }] = useMutation(DELETE_RAW_MATERIAL);
 
   const handleDelete = async () => {
@@ -53,11 +53,12 @@ const RawMaterialCard = ({ rawMaterial }) => {
             ) : (
               <div className="w-4 h-4 border-t-2 border-b-2 border-white/50 rounded-full animate-spin"></div>
             )}
-            <Link to={`/rawMaterial/${rawMaterial._id}`}>
-              <button className="p-1 bg-blue-500/20 rounded-full hover:bg-blue-500/30 transition-colors duration-200">
-                <HiPencilAlt className="text-white/90" size={12} />
-              </button>
-            </Link>
+            <button
+              onClick={() => onEdit && onEdit(rawMaterial._id)}
+              className="p-1 bg-blue-500/20 rounded-full hover:bg-blue-500/30 transition-colors duration-200"
+            >
+              <HiPencilAlt className="text-white/90" size={12} />
+            </button>
           </div>
         </div>
 

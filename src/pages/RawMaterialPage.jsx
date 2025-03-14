@@ -7,11 +7,16 @@ import Pagination from "../components/Pagination";
 import { FiPlusCircle, FiMinusCircle } from "react-icons/fi";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import RawMaterialModal from "../components/RawMaterialModal";
+import RawMaterialEditModal from "../components/RawMaterialEditModal";
 
 const RawMaterialsPage = () => {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [selectedRawMaterialId, setSelectedRawMaterialId] = useState(null);
   const [category, setCategory] = useState("");
   const [dateRange, setDateRange] = useState([null, null]);
   const [startDate, endDate] = dateRange;
@@ -117,15 +122,31 @@ const RawMaterialsPage = () => {
         </button>
 
         {/* Add New Button */}
-        <Link
-          to="/rawMaterial/create"
+        <button
+          onClick={() => setIsCreateModalOpen(true)}
           className="px-4 py-2 rounded-lg flex items-start gap-2 transition-colors bg-blue-800/30 hover:bg-blue-700/40 text-white"
         >
           <span className="text-xs sm:text-sm md:text-base">
             Yangi qo'shish
           </span>
           <FiPlusCircle className="h-6 w-6 pl-2" />
-        </Link>
+        </button>
+        
+        {/* Raw Material Create Modal */}
+        <RawMaterialModal 
+          isOpen={isCreateModalOpen} 
+          onClose={() => setIsCreateModalOpen(false)} 
+        />
+        
+        {/* Raw Material Edit Modal */}
+        <RawMaterialEditModal 
+          isOpen={isEditModalOpen} 
+          onClose={() => {
+            setIsEditModalOpen(false);
+            setSelectedRawMaterialId(null);
+          }} 
+          rawMaterialId={selectedRawMaterialId}
+        />
       </div>
 
       {/* Filters Section */}
@@ -246,18 +267,22 @@ const RawMaterialsPage = () => {
                 Filtrlash parametrlarini o'zgartiring yoki yangi homashyolar
                 qo'shing
               </p>
-              <Link
-                to="/orders/create"
+              <button
+                onClick={() => setIsCreateModalOpen(true)}
                 className="bg-blue-800/40 hover:bg-blue-700/50 px-4 py-2 rounded-lg text-white transition-colors duration-200 text-sm"
               >
                 + Yangi qo'shish
-              </Link>
+              </button>
             </div>
           ) : (
             data?.getRawMaterials?.docs.map((rawMaterial) => (
               <RawMaterialCard
                 key={rawMaterial._id}
                 rawMaterial={rawMaterial}
+                onEdit={() => {
+                  setSelectedRawMaterialId(rawMaterial._id);
+                  setIsEditModalOpen(true);
+                }}
               />
             ))
           )}

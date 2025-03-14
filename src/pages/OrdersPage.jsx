@@ -8,11 +8,16 @@ import OrderCard from "../components/OrderCard";
 import Pagination from "../components/Pagination";
 import Filters from "../components/Filters";
 import { FiPlusCircle, FiMinusCircle } from "react-icons/fi";
+import OrderModal from "../components/OrderModal";
+import OrderEditModal from "../components/OrderEditModal";
 
 const OrdersPage = () => {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+  const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
+  const [isOrderEditModalOpen, setIsOrderEditModalOpen] = useState(false);
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [filters, setFilters] = useState({
     orderCategory: "",
     orderStatus: "",
@@ -62,8 +67,8 @@ const OrdersPage = () => {
               )}
             </span>
           </button>
-          <Link
-            to="/orders/create"
+          <button
+            onClick={() => setIsOrderModalOpen(true)}
             className="px-4 py-2 rounded-lg ml-3 flex items-start gap-2 transition-colors bg-blue-800/30 hover:bg-blue-700/40 text-white"
           >
             <span className="text-xs sm:text-sm md:text-base">
@@ -72,7 +77,23 @@ const OrdersPage = () => {
             <span>
               <FiPlusCircle className="h-6 w-6 pl-2" />
             </span>
-          </Link>
+          </button>
+          
+          {/* Order Modal */}
+          <OrderModal 
+            isOpen={isOrderModalOpen} 
+            onClose={() => setIsOrderModalOpen(false)} 
+          />
+          
+          {/* Order Edit Modal */}
+          <OrderEditModal 
+            isOpen={isOrderEditModalOpen} 
+            onClose={() => {
+              setIsOrderEditModalOpen(false);
+              setSelectedOrderId(null);
+            }} 
+            orderId={selectedOrderId}
+          />
         </div>
 
         {/* Filters */}
@@ -220,7 +241,13 @@ const OrdersPage = () => {
             ) : (
               data?.getOrders?.docs.map((order) => (
                 <div key={order._id} className="">
-                  <OrderCard order={order} />
+                  <OrderCard 
+                    order={order} 
+                    onEdit={() => {
+                      setSelectedOrderId(order._id);
+                      setIsOrderEditModalOpen(true);
+                    }}
+                  />
                 </div>
               ))
             )}

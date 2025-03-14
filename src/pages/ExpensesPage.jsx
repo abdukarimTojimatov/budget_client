@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import Cards from "../components/Cards";
 import { FiPlusCircle, FiMinusCircle } from "react-icons/fi";
-import ExpenseForm from "../components/ExpenseForm";
 import { useQuery } from "@apollo/client";
 import { GET_EXPENSE_CATEGORIES } from "../graphql/queries/expenseCategory.query";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import ExpenseModal from "../components/ExpenseModal";
+import ExpenseEditModal from "../components/ExpenseEditModal";
 
 const ExpensesPage = () => {
-  const [isExpenseFormOpen, setIsExpenseFormOpen] = useState(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [selectedExpenseId, setSelectedExpenseId] = useState(null);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const [categoryId, setCategoryId] = useState("");
   const [limit, setLimit] = useState(10);
@@ -29,8 +32,13 @@ const ExpensesPage = () => {
     GET_EXPENSE_CATEGORIES
   );
 
-  const toggleExpenseForm = () => {
-    setIsExpenseFormOpen(!isExpenseFormOpen);
+  const openCreateModal = () => {
+    setIsCreateModalOpen(true);
+  };
+
+  const openEditModal = (id) => {
+    setSelectedExpenseId(id);
+    setIsEditModalOpen(true);
   };
 
   const handleLimitChange = (event) => {
@@ -92,24 +100,32 @@ const ExpensesPage = () => {
 
           {/* Add New Button */}
           <button
-            onClick={toggleExpenseForm}
-            className={`px-4 py-2 rounded-lg flex items-start gap-2 transition-colors ${
-              isExpenseFormOpen
-                ? "bg-red-800/30 hover:bg-red-700/40 text-white"
-                : "bg-blue-800/30 hover:bg-blue-700/40 text-white"
-            }`}
+            onClick={openCreateModal}
+            className="px-4 py-2 rounded-lg flex items-start gap-2 transition-colors bg-blue-800/30 hover:bg-blue-700/40 text-white"
           >
             <span className="text-xs sm:text-sm md:text-base">
-              {isExpenseFormOpen ? "Yopish" : "Yangi qo'shish"}
+              Yangi qo'shish
             </span>
             <span>
-              {isExpenseFormOpen ? (
-                <FiMinusCircle className="h-6 w-6" />
-              ) : (
-                <FiPlusCircle className="h-6 w-6 pl-2" />
-              )}
+              <FiPlusCircle className="h-6 w-6 pl-2" />
             </span>
           </button>
+          
+          {/* Expense Create Modal */}
+          <ExpenseModal 
+            isOpen={isCreateModalOpen} 
+            onClose={() => setIsCreateModalOpen(false)} 
+          />
+          
+          {/* Expense Edit Modal */}
+          <ExpenseEditModal 
+            isOpen={isEditModalOpen} 
+            onClose={() => {
+              setIsEditModalOpen(false);
+              setSelectedExpenseId(null);
+            }} 
+            expenseId={selectedExpenseId}
+          />
         </div>
         <div
           className={`${
@@ -191,23 +207,14 @@ const ExpensesPage = () => {
             </div>
           </div>
         </div>
-        <div
-          className={`transition-all duration-500 ease-in-out overflow-hidden ${
-            isExpenseFormOpen
-              ? "max-h-[1000px] opacity-100"
-              : "max-h-0 opacity-0"
-          }`}
-        >
-          <div className="bg-gray-800/50 p-6 rounded-xl shadow-lg border border-gray-700/30">
-            <ExpenseForm toggleExpenseForm={toggleExpenseForm} />
-          </div>
-        </div>
+
         <Cards
           initialPage={filterState.page}
           initialLimit={filterState.limit}
           initialCategoryId={filterState.categoryId}
           initialStartDate={filterState.startDate}
           initialEndDate={filterState.endDate}
+          onEdit={openEditModal}
         />
       </div>
     </div>
