@@ -78,20 +78,20 @@ const OrdersPage = () => {
               <FiPlusCircle className="h-6 w-6 pl-2" />
             </span>
           </button>
-          
+
           {/* Order Modal */}
-          <OrderModal 
-            isOpen={isOrderModalOpen} 
-            onClose={() => setIsOrderModalOpen(false)} 
+          <OrderModal
+            isOpen={isOrderModalOpen}
+            onClose={() => setIsOrderModalOpen(false)}
           />
-          
+
           {/* Order Edit Modal */}
-          <OrderEditModal 
-            isOpen={isOrderEditModalOpen} 
+          <OrderEditModal
+            isOpen={isOrderEditModalOpen}
             onClose={() => {
               setIsOrderEditModalOpen(false);
               setSelectedOrderId(null);
-            }} 
+            }}
             orderId={selectedOrderId}
           />
         </div>
@@ -241,8 +241,8 @@ const OrdersPage = () => {
             ) : (
               data?.getOrders?.docs.map((order) => (
                 <div key={order._id} className="">
-                  <OrderCard 
-                    order={order} 
+                  <OrderCard
+                    order={order}
                     onEdit={() => {
                       setSelectedOrderId(order._id);
                       setIsOrderEditModalOpen(true);
