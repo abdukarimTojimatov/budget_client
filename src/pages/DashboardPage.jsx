@@ -10,10 +10,14 @@ import {
   LinearScale,
   BarElement,
   Title,
+  Filler,
+  PointElement,
+  LineElement,
 } from "chart.js";
 import { Doughnut, Bar } from "react-chartjs-2";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { motion } from "framer-motion";
 
 ChartJS.register(
   ArcElement,
@@ -22,8 +26,21 @@ ChartJS.register(
   CategoryScale,
   LinearScale,
   BarElement,
-  Title
+  Title,
+  Filler,
+  PointElement,
+  LineElement
 );
+
+// Format currency with commas and decimal
+const formatCurrency = (amount) => {
+  return new Intl.NumberFormat("uz-UZ", {
+    style: "currency",
+    currency: "UZS",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(amount);
+};
 
 const DashboardPage = () => {
   // Date range state
@@ -146,7 +163,12 @@ const DashboardPage = () => {
 
       // Process expense data
       if (stats.expenses && stats.expenses.length > 0) {
-        const categories = stats.expenses.map((stat) => stat.categoryName || (stat.category && stat.category.name) || 'Uncategorized');
+        const categories = stats.expenses.map(
+          (stat) =>
+            stat.categoryName ||
+            (stat.category && stat.category.name) ||
+            "Uncategorized"
+        );
         const amounts = stats.expenses.map((stat) => stat.totalAmount);
 
         // Generate colors
@@ -175,7 +197,12 @@ const DashboardPage = () => {
 
       // Process sharing data
       if (stats.sharings && stats.sharings.length > 0) {
-        const categories = stats.sharings.map((stat) => stat.categoryName || (stat.category && stat.category.name) || 'Uncategorized');
+        const categories = stats.sharings.map(
+          (stat) =>
+            stat.categoryName ||
+            (stat.category && stat.category.name) ||
+            "Uncategorized"
+        );
         const amounts = stats.sharings.map((stat) => stat.totalAmount);
 
         // Generate colors
@@ -204,7 +231,12 @@ const DashboardPage = () => {
 
       // Process raw material data
       if (stats.rawMaterials && stats.rawMaterials.length > 0) {
-        const categories = stats.rawMaterials.map((stat) => stat.categoryName || (stat.category && stat.category.name) || 'Uncategorized');
+        const categories = stats.rawMaterials.map(
+          (stat) =>
+            stat.categoryName ||
+            (stat.category && stat.category.name) ||
+            "Uncategorized"
+        );
         const amounts = stats.rawMaterials.map((stat) => stat.totalAmount);
 
         // Generate colors
@@ -291,16 +323,48 @@ const DashboardPage = () => {
         </div>
       ) : (
         <>
+          {/* Dashboard Title */}
+          <motion.h1
+            className="text-3xl font-bold mb-6 text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            Boshqaruv Paneli
+          </motion.h1>
+
           {/* Date Range Filter */}
-          <div className="flex flex-col justify-start mb-4">
-            <div className="flex items-center ml-2">
-              <div className="relative z-50 ">
+          <motion.div
+            className="bg-gray-800/60 p-4 rounded-xl shadow-lg mb-6 border border-gray-700/50"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
+            <h2 className="text-xl font-semibold mb-3 text-blue-300 flex items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 mr-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
+              </svg>
+              Vaqt Bo'yicha Saralash
+            </h2>
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="relative">
                 <DatePicker
                   selectsRange={true}
                   startDate={dateRange[0]}
                   endDate={dateRange[1]}
                   onChange={handleDateRangeChange}
-                  className="bg-gray-800/70 p-1.5 rounded-md text-white w-56 text-sm cursor-pointer"
+                  className="bg-gray-700 text-white p-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none transition-all duration-300 w-64 cursor-pointer"
                   placeholderText="Ikki sanani tanlang"
                   dateFormat="yyyy-MM-dd"
                   popperClassName="z-[100]"
@@ -310,92 +374,278 @@ const DashboardPage = () => {
                   showPopperArrow={false}
                   shouldCloseOnSelect={false}
                 />
+                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 text-gray-400"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div className="flex gap-2">
+                <button
+                  className="bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 px-5 py-3 rounded-lg font-medium shadow-md transition-all duration-300 transform hover:scale-105 active:scale-95 flex items-center justify-center"
+                  onClick={applyDateFilter}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 mr-2"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                  Qo'llash
+                </button>
+                <button
+                  className="bg-gray-700 hover:bg-gray-600 px-5 py-3 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 active:scale-95 flex items-center justify-center border border-gray-600"
+                  onClick={resetDateFilter}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 mr-2"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                  Tozalash
+                </button>
               </div>
             </div>
-            <div className="flex items-start mt-2 ml-2">
-              <button
-                className="bg-blue-800/30 p-1.5 rounded-md text-white hover:bg-blue-600/30 text-sm"
-                onClick={applyDateFilter}
-              >
-                Apply
-              </button>
-              <button
-                className="bg-red-800/30 p-1.5 rounded-md text-white hover:bg-red-600/30 ml-1 text-sm"
-                onClick={resetDateFilter}
-              >
-                Reset
-              </button>
-            </div>
-          </div>
+          </motion.div>
 
           {/* Date range indicator if filter is applied */}
           {(dateRange[0] || dateRange[1]) && (
-            <div className="bg-blue-600/20 border border-blue-600/30 text-white p-2 rounded-md mb-4 text-center text-sm">
-              <p>
+            <motion.div
+              className="bg-gradient-to-r from-blue-600/20 to-indigo-600/20 border border-blue-500/30 text-white p-3 rounded-lg mb-6 text-center shadow-md"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4 }}
+            >
+              <p className="flex items-center justify-center text-blue-200">
                 {dateRange[0] && dateRange[1]
                   ? `${getFormattedStartDate()} dan ${getFormattedEndDate()} gacha`
                   : dateRange[0]
                   ? `${getFormattedStartDate()} dan keyin`
                   : `${getFormattedEndDate()} gacha`}
               </p>
-            </div>
+            </motion.div>
           )}
 
           {/* Summary Cards */}
-          <div className="flex flex-wrap gap-1 justify-center">
-            <div className="bg-gradient-to-br from-blue-800/30 to-blue-600/30 p-3 rounded-md shadow-md w-[48.0%] sm:w-5/12 lg:w-3/10">
-              <h3 className="text-base font-medium text-white sm:text-xxs mb-1">
+          <motion.div
+            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mb-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <motion.div
+              className="bg-gradient-to-br from-blue-800/50 to-blue-600/40 p-4 rounded-xl shadow-lg border border-blue-500/30 hover:shadow-blue-500/20 hover:border-blue-400/40 transition-all duration-300 flex flex-col"
+              whileHover={{ scale: 1.02, y: -5 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <h3 className="text-base font-medium text-blue-200 mb-2 flex items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 mr-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                  />
+                </svg>
                 Jami Buyurtmalar
               </h3>
-              <span className="text-lg font-bold text-white">
+              <span className="text-xl font-bold text-white">
                 {formatCurrency(summaryStats.totalOrders)}
               </span>
-            </div>
-            <div className="bg-gradient-to-br from-red-800/30 to-red-600/30 p-3 rounded-md shadow-md w-[48.0%] sm:w-5/12 lg:w-3/10">
-              <h3 className="text-base font-medium text-white mb-1">
+            </motion.div>
+            <motion.div
+              className="bg-gradient-to-br from-red-800/50 to-red-600/40 p-4 rounded-xl shadow-lg border border-red-500/30 hover:shadow-red-500/20 hover:border-red-400/40 transition-all duration-300 flex flex-col"
+              whileHover={{ scale: 1.02, y: -5 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <h3 className="text-base font-medium text-red-200 mb-2 flex items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 mr-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z"
+                  />
+                </svg>
                 Jami Xarajatlar
               </h3>
-              <p className="text-lg font-bold text-white">
+              <p className="text-xl font-bold text-white">
                 {formatCurrency(summaryStats.totalExpenses)}
               </p>
-            </div>
-            <div className="bg-gradient-to-br from-amber-800/30 to-amber-600/30 p-3 rounded-md shadow-md w-[48.0%] sm:w-5/12 lg:w-3/10">
-              <h3 className="text-base font-medium text-white mb-1">
+            </motion.div>
+            <motion.div
+              className="bg-gradient-to-br from-amber-800/50 to-amber-600/40 p-4 rounded-xl shadow-lg border border-amber-500/30 hover:shadow-amber-500/20 hover:border-amber-400/40 transition-all duration-300 flex flex-col"
+              whileHover={{ scale: 1.02, y: -5 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <h3 className="text-base font-medium text-amber-200 mb-2 flex items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 mr-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2v-10M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                  />
+                </svg>
                 Jami Homashyolar
               </h3>
-              <p className="text-lg font-bold text-white">
+              <p className="text-xl font-bold text-white">
                 {formatCurrency(summaryStats.totalRawMaterials)}
               </p>
-            </div>
-            <div className="bg-gradient-to-br from-purple-800/30 to-purple-600/30 p-3 rounded-md shadow-md w-[48.0%] sm:w-5/12 lg:w-3/10">
-              <h3 className="text-base font-medium text-white mb-1">
+            </motion.div>
+            <motion.div
+              className="bg-gradient-to-br from-purple-800/50 to-purple-600/40 p-4 rounded-xl shadow-lg border border-purple-500/30 hover:shadow-purple-500/20 hover:border-purple-400/40 transition-all duration-300 flex flex-col"
+              whileHover={{ scale: 1.02, y: -5 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <h3 className="text-base font-medium text-purple-200 mb-2 flex items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 mr-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+                  />
+                </svg>
                 Jami Ulushlar
               </h3>
-              <p className="text-lg font-bold text-white">
+              <p className="text-xl font-bold text-white">
                 {formatCurrency(summaryStats.totalSharings)}
               </p>
-            </div>
-            <div className="bg-gradient-to-br from-green-800/30 to-green-600/30 p-3 rounded-md shadow-md w-[48.0%] sm:w-5/12 lg:w-3/10">
-              <h3 className="text-base font-medium text-white mb-1">
+            </motion.div>
+            <motion.div
+              className="bg-gradient-to-br from-green-800/50 to-green-600/40 p-4 rounded-xl shadow-lg border border-green-500/30 hover:shadow-green-500/20 hover:border-green-400/40 transition-all duration-300 flex flex-col"
+              whileHover={{ scale: 1.02, y: -5 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <h3 className="text-base font-medium text-green-200 mb-2 flex items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 mr-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                  />
+                </svg>
                 Yalpi Foyda
               </h3>
-              <p className="text-lg font-bold text-white">
+              <p className="text-xl font-bold text-white">
                 {formatCurrency(summaryStats.grossProfit)}
               </p>
-            </div>
-            <div className="bg-gradient-to-br from-emerald-800/30 to-emerald-600/30 p-3 rounded-md shadow-md w-[48.0%] sm:w-5/12 lg:w-3/10">
-              <h3 className="text-base font-medium text-white mb-1">
+            </motion.div>
+            <motion.div
+              className="bg-gradient-to-br from-emerald-800/50 to-emerald-600/40 p-4 rounded-xl shadow-lg border border-emerald-500/30 hover:shadow-emerald-500/20 hover:border-emerald-400/40 transition-all duration-300 flex flex-col"
+              whileHover={{ scale: 1.02, y: -5 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <h3 className="text-base font-medium text-emerald-200 mb-2 flex items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 mr-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z"
+                  />
+                </svg>
                 Sof Foyda
               </h3>
-              <p className="text-lg font-bold text-white">
+              <p className="text-xl font-bold text-white">
                 {formatCurrency(summaryStats.netProfit)}
               </p>
-            </div>
-            <div className="bg-gradient-to-br from-indigo-800/30 to-indigo-600/30 p-3 rounded-md shadow-md w-[48.0%] sm:w-5/12 lg:w-3/10">
-              <h3 className="text-base font-medium text-white mb-1">
+            </motion.div>
+            <motion.div
+              className="bg-gradient-to-br from-indigo-800/50 to-indigo-600/40 p-4 rounded-xl shadow-lg border border-indigo-500/30 hover:shadow-indigo-500/20 hover:border-indigo-400/40 transition-all duration-300 flex flex-col"
+              whileHover={{ scale: 1.02, y: -5 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <h3 className="text-base font-medium text-indigo-200 mb-2 flex items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 mr-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"
+                  />
+                </svg>
                 Foydalilik
               </h3>
-              <p className="text-lg font-bold text-white">
+              <p className="text-xl font-bold text-white">
                 {summaryStats.totalOrders > 0
                   ? `${(
                       (summaryStats.netProfit / summaryStats.totalOrders) *
@@ -403,16 +653,34 @@ const DashboardPage = () => {
                     ).toFixed(1)}%`
                   : "0%"}
               </p>
-            </div>
-            <div className="bg-gradient-to-br from-yellow-800/30 to-yellow-600/30 p-3 rounded-md shadow-md w-[48.0%] sm:w-6/12 lg:w-3/10">
-              <h3 className="text-base font-medium text-white mb-1">
+            </motion.div>
+            <motion.div
+              className="bg-gradient-to-br from-yellow-800/50 to-yellow-600/40 p-4 rounded-xl shadow-lg border border-yellow-500/30 hover:shadow-yellow-500/20 hover:border-yellow-400/40 transition-all duration-300 flex flex-col"
+              whileHover={{ scale: 1.02, y: -5 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <h3 className="text-base font-medium text-yellow-200 mb-2 flex items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 mr-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
                 Buyurtma Xarajatlari
               </h3>
-              <p className="text-lg font-bold text-white">
+              <p className="text-xl font-bold text-white">
                 {formatCurrency(summaryStats.totalOrderExpenses)}
               </p>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
           {/* Charts Section */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4 mb-6">
             <div className="bg-gray-800/50 p-4 rounded-md shadow-md">
