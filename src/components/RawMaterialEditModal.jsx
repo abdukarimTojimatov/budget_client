@@ -3,13 +3,15 @@ import { useQuery, useMutation } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 import { GET_RAW_MATERIAL } from "../graphql/queries/rawMaterial.query";
 import { UPDATE_RAW_MATERIAL } from "../graphql/mutations/rawMaterial.mutation";
+import { GET_CUSTOMERS_DROPDOWN } from "../graphql/queries/customer.query";
 import toast from "react-hot-toast";
-import { customers } from "../constants/customer";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FiX } from "react-icons/fi";
+import CustomerForm from "./CustomerForm";
 
 const RawMaterialEditModal = ({ isOpen, onClose, rawMaterialId }) => {
+  const [showCustomerForm, setShowCustomerForm] = useState(false);
   const navigate = useNavigate();
 
   const {
@@ -29,13 +31,19 @@ const RawMaterialEditModal = ({ isOpen, onClose, rawMaterialId }) => {
     rawMaterialName: "",
     rawMaterialDescription: "",
     rawMaterialQuantity: 0,
-    customerName: "",
-    phoneNumber: "",
+    customer: "", // Now using customer ID instead of name/phone
     unitOfMeasurement: "",
     rawMaterialCategory: "",
     rawMaterialPrice: 0,
     payments: [],
   };
+
+  // Fetch customers for dropdown
+  const {
+    data: customersData,
+    loading: customersLoading,
+    refetch: refetchCustomers,
+  } = useQuery(GET_CUSTOMERS_DROPDOWN);
 
   const [formData, setFormData] = useState(initialFormState);
 
@@ -141,16 +149,11 @@ const RawMaterialEditModal = ({ isOpen, onClose, rawMaterialId }) => {
   };
 
   const handleCustomerChange = (e) => {
-    const selectedCustomer = customers.find(
-      (customer) => customer.name === e.target.value
-    );
-    if (selectedCustomer) {
-      setFormData({
-        ...formData,
-        customerName: selectedCustomer.name,
-        phoneNumber: selectedCustomer.phoneNumber,
-      });
-    }
+    const customerId = e.target.value;
+    setFormData({
+      ...formData,
+      customer: customerId,
+    });
   };
 
   const totalPrice = formData.rawMaterialQuantity * formData.rawMaterialPrice;
@@ -283,44 +286,44 @@ const RawMaterialEditModal = ({ isOpen, onClose, rawMaterialId }) => {
               <div className="w-full sm:flex-1 min-w-[200px]">
                 <label
                   className="block uppercase tracking-wide text-white text-sm font-bold mb-1"
-                  htmlFor="customerName"
+                  htmlFor="customer"
                 >
                   Xaridor
                 </label>
-                <select
-                  className="block appearance-none w-full bg-gray-200 border text-gray-700 py-2 px-3 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
-                  id="customerName"
-                  name="customerName"
-                  value={formData.customerName}
-                  onChange={(e) => {
-                    handleChange(e);
-                    handleCustomerChange(e);
-                  }}
-                >
-                  <option value="">Tanlang</option>
-                  {customers.map((customer) => (
-                    <option key={customer.name} value={customer.name}>
-                      {customer.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="w-full sm:flex-1 min-w-[200px]">
-                <label
-                  className="block uppercase tracking-wide text-white text-sm font-bold mb-1"
-                  htmlFor="phoneNumber"
-                >
-                  Telefon
-                </label>
-                <input
-                  className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white text-sm"
-                  id="phoneNumber"
-                  name="phoneNumber"
-                  type="text"
-                  placeholder="Telefon raqam"
-                  value={formData.phoneNumber}
-                  onChange={handleChange}
-                />
+                <div className="flex">
+                  <div className="relative w-full">
+                    <select
+                      className="block appearance-none w-full bg-gray-200 border text-gray-700 py-2 px-3 rounded-l leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
+                      id="customer"
+                      name="customer"
+                      value={formData.customer}
+                      onChange={handleCustomerChange}
+                      disabled={customersLoading}
+                      required
+                    >
+                      <option value="">Tanlang</option>
+                      {customersLoading ? (
+                        <option value="">Yuklanmoqda...</option>
+                      ) : (
+                        customersData?.getCustomersDropdown?.map((customer) => (
+                          <option key={customer._id} value={customer._id}>
+                            {customer.name}{" "}
+                            {customer.phoneNumber
+                              ? `(${customer.phoneNumber})`
+                              : ""}
+                          </option>
+                        ))
+                      )}
+                    </select>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setShowCustomerForm(true)}
+                    className="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded-r focus:outline-none focus:ring-2 focus:ring-pink-500"
+                  >
+                    +
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -423,7 +426,9 @@ const RawMaterialEditModal = ({ isOpen, onClose, rawMaterialId }) => {
                       {formData.payments.map((payment, index) => (
                         <tr key={index} className="border-b border-gray-600/50">
                           <td className="py-2">
-                            {payment.paymentType === "naqd" ? "Naqd" : "Karta"}
+                            {payment.paymentType === "naqd"
+                              ? "Naqd"
+                              : "plastik"}
                           </td>
                           <td className="py-2">
                             {payment.amount.toLocaleString("uz-UZ")} so'm
@@ -463,7 +468,7 @@ const RawMaterialEditModal = ({ isOpen, onClose, rawMaterialId }) => {
                       onChange={handlePaymentChange}
                     >
                       <option value="naqd">Naqd</option>
-                      <option value="karta">Karta</option>
+                      <option value="plastik">plastik</option>
                     </select>
                   </div>
                   <div className="flex-1">
@@ -539,6 +544,21 @@ const RawMaterialEditModal = ({ isOpen, onClose, rawMaterialId }) => {
           </form>
         )}
       </div>
+
+      {/* Customer Form Modal */}
+      {showCustomerForm && (
+        <CustomerForm
+          onClose={() => setShowCustomerForm(false)}
+          onCustomerCreated={(newCustomer) => {
+            // Auto-select the newly created customer
+            setFormData({
+              ...formData,
+              customer: newCustomer._id,
+            });
+            refetchCustomers();
+          }}
+        />
+      )}
     </div>
   );
 };

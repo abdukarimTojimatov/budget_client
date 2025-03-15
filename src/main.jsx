@@ -6,19 +6,6 @@ import { BrowserRouter } from "react-router-dom";
 import GridBackground from "./components/ui/GridBackground.jsx";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
-// Determine the GraphQL endpoint based on the current hostname at runtime
-// const isLocalhost =
-//   window.location.hostname === "localhost" ||
-//   window.location.hostname === "127.0.0.1";
-// const serverIP = "92.112.180.30"; // Your server IP
-
-// // Use the current hostname for the GraphQL endpoint to handle custom domains
-// // Use same protocol as the page to avoid mixed content errors
-// const protocol = window.location.protocol; // Will be 'http:' or 'https:'
-// const graphqlURI = isLocalhost
-//   ? "http://localhost:4000/graphql"
-//   : `${protocol}//${window.location.hostname}/graphql`;
-
 const isLocalhost =
   window.location.hostname === "localhost" ||
   window.location.hostname === "127.0.0.1";
@@ -29,9 +16,6 @@ const graphqlURI = isLocalhost
   : isIP
   ? "http://92.112.180.30:4000/graphql"
   : `${protocol}//${window.location.hostname}/graphql`;
-
-// console.log(`Current hostname: ${window.location.hostname}`);
-// console.log(`Using GraphQL endpoint: ${graphqlURI}`);
 
 const client = new ApolloClient({
   uri: graphqlURI,

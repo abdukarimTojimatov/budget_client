@@ -38,6 +38,10 @@ const SharingCard = ({ sharing, onEditClick }) => {
     sharingPaymentType[0]?.toUpperCase() + sharingPaymentType.slice(1);
 
   const handleDelete = async () => {
+    const isConfirmed = window.confirm(
+      "Siz rostdan ham o'chirishni istaysizmi?"
+    );
+    if (!isConfirmed) return;
     try {
       await deleteSharing({
         variables: { sharingId: sharing._id },

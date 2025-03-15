@@ -68,9 +68,6 @@ const RawMaterialsPage = () => {
       return `${year}-${month}-${day}`;
     };
 
-    console.log("startDate", startDate);
-    console.log("endDate", endDate);
-
     setFilterState({
       page,
       limit,
@@ -131,20 +128,20 @@ const RawMaterialsPage = () => {
           </span>
           <FiPlusCircle className="h-6 w-6 pl-2" />
         </button>
-        
+
         {/* Raw Material Create Modal */}
-        <RawMaterialModal 
-          isOpen={isCreateModalOpen} 
-          onClose={() => setIsCreateModalOpen(false)} 
+        <RawMaterialModal
+          isOpen={isCreateModalOpen}
+          onClose={() => setIsCreateModalOpen(false)}
         />
-        
+
         {/* Raw Material Edit Modal */}
-        <RawMaterialEditModal 
-          isOpen={isEditModalOpen} 
+        <RawMaterialEditModal
+          isOpen={isEditModalOpen}
           onClose={() => {
             setIsEditModalOpen(false);
             setSelectedRawMaterialId(null);
-          }} 
+          }}
           rawMaterialId={selectedRawMaterialId}
         />
       </div>

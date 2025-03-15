@@ -10,6 +10,10 @@ const RawMaterialCard = ({ rawMaterial, onEdit }) => {
   const [deleteRawMaterial, { loading }] = useMutation(DELETE_RAW_MATERIAL);
 
   const handleDelete = async () => {
+    const isConfirmed = window.confirm(
+      "Siz rostdan ham o'chirishni istaysizmi?"
+    );
+    if (!isConfirmed) return;
     try {
       await deleteRawMaterial({
         variables: { id: rawMaterial._id },
@@ -20,13 +24,6 @@ const RawMaterialCard = ({ rawMaterial, onEdit }) => {
       console.error("Error deleting raw material:", error);
       toast.error("Raw material o'chirishda xatolik yuz berdi");
     }
-  };
-
-  // Determine card gradient based on payment status
-  const getCardClass = () => {
-    return rawMaterial.paymentStatus
-      ? "from-emerald-800/50 to-emerald-600/50"
-      : "from-orange-800/50 to-orange-600/50";
   };
 
   return (
@@ -110,11 +107,11 @@ const RawMaterialCard = ({ rawMaterial, onEdit }) => {
             </tr>
             <tr className="border-t border-white/10">
               <th className="font-medium text-white/90">Taminotchi:</th>
-              <td className="p-1 truncate">{rawMaterial.customerName}</td>
+              <td className="p-1 truncate">{rawMaterial.customer?.name}</td>
             </tr>
             <tr className="border-t border-white/10">
               <th className="font-medium text-white/90">Telefoni:</th>
-              <td className="p-1">{rawMaterial.phoneNumber}</td>
+              <td className="p-1">{rawMaterial.customer?.phoneNumber}</td>
             </tr>
             <tr className="border-t border-white/10">
               <th className="font-medium text-white/90">Sana:</th>

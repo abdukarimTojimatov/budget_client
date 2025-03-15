@@ -24,6 +24,10 @@ const ImageGallery = ({ images = [], orderId, onImageDeleted }) => {
   };
 
   const handleDeleteImage = async (imageUrl, orderId, e) => {
+    const isConfirmed = window.confirm(
+      "Siz rostdan ham o'chirishni istaysizmi?"
+    );
+    if (!isConfirmed) return;
     // Prevent default behavior which might cause navigation
     if (e) e.preventDefault();
     if (!orderId) return;

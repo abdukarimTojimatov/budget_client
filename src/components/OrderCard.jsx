@@ -25,6 +25,10 @@ const OrderCard = ({ order, onEdit }) => {
   const [initialSlide, setInitialSlide] = useState(0);
 
   const handleDelete = async () => {
+    const isConfirmed = window.confirm(
+      "Siz rostdan ham o'chirishni istaysizmi?"
+    );
+    if (!isConfirmed) return;
     try {
       await deleteOrder({
         variables: { id: order._id },

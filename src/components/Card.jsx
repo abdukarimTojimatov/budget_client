@@ -32,6 +32,10 @@ const Card = ({ expense, authUser, onEdit }) => {
   paymentType = paymentType[0]?.toUpperCase() + paymentType.slice(1);
 
   const handleDelete = async () => {
+    const isConfirmed = window.confirm(
+      "Siz rostdan ham o'chirishni istaysizmi?"
+    );
+    if (!isConfirmed) return;
     try {
       console.log("Expense ID:", expense._id);
       await deleteExpense({

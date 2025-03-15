@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useMutation, useQuery } from "@apollo/client";
-import { 
-  GET_EXPENSE_CATEGORIES,
-} from "../graphql/queries/expenseCategory.query";
-import { 
-  UPDATE_EXPENSE_CATEGORY, 
+import { GET_EXPENSE_CATEGORIES } from "../graphql/queries/expenseCategory.query";
+import {
+  UPDATE_EXPENSE_CATEGORY,
   DELETE_EXPENSE_CATEGORY,
-  RESTORE_EXPENSE_CATEGORY
+  RESTORE_EXPENSE_CATEGORY,
 } from "../graphql/mutations/expenseCategory.mutation";
 import toast from "react-hot-toast";
 
-const CategoryManager = ({ onClose, onCategorySelected, initialCategoryId }) => {
+const CategoryManager = ({
+  onClose,
+  onCategorySelected,
+  initialCategoryId,
+}) => {
   const [categories, setCategories] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -19,25 +21,31 @@ const CategoryManager = ({ onClose, onCategorySelected, initialCategoryId }) => 
 
   // GraphQL queries and mutations
   const { data, loading, refetch } = useQuery(GET_EXPENSE_CATEGORIES, {
-    variables: { 
+    variables: {
       limit: 100,
-      includeDeleted: showDeleted 
+      includeDeleted: showDeleted,
     },
     fetchPolicy: "network-only",
   });
 
-  const [updateCategory, { loading: updateLoading }] = useMutation(UPDATE_EXPENSE_CATEGORY);
-  const [deleteCategory, { loading: deleteLoading }] = useMutation(DELETE_EXPENSE_CATEGORY);
-  const [restoreCategory, { loading: restoreLoading }] = useMutation(RESTORE_EXPENSE_CATEGORY);
+  const [updateCategory, { loading: updateLoading }] = useMutation(
+    UPDATE_EXPENSE_CATEGORY
+  );
+  const [deleteCategory, { loading: deleteLoading }] = useMutation(
+    DELETE_EXPENSE_CATEGORY
+  );
+  const [restoreCategory, { loading: restoreLoading }] = useMutation(
+    RESTORE_EXPENSE_CATEGORY
+  );
 
   useEffect(() => {
     if (data?.getExpenseCategories?.docs) {
       setCategories(data.getExpenseCategories.docs);
-      
+
       // If initialCategoryId is provided, select that category
       if (initialCategoryId) {
         const initialCategory = data.getExpenseCategories.docs.find(
-          cat => cat._id === initialCategoryId
+          (cat) => cat._id === initialCategoryId
         );
         if (initialCategory) {
           setSelectedCategory(initialCategory);
@@ -58,7 +66,7 @@ const CategoryManager = ({ onClose, onCategorySelected, initialCategoryId }) => 
 
   const handleUpdateCategory = async (e) => {
     e.preventDefault();
-    
+
     if (!nameInput.trim()) {
       toast.error("Category name cannot be empty");
       return;
@@ -69,11 +77,11 @@ const CategoryManager = ({ onClose, onCategorySelected, initialCategoryId }) => 
         variables: {
           input: {
             _id: selectedCategory._id,
-            name: nameInput.trim()
-          }
-        }
+            name: nameInput.trim(),
+          },
+        },
       });
-      
+
       toast.success("Category updated successfully");
       refetch();
       setEditMode(false);
@@ -83,15 +91,19 @@ const CategoryManager = ({ onClose, onCategorySelected, initialCategoryId }) => 
   };
 
   const handleDeleteCategory = async () => {
+    const isConfirmed = window.confirm(
+      "Siz rostdan ham o'chirishni istaysizmi?"
+    );
+    if (!isConfirmed) return;
     if (!selectedCategory) return;
-    
+
     try {
       await deleteCategory({
         variables: {
-          id: selectedCategory._id
-        }
+          id: selectedCategory._id,
+        },
       });
-      
+
       toast.success("Category deleted successfully");
       refetch();
       setSelectedCategory(null);
@@ -104,14 +116,14 @@ const CategoryManager = ({ onClose, onCategorySelected, initialCategoryId }) => 
 
   const handleRestoreCategory = async () => {
     if (!selectedCategory) return;
-    
+
     try {
       await restoreCategory({
         variables: {
-          id: selectedCategory._id
-        }
+          id: selectedCategory._id,
+        },
       });
-      
+
       toast.success("Category restored successfully");
       refetch();
     } catch (error) {
@@ -126,10 +138,7 @@ const CategoryManager = ({ onClose, onCategorySelected, initialCategoryId }) => 
           <h2 className="text-xl font-bold text-white">
             {editMode ? "Edit Category" : "Select Category"}
           </h2>
-          <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-white"
-          >
+          <button onClick={onClose} className="text-gray-400 hover:text-white">
             &times;
           </button>
         </div>
@@ -144,7 +153,7 @@ const CategoryManager = ({ onClose, onCategorySelected, initialCategoryId }) => 
             >
               {editMode ? "Cancel Edit" : "Edit Mode"}
             </button>
-            
+
             <label className="flex items-center text-white ml-2">
               <input
                 type="checkbox"
@@ -212,7 +221,11 @@ const CategoryManager = ({ onClose, onCategorySelected, initialCategoryId }) => 
                   onClick={() => handleCategoryClick(category)}
                   className={`py-2 px-3 cursor-pointer hover:bg-gray-700 rounded ${
                     selectedCategory?._id === category._id ? "bg-gray-700" : ""
-                  } ${category.isDeleted ? "text-gray-500 line-through" : "text-white"}`}
+                  } ${
+                    category.isDeleted
+                      ? "text-gray-500 line-through"
+                      : "text-white"
+                  }`}
                 >
                   {category.name}
                   {category.isDeleted && " (Deleted)"}

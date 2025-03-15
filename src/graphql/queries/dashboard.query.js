@@ -39,6 +39,7 @@ export const GET_DASHBOARD_STATISTICS = gql`
         totalAmount
       }
       suppliersWithDebt {
+        customerId
         supplierName
         phoneNumber
         totalDebt

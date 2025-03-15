@@ -17,8 +17,11 @@ export const GET_RAW_MATERIALS = gql`
     ) {
       docs {
         _id
-        customerName
-        phoneNumber
+        customer {
+          _id
+          name
+          phoneNumber
+        }
         rawMaterialName
         rawMaterialDescription
         rawMaterialQuantity
@@ -45,8 +48,11 @@ export const GET_RAW_MATERIAL = gql`
   query GetRawMaterial($id: ID!) {
     getRawMaterial(id: $id) {
       _id
-      customerName
-      phoneNumber
+      customer {
+        _id
+        name
+        phoneNumber
+      }
       rawMaterialName
       rawMaterialDescription
       rawMaterialQuantity

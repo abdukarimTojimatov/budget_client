@@ -4,8 +4,11 @@ export const CREATE_RAW_MATERIAL = gql`
   mutation CreateRawMaterial($input: CreateRawMaterialInput!) {
     createRawMaterial(input: $input) {
       _id
-      customerName
-      phoneNumber
+      customer {
+        _id
+        name
+        phoneNumber
+      }
       rawMaterialName
       rawMaterialDescription
       rawMaterialQuantity
@@ -25,8 +28,11 @@ export const UPDATE_RAW_MATERIAL = gql`
   mutation UpdateRawMaterial($input: UpdateRawMaterialInput!) {
     updateRawMaterial(input: $input) {
       _id
-      customerName
-      phoneNumber
+      customer {
+        _id
+        name
+        phoneNumber
+      }
       rawMaterialName
       rawMaterialDescription
       rawMaterialQuantity
