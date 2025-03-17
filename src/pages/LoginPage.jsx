@@ -91,14 +91,14 @@ const LoginPage = () => {
                 </button>
               </div>
             </form>
-            <div className="mt-4 text-sm text-gray-600 text-center">
+            {/* <div className="mt-4 text-sm text-gray-600 text-center">
               <p>
                 {"Don't"} have an account?{" "}
                 <Link to="/signup" className="text-black hover:underline">
                   Sign Up
                 </Link>
               </p>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

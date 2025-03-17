@@ -44,10 +44,10 @@ function App() {
           path="/login"
           element={!data?.authUser ? <LoginPage /> : <Navigate to="/" />}
         />
-        <Route
+        {/* <Route
           path="/signup"
           element={!data?.authUser ? <SignUpPage /> : <Navigate to="/" />}
-        />
+        /> */}
         <Route
           path="/expenses/:id"
           element={data?.authUser ? <ExpensePage /> : <Navigate to="/login" />}
