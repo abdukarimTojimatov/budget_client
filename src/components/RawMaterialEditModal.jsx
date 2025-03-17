@@ -7,7 +7,24 @@ import { GET_CUSTOMERS_DROPDOWN } from "../graphql/queries/customer.query";
 import toast from "react-hot-toast";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { FiX } from "react-icons/fi";
+import {
+  FiX,
+  FiPlus,
+  FiDollarSign,
+  FiCalendar,
+  FiPackage,
+  FiUser,
+  FiPhone,
+  FiTag,
+  FiAlertCircle,
+  FiCheck,
+  FiClock,
+  FiBox,
+  FiInfo,
+  FiEdit,
+} from "react-icons/fi";
+import { FaMoneyBillWave, FaRegCreditCard, FaTrash } from "react-icons/fa";
+import { MdCategory, MdDescription } from "react-icons/md";
 import CustomerForm from "./CustomerForm";
 
 const RawMaterialEditModal = ({ isOpen, onClose, rawMaterialId }) => {
@@ -43,7 +60,9 @@ const RawMaterialEditModal = ({ isOpen, onClose, rawMaterialId }) => {
     data: customersData,
     loading: customersLoading,
     refetch: refetchCustomers,
-  } = useQuery(GET_CUSTOMERS_DROPDOWN);
+  } = useQuery(GET_CUSTOMERS_DROPDOWN, {
+    fetchPolicy: "network-only",
+  });
 
   const [formData, setFormData] = useState(initialFormState);
 
@@ -57,11 +76,27 @@ const RawMaterialEditModal = ({ isOpen, onClose, rawMaterialId }) => {
   useEffect(() => {
     if (data?.getRawMaterial) {
       const { __typename, ...rawMaterial } = data.getRawMaterial; // Exclude __typename
+      
+      // Make sure customer property is properly set
+      const customerValue = rawMaterial.customer && rawMaterial.customer._id ? 
+        rawMaterial.customer._id : 
+        (rawMaterial.customer || "");
+
       setFormData({
         ...rawMaterial,
+        customer: customerValue
       });
+      
+      console.log("Raw material loaded:", rawMaterial);
+      console.log("Customer value set to:", customerValue);
     }
   }, [data]);
+
+  useEffect(() => {
+    if (customersData?.getCustomersDropdown) {
+      console.log("Customers loaded:", customersData.getCustomersDropdown);
+    }
+  }, [customersData]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -150,6 +185,7 @@ const RawMaterialEditModal = ({ isOpen, onClose, rawMaterialId }) => {
 
   const handleCustomerChange = (e) => {
     const customerId = e.target.value;
+    console.log('Selected customer ID:', customerId);
     setFormData({
       ...formData,
       customer: customerId,
@@ -169,14 +205,19 @@ const RawMaterialEditModal = ({ isOpen, onClose, rawMaterialId }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 overflow-y-auto">
-      <div className="bg-gray-800 rounded-xl shadow-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto relative">
-        <div className="sticky top-0 bg-gray-800 p-4 border-b border-gray-700 flex justify-between items-center z-10">
-          <h2 className="text-xl font-bold text-white">Homashyo tahrirlash</h2>
+      <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl shadow-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto relative border border-gray-700/30">
+        <div className="sticky top-0 bg-gradient-to-r from-blue-900/90 to-gray-800/90 backdrop-blur-sm p-4 border-b border-gray-700/50 flex justify-between items-center z-10">
+          <div className="flex items-center">
+            <FiEdit className="text-blue-400 mr-2" size={22} />
+            <h2 className="text-xl font-bold text-white">
+              Homashyo tahrirlash
+            </h2>
+          </div>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-white transition-colors"
+            className="text-gray-400 hover:text-white transition-colors bg-gray-800/50 p-1.5 rounded-lg"
           >
-            <FiX size={24} />
+            <FiX size={20} />
           </button>
         </div>
 
@@ -185,73 +226,100 @@ const RawMaterialEditModal = ({ isOpen, onClose, rawMaterialId }) => {
             <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
           </div>
         ) : (
-          <form className="flex flex-col gap-4 p-6" onSubmit={handleSubmit}>
-            {/* Unit of Measurement */}
-            <div className="flex flex-col sm:flex-row gap-3">
+          <form
+            className="flex flex-col gap-5 p-6 bg-gradient-to-b from-gray-800/50 to-gray-900/70"
+            onSubmit={handleSubmit}
+          >
+            {/* Top Row - Unit & Category */}
+            <div className="flex flex-col sm:flex-row gap-5">
+              {/* Unit of Measurement */}
               <div className="w-full sm:flex-1 min-w-[200px]">
                 <label
-                  className="block uppercase tracking-wide text-white text-sm font-bold mb-1"
+                  className="flex items-center text-blue-300 text-sm font-medium mb-2"
                   htmlFor="unitOfMeasurement"
                 >
+                  <FiPackage className="mr-2" size={16} />
                   O'lchov birligi
                 </label>
-                <select
-                  className="block appearance-none w-full bg-gray-200 border text-gray-700 py-2 px-3 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
-                  id="unitOfMeasurement"
-                  name="unitOfMeasurement"
-                  value={formData.unitOfMeasurement}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="">Tanlang</option>
-                  <option value="kg">Kilogram</option>
-                  <option value="gr">Gramm</option>
-                  <option value="meter">Metr</option>
-                  <option value="dona">Dona</option>
-                  <option value="liter">Liter</option>
-                  <option value="qop">Qop</option>
-                  <option value="metrkv">Metr kvadrat</option>
-                </select>
+                <div className="relative">
+                  <select
+                    className="block appearance-none w-full bg-gray-700/50 border border-gray-600/50 text-white py-2.5 px-3 rounded-lg leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 text-sm transition-all"
+                    id="unitOfMeasurement"
+                    name="unitOfMeasurement"
+                    value={formData.unitOfMeasurement}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="">Tanlang</option>
+                    <option value="kg">Kilogram</option>
+                    <option value="gr">Gramm</option>
+                    <option value="meter">Metr</option>
+                    <option value="dona">Dona</option>
+                    <option value="liter">Liter</option>
+                    <option value="qop">Qop</option>
+                    <option value="metrkv">Metr kvadrat</option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
+                    <svg
+                      className="fill-current h-4 w-4"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                    </svg>
+                  </div>
+                </div>
               </div>
-            </div>
 
-            {/* Category */}
-            <div className="flex flex-col sm:flex-row gap-3">
+              {/* Category */}
               <div className="w-full sm:flex-1 min-w-[200px]">
                 <label
-                  className="block uppercase tracking-wide text-white text-sm font-bold mb-1"
+                  className="flex items-center text-blue-300 text-sm font-medium mb-2"
                   htmlFor="rawMaterialCategory"
                 >
+                  <MdCategory className="mr-2" size={16} />
                   Kategoriya
                 </label>
-                <select
-                  className="block appearance-none w-full bg-gray-200 border text-gray-700 py-2 px-3 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
-                  id="rawMaterialCategory"
-                  name="rawMaterialCategory"
-                  value={formData.rawMaterialCategory}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="">Tanlang</option>
-                  <option value="Machalka">Machalka</option>
-                  <option value="Mehanizm">Mehanizm</option>
-                  <option value="Kraska">Kraska</option>
-                  <option value="Temir">Temir</option>
-                  <option value="Material">Material</option>
-                </select>
+                <div className="relative">
+                  <select
+                    className="block appearance-none w-full bg-gray-700/50 border border-gray-600/50 text-white py-2.5 px-3 rounded-lg leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 text-sm transition-all"
+                    id="rawMaterialCategory"
+                    name="rawMaterialCategory"
+                    value={formData.rawMaterialCategory}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="">Tanlang</option>
+                    <option value="Machalka">Machalka</option>
+                    <option value="Mehanizm">Mehanizm</option>
+                    <option value="Kraska">Kraska</option>
+                    <option value="Temir">Temir</option>
+                    <option value="Material">Material</option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
+                    <svg
+                      className="fill-current h-4 w-4"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                    </svg>
+                  </div>
+                </div>
               </div>
             </div>
 
             {/* Raw Material Name */}
             <div className="flex flex-col gap-1">
               <label
-                className="block uppercase tracking-wide text-white text-sm font-bold mb-1"
+                className="flex items-center text-blue-300 text-sm font-medium mb-2"
                 htmlFor="rawMaterialName"
               >
+                <FiTag className="mr-2" size={16} />
                 Xom ashyo nomi
               </label>
               <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
+                className="appearance-none block w-full bg-gray-700/50 text-white border border-gray-600/50 rounded-lg py-2.5 px-3 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 text-sm transition-all placeholder-gray-400"
                 id="rawMaterialName"
                 name="rawMaterialName"
                 type="text"
@@ -265,13 +333,14 @@ const RawMaterialEditModal = ({ isOpen, onClose, rawMaterialId }) => {
             {/* Description */}
             <div className="flex flex-col gap-1">
               <label
-                className="block uppercase tracking-wide text-white text-sm font-bold mb-1"
+                className="flex items-center text-blue-300 text-sm font-medium mb-2"
                 htmlFor="rawMaterialDescription"
               >
+                <MdDescription className="mr-2" size={16} />
                 Izoh
               </label>
               <textarea
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
+                className="appearance-none block w-full bg-gray-700/50 text-white border border-gray-600/50 rounded-lg py-2.5 px-3 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 text-sm transition-all placeholder-gray-400"
                 id="rawMaterialDescription"
                 name="rawMaterialDescription"
                 rows="3"
@@ -282,21 +351,22 @@ const RawMaterialEditModal = ({ isOpen, onClose, rawMaterialId }) => {
             </div>
 
             {/* Customer Info */}
-            <div className="flex flex-col sm:flex-row gap-3">
+            <div className="flex flex-col sm:flex-row gap-5">
               <div className="w-full sm:flex-1 min-w-[200px]">
                 <label
-                  className="block uppercase tracking-wide text-white text-sm font-bold mb-1"
+                  className="flex items-center text-blue-300 text-sm font-medium mb-2"
                   htmlFor="customer"
                 >
+                  <FiUser className="mr-2" size={16} />
                   Xaridor
                 </label>
                 <div className="flex">
                   <div className="relative w-full">
                     <select
-                      className="block appearance-none w-full bg-gray-200 border text-gray-700 py-2 px-3 rounded-l leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
+                      className="block appearance-none w-full bg-gray-700/50 border border-gray-600/50 text-white py-2.5 px-3 rounded-l-lg leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 text-sm transition-all"
                       id="customer"
                       name="customer"
-                      value={formData.customer}
+                      value={formData.customer || ''}
                       onChange={handleCustomerChange}
                       disabled={customersLoading}
                       required
@@ -304,8 +374,8 @@ const RawMaterialEditModal = ({ isOpen, onClose, rawMaterialId }) => {
                       <option value="">Tanlang</option>
                       {customersLoading ? (
                         <option value="">Yuklanmoqda...</option>
-                      ) : (
-                        customersData?.getCustomersDropdown?.map((customer) => (
+                      ) : customersData?.getCustomersDropdown?.length > 0 ? (
+                        customersData.getCustomersDropdown.map((customer) => (
                           <option key={customer._id} value={customer._id}>
                             {customer.name}{" "}
                             {customer.phoneNumber
@@ -313,13 +383,24 @@ const RawMaterialEditModal = ({ isOpen, onClose, rawMaterialId }) => {
                               : ""}
                           </option>
                         ))
+                      ) : (
+                        <option value="">Xaridorlar topilmadi</option>
                       )}
                     </select>
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
+                      <svg
+                        className="fill-current h-4 w-4"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                      </svg>
+                    </div>
                   </div>
                   <button
                     type="button"
                     onClick={() => setShowCustomerForm(true)}
-                    className="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded-r focus:outline-none focus:ring-2 focus:ring-pink-500"
+                    className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-4 rounded-r-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-sm transition-all"
                   >
                     +
                   </button>
@@ -328,76 +409,88 @@ const RawMaterialEditModal = ({ isOpen, onClose, rawMaterialId }) => {
             </div>
 
             {/* Price and Quantity */}
-            <div className="flex flex-col sm:flex-row gap-3">
+            <div className="flex flex-col sm:flex-row gap-5">
               <div className="w-full sm:flex-1 min-w-[200px]">
                 <label
-                  className="block uppercase tracking-wide text-white text-sm font-bold mb-1"
+                  className="flex items-center text-blue-300 text-sm font-medium mb-2"
                   htmlFor="rawMaterialQuantity"
                 >
+                  <FiPackage className="mr-2" size={16} />
                   Miqdori
                 </label>
-                <input
-                  className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white text-sm"
-                  id="rawMaterialQuantity"
-                  name="rawMaterialQuantity"
-                  type="number"
-                  step="0.01"
-                  min="0"
-                  placeholder="0"
-                  value={formData.rawMaterialQuantity}
-                  onChange={handleChange}
-                  required
-                />
+                <div className="relative">
+                  <input
+                    className="appearance-none block w-full bg-gray-700/50 text-white border border-gray-600/50 rounded-lg py-2.5 px-3 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 text-sm transition-all placeholder-gray-400"
+                    id="rawMaterialQuantity"
+                    name="rawMaterialQuantity"
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    placeholder="0"
+                    value={formData.rawMaterialQuantity}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
               </div>
               <div className="w-full sm:flex-1 min-w-[200px]">
                 <label
-                  className="block uppercase tracking-wide text-white text-sm font-bold mb-1"
+                  className="flex items-center text-blue-300 text-sm font-medium mb-2"
                   htmlFor="rawMaterialPrice"
                 >
+                  <FiDollarSign className="mr-2" size={16} />
                   Narxi
                 </label>
-                <input
-                  className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white text-sm"
-                  id="rawMaterialPrice"
-                  name="rawMaterialPrice"
-                  type="number"
-                  step="0.01"
-                  min="0"
-                  placeholder="0"
-                  value={formData.rawMaterialPrice}
-                  onChange={handleChange}
-                  required
-                />
+                <div className="relative">
+                  <input
+                    className="appearance-none block w-full bg-gray-700/50 text-white border border-gray-600/50 rounded-lg py-2.5 px-3 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 text-sm transition-all placeholder-gray-400"
+                    id="rawMaterialPrice"
+                    name="rawMaterialPrice"
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    placeholder="0"
+                    value={formData.rawMaterialPrice}
+                    onChange={handleChange}
+                    required
+                  />
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400">
+                    <span>so'm</span>
+                  </div>
+                </div>
               </div>
             </div>
 
             {/* Total Price Display */}
-            <div className="flex flex-col sm:flex-row gap-3">
+            <div className="flex flex-col sm:flex-row gap-5 bg-gray-800/50 p-4 rounded-lg border border-gray-700/30">
               <div className="w-full sm:flex-1 min-w-[200px]">
-                <label className="block uppercase tracking-wide text-white text-sm font-bold mb-1">
+                <label className="flex items-center text-blue-300 text-sm font-medium mb-2">
+                  <FiDollarSign className="mr-2" size={16} />
                   Jami narxi
                 </label>
-                <div className="px-3 py-2 bg-gray-700 text-white rounded border border-gray-600 text-sm">
+                <div className="px-4 py-2.5 bg-gray-700/70 text-white rounded-lg border border-gray-600/30 text-sm font-medium">
                   {totalPrice.toLocaleString("uz-UZ")} so'm
                 </div>
               </div>
               <div className="w-full sm:flex-1 min-w-[200px]">
-                <label className="block uppercase tracking-wide text-white text-sm font-bold mb-1">
+                <label className="flex items-center text-blue-300 text-sm font-medium mb-2">
+                  <FaMoneyBillWave className="mr-2" size={16} />
                   To'langan
                 </label>
-                <div className="px-3 py-2 bg-gray-700 text-white rounded border border-gray-600 text-sm">
+                <div className="px-4 py-2.5 bg-gray-700/70 text-white rounded-lg border border-gray-600/30 text-sm font-medium">
                   {totalPaymentAmount.toLocaleString("uz-UZ")} so'm
                 </div>
               </div>
               <div className="w-full sm:flex-1 min-w-[200px]">
-                <label className="block uppercase tracking-wide text-white text-sm font-bold mb-1">
+                <label className="flex items-center text-blue-300 text-sm font-medium mb-2">
+                  <FaRegCreditCard className="mr-2" size={16} />
                   Qoldiq
                 </label>
                 <div
-                  className={`px-3 py-2 rounded border text-sm font-medium ${
+                  className={`px-4 py-2.5 rounded-lg border text-sm font-medium ${
                     totalPrice - totalPaymentAmount > 0
-                      ? "bg-red-900/50 border-red-700 text-white"
-                      : "bg-green-900/50 border-green-700 text-white"
+                      ? "bg-red-900/70 border-red-700/30 text-white"
+                      : "bg-green-900/70 border-green-700/30 text-white"
                   }`}
                 >
                   {(totalPrice - totalPaymentAmount).toLocaleString("uz-UZ")}{" "}
@@ -407,40 +500,80 @@ const RawMaterialEditModal = ({ isOpen, onClose, rawMaterialId }) => {
             </div>
 
             {/* Payments Section */}
-            <div className="mt-3">
-              <h3 className="text-lg font-bold text-white mb-2">To'lovlar</h3>
+            <div className="mt-4">
+              <h3 className="text-lg font-semibold text-white mb-3 flex items-center">
+                <FaMoneyBillWave className="text-blue-400 mr-2" size={18} />
+                To'lovlar
+              </h3>
 
               {/* Existing Payments */}
               {formData.payments && formData.payments.length > 0 && (
-                <div className="bg-gray-700 p-3 rounded-lg mb-3">
+                <div className="bg-gray-800/70 p-4 rounded-lg mb-4 border border-gray-700/30">
                   <table className="w-full text-sm text-white">
                     <thead>
-                      <tr className="border-b border-gray-600">
-                        <th className="text-left pb-2">Turi</th>
-                        <th className="text-left pb-2">Miqdori</th>
-                        <th className="text-left pb-2">Sana</th>
-                        <th className="text-right pb-2">Amal</th>
+                      <tr className="border-b border-gray-600/30">
+                        <th className="text-left pb-3 font-medium text-blue-300">
+                          Turi
+                        </th>
+                        <th className="text-left pb-3 font-medium text-blue-300">
+                          Miqdori
+                        </th>
+                        <th className="text-left pb-3 font-medium text-blue-300">
+                          Sana
+                        </th>
+                        <th className="text-right pb-3 font-medium text-blue-300">
+                          Amal
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
                       {formData.payments.map((payment, index) => (
-                        <tr key={index} className="border-b border-gray-600/50">
-                          <td className="py-2">
-                            {payment.paymentType === "naqd"
-                              ? "Naqd"
-                              : "plastik"}
+                        <tr
+                          key={index}
+                          className="border-b border-gray-600/20 hover:bg-gray-700/30 transition-colors"
+                        >
+                          <td className="py-3 pl-2">
+                            <span className="flex items-center">
+                              {payment.paymentType === "naqd" ? (
+                                <>
+                                  <FaMoneyBillWave
+                                    className="text-green-400 mr-2"
+                                    size={14}
+                                  />{" "}
+                                  Naqd
+                                </>
+                              ) : (
+                                <>
+                                  <FaRegCreditCard
+                                    className="text-blue-400 mr-2"
+                                    size={14}
+                                  />{" "}
+                                  Plastik
+                                </>
+                              )}
+                            </span>
                           </td>
-                          <td className="py-2">
-                            {payment.amount.toLocaleString("uz-UZ")} so'm
+                          <td className="py-3">
+                            <span className="font-medium">
+                              {payment.amount.toLocaleString("uz-UZ")} so'm
+                            </span>
                           </td>
-                          <td className="py-2">{payment.date}</td>
-                          <td className="py-2 text-right">
+                          <td className="py-3">
+                            <span className="flex items-center">
+                              <FiCalendar
+                                className="text-gray-400 mr-2"
+                                size={14}
+                              />
+                              {payment.date}
+                            </span>
+                          </td>
+                          <td className="py-3 text-right">
                             <button
                               type="button"
-                              className="text-red-400 hover:text-red-500"
+                              className="text-red-400 hover:text-red-500 bg-red-900/20 hover:bg-red-900/40 p-1.5 rounded-lg transition-colors"
                               onClick={() => removePayment(index)}
                             >
-                              <FiX />
+                              <FaTrash size={14} />
                             </button>
                           </td>
                         </tr>
@@ -451,8 +584,12 @@ const RawMaterialEditModal = ({ isOpen, onClose, rawMaterialId }) => {
               )}
 
               {/* Add New Payment */}
-              <div className="bg-gray-700/50 p-3 rounded-lg">
-                <div className="flex flex-col sm:flex-row gap-3">
+              <div className="bg-gray-800/70 p-4 rounded-lg border border-gray-700/30">
+                <h4 className="text-blue-300 text-sm font-medium mb-3 flex items-center">
+                  <FiPlus className="mr-2" size={16} />
+                  Yangi to'lov qo'shish
+                </h4>
+                <div className="flex flex-col sm:flex-row gap-5">
                   <div className="flex-1">
                     <label
                       className="block text-white text-xs font-medium mb-1"

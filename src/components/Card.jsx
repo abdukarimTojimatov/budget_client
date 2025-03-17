@@ -1,118 +1,171 @@
 import React from "react";
-import { FaLocationDot } from "react-icons/fa6";
-import { BsCardText } from "react-icons/bs";
-import { MdOutlinePayments } from "react-icons/md";
-import { FaSackDollar, FaCalendarDays } from "react-icons/fa6";
-import { FaTrash } from "react-icons/fa";
+import { FiDollarSign, FiCalendar, FiInfo, FiTag } from "react-icons/fi";
+import { MdDescription, MdCategory, MdOutlinePayments } from "react-icons/md";
+import { FaTrash, FaMoneyBillWave, FaRegCreditCard } from "react-icons/fa";
 import { HiPencilAlt } from "react-icons/hi";
-import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useMutation } from "@apollo/client";
 import { DELETE_EXPENSE } from "../graphql/mutations/expense.mutation";
 
+// Define category color mapping with modern gradients
 const categoryColorMap = {
-  Laminad: "from-emerald-800/50 to-emerald-600/50",
-  "Mashina xarajatlari": "from-pink-800/50 to-pink-600/50",
-  Soliq: "from-blue-800/50 to-blue-600/50",
-  Elektr: "from-purple-800/50 to-purple-600/50",
-  default: "from-gray-800/50 to-gray-600/50",
+  Laminad: "from-green-900/50 to-green-800/80 border-green-700/30",
+  "Mashina xarajatlari": "from-pink-900/50 to-pink-800/80 border-pink-700/30",
+  Soliq: "from-blue-900/50 to-blue-800/80 border-blue-700/30",
+  Elektr: "from-emerald-800/50 to-emerald-700/80 border-emerald-600/30",
+  Maosh: "from-green-900/50 to-green-800/80 border-green-700/30",
+  Internet: "from-cyan-900/50 to-cyan-800/80 border-cyan-700/30",
 };
 
-const Card = ({ expense, authUser, onEdit }) => {
-  let { category, amount, date, paymentType, description, userId } = expense;
-  // Extract category name for display
-  const categoryName = category?.name || "Uncategorized";
+// Payment type icons
+const paymentTypeIcons = {
+  plastik: <FaRegCreditCard className="mr-1.5" size={14} />,
+  naqd: <FaMoneyBillWave className="mr-1.5" size={14} />,
+};
+
+const Card = ({ expense, onEdit }) => {
+  const { category, amount, date, paymentType, description } = expense;
+
+  // Get category details
+  const categoryName = category?.name || "Boshqa";
   const cardClass = categoryColorMap[categoryName] || categoryColorMap.default;
-  const [deleteExpense, { loading }] = useMutation(DELETE_EXPENSE);
 
-  description = description[0]?.toUpperCase() + description.slice(1);
-  // Format category name for display
+  // Format strings for better display
+  const formattedDescription = description
+    ? description.charAt(0).toUpperCase() + description.slice(1)
+    : "";
   const displayCategory =
-    categoryName[0]?.toUpperCase() + categoryName.slice(1);
-  paymentType = paymentType[0]?.toUpperCase() + paymentType.slice(1);
+    categoryName.charAt(0).toUpperCase() + categoryName.slice(1);
+  const formattedPaymentType =
+    paymentType.charAt(0).toUpperCase() + paymentType.slice(1);
 
-  const handleDelete = async () => {
-    const isConfirmed = window.confirm(
-      "Siz rostdan ham o'chirishni istaysizmi?"
-    );
-    if (!isConfirmed) return;
-    try {
-      console.log("Expense ID:", expense._id);
-      await deleteExpense({
-        variables: { id: expense._id },
-        refetchQueries: ["GetExpenses", "GetExpensesStatistics"],
-      });
-      toast.success("Muvaffaqiyatli o'chirildi");
-    } catch (error) {
-      console.error("Error deleting expenses:", error);
-      toast.error(error.message);
-    }
-  };
-
-  // Format date
+  // Format date to be more user-friendly
   const formattedDate = new Date(date).toLocaleDateString("uz-UZ", {
     year: "numeric",
     month: "long",
     day: "numeric",
   });
 
+  // Delete mutation setup
+  const [deleteExpense, { loading }] = useMutation(DELETE_EXPENSE);
+
+  // Handle delete with confirmation
+  const handleDelete = async () => {
+    const isConfirmed = window.confirm(
+      "Siz rostdan ham o'chirishni istaysizmi?"
+    );
+    if (!isConfirmed) return;
+
+    try {
+      await deleteExpense({
+        variables: { id: expense._id },
+        refetchQueries: ["GetExpenses", "GetExpensesStatistics"],
+      });
+      toast.success("Muvaffaqiyatli o'chirildi");
+    } catch (error) {
+      console.error("Error deleting expense:", error);
+      toast.error(error.message || "O'chirishda xatolik yuz berdi");
+    }
+  };
+
   return (
     <div
-      className={`rounded-xl p-6 bg-gradient-to-br bg-cyan-800/80 shadow-lg backdrop-blur-sm border border-gray-700/20`}
+      className={`rounded-xl p-4 bg-gradient-to-br from-emerald-800/50 to-emerald-700/80 border-emerald-600/30 shadow-lg backdrop-blur-sm border`}
     >
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-2">
         {/* Header with category and action buttons */}
-        <div className="flex flex-row items-center justify-between mb-0.5">
-          <div className="flex items-center">
-            <div className="w-1.5 h-1.5 rounded-full bg-white mr-0.5"></div>
-            <h2 className="text-base sm:text-lg font-bold text-red-300 ml-2">
+        <div className="flex items-center justify-between mb-1">
+          <div className="flex items-center bg-white/10 px-2 py-1 rounded-lg">
+            <div className="w-2 h-2 rounded-full bg-blue-400 mr-1"></div>
+            <h2 className="text-sm sm:text-base font-bold text-white">
               {displayCategory}
             </h2>
           </div>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center space-x-2">
             {!loading ? (
               <button
                 onClick={handleDelete}
-                className="p-1 bg-red-500/20 rounded-full hover:bg-red-500/30 transition-colors duration-200"
+                className="p-1.5 bg-red-500/20 rounded-lg hover:bg-red-500/30 transition-colors duration-200 flex items-center"
               >
-                <FaTrash className="text-white/90" size={12} />
+                <FaTrash className="text-red-300" size={14} />
               </button>
             ) : (
-              <div className="w-4 h-4 border-t-2 border-b-2 border-white/50 rounded-full animate-spin"></div>
+              <div className="w-5 h-5 border-t-2 border-b-2 border-white/50 rounded-full animate-spin"></div>
             )}
             <button
               onClick={() => onEdit && onEdit(expense._id)}
-              className="p-1 bg-blue-500/20 rounded-full hover:bg-blue-500/30 transition-colors duration-200"
+              className="p-1.5 bg-blue-500/20 rounded-lg hover:bg-blue-500/30 transition-colors duration-200 flex items-center"
             >
-              <HiPencilAlt className="text-white/90" size={12} />
+              <HiPencilAlt className="text-blue-300" size={14} />
             </button>
           </div>
         </div>
 
-        {/* Table layout for key information */}
-        <table className="w-full text-left border-collapse border border-gray-700/20 text-white text-[10px] sm:text-xs">
-          <tbody>
-            <tr className="border-t border-white/10">
-              <th className="font-medium text-white/70">Xarajat haqida:</th>
-              <td className="p-1 break-words">{description}</td>
-            </tr>
-            <tr className="border-t border-white/10">
-              <th className="font-medium text-white/70">To'lov turi:</th>
-              <td className="p-1 break-words">{paymentType}</td>
-            </tr>
-            <tr className="border-t border-white/10">
-              <th className="font-medium text-white/70">Miqdori:</th>
-              <td className="p-1">
+        {/* Description heading */}
+        <div className="bg-black/20 rounded-lg p-2 mb-1">
+          <h3 className="text-white font-semibold text-sm sm:text-base line-clamp-1 mb-0.5">
+            {formattedDescription}
+          </h3>
+          <div className="flex flex-wrap gap-1 mt-1">
+            {/* Payment type badge */}
+            <div className="flex items-center px-2 py-0.5 rounded-full text-xs bg-blue-600/30 text-blue-200">
+              {paymentTypeIcons[paymentType] || (
+                <MdOutlinePayments className="mr-1" />
+              )}
+              {formattedPaymentType}
+            </div>
+          </div>
+        </div>
+
+        {/* Card content */}
+        <div className="bg-black/10 rounded-lg p-3 space-y-2.5">
+          {/* Amount */}
+          <div className="flex items-start">
+            <FiDollarSign className="text-blue-300 mt-0.5 mr-2 flex-shrink-0" />
+            <div>
+              <div className="text-blue-200 text-xs font-medium">Miqdori</div>
+              <div className="text-white text-sm font-semibold">
                 {amount.toLocaleString("uz-UZ")}{" "}
-                <span className="text-white/70">so'm</span>
-              </td>
-            </tr>
-            <tr className="border-t border-white/10">
-              <th className="font-medium text-white/70">Sana:</th>
-              <td className="p-1 text-white/90">{date}</td>
-            </tr>
-          </tbody>
-        </table>
+                <span className="text-white/70 font-normal">so'm</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Category */}
+          <div className="flex items-start">
+            <MdCategory className="text-blue-300 mt-0.5 mr-2 flex-shrink-0" />
+            <div>
+              <div className="text-blue-200 text-xs font-medium">
+                Kategoriya
+              </div>
+              <div className="text-white text-sm">{displayCategory}</div>
+            </div>
+          </div>
+
+          {/* Date */}
+          <div className="flex items-start">
+            <FiCalendar className="text-blue-300 mt-0.5 mr-2 flex-shrink-0" />
+            <div>
+              <div className="text-blue-200 text-xs font-medium">Sana</div>
+              <div className="text-white text-sm">{formattedDate}</div>
+            </div>
+          </div>
+
+          {/* Description (if expanded view is needed) */}
+          {description && description.length > 20 && (
+            <div className="flex items-start">
+              <MdDescription className="text-blue-300 mt-0.5 mr-2 flex-shrink-0" />
+              <div>
+                <div className="text-blue-200 text-xs font-medium">
+                  Batafsil
+                </div>
+                <div className="text-white text-xs line-clamp-2">
+                  {formattedDescription}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -7,7 +7,9 @@ import toast from "react-hot-toast";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import CategoryForm from "./CategoryForm";
-import { FiX } from "react-icons/fi";
+import { FiX, FiDollarSign, FiCalendar } from "react-icons/fi";
+import { MdAddCircleOutline, MdCategory, MdDescription } from "react-icons/md";
+import { FaRegCreditCard, FaMoneyBillWave } from "react-icons/fa";
 
 const ExpenseEditModal = ({ isOpen, onClose, expenseId }) => {
   const [updateExpense, { loading: loadingUpdate }] = useMutation(UPDATE_EXPENSE);
@@ -360,21 +362,23 @@ const ExpenseEditModal = ({ isOpen, onClose, expenseId }) => {
 
         {loadingData ? (
           <div className="flex justify-center items-center p-8">
-            <div className="w-10 h-10 border-4 border-pink-500 border-t-transparent rounded-full animate-spin"></div>
+            <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin shadow-lg"></div>
+            <span className="ml-3 text-gray-200">Ma'lumotlar yuklanmoqda...</span>
           </div>
         ) : (
           <form className="w-full max-w-2xl flex flex-col gap-6 p-6 mx-auto" onSubmit={handleSubmit}>
             {/* Description */}
             <div className="flex flex-col gap-2">
               <label
-                className="block uppercase tracking-wide text-white text-sm font-bold"
+                className="flex items-center text-white text-sm font-bold"
                 htmlFor="description"
               >
+                <MdDescription className="mr-2 text-blue-400" size={18} />
                 Xarajat haqida
               </label>
-              <div>
+              <div className="relative">
                 <input
-                  className={`appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 ${errors.description ? "border-red-500" : ""}`}
+                  className={`appearance-none block w-full bg-gray-800/50 border border-gray-600 text-white rounded-lg py-3 pl-4 pr-4 leading-tight focus:outline-none focus:border-blue-500 ${errors.description ? "border-red-500" : ""}`}
                   id="description"
                   name="description"
                   type="text"
@@ -384,8 +388,8 @@ const ExpenseEditModal = ({ isOpen, onClose, expenseId }) => {
                   autoComplete="off"
                 />
                 {errors.description && (
-                  <p className="text-red-500 text-xs italic mt-1">
-                    {errors.description}
+                  <p className="text-red-400 text-xs mt-1 flex items-center">
+                    <FiX className="mr-1" /> {errors.description}
                   </p>
                 )}
               </div>
@@ -396,64 +400,78 @@ const ExpenseEditModal = ({ isOpen, onClose, expenseId }) => {
               {/* Payment Type */}
               <div className="flex-1">
                 <label
-                  className="block uppercase tracking-wide text-white text-sm font-bold mb-2"
+                  className="flex items-center text-white text-sm font-bold mb-2"
                   htmlFor="paymentType"
                 >
+                  {formData.paymentType === "plastik" ? 
+                    <FaRegCreditCard className="mr-2 text-blue-400" size={18} /> : 
+                    <FaMoneyBillWave className="mr-2 text-green-400" size={18} />}
                   To'lov turi
                 </label>
-                <select
-                  className="block appearance-none w-full bg-gray-200 border text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                  id="paymentType"
-                  name="paymentType"
-                  value={formData.paymentType}
-                  onChange={handleChange}
-                >
-                  <option value="plastik">Plastik</option>
-                  <option value="naqd">Naqd</option>
-                </select>
+                <div className="relative">
+                  <select
+                    className="block appearance-none w-full bg-gray-800/50 border border-gray-600 text-white py-3 px-4 rounded-lg leading-tight focus:outline-none focus:border-blue-500"
+                    id="paymentType"
+                    name="paymentType"
+                    value={formData.paymentType}
+                    onChange={handleChange}
+                  >
+                    <option value="plastik">Plastik</option>
+                    <option value="naqd">Naqd</option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
+                    {formData.paymentType === "plastik" ? 
+                      <FaRegCreditCard className="text-blue-400" size={16} /> : 
+                      <FaMoneyBillWave className="text-green-400" size={16} />}
+                  </div>
+                </div>
               </div>
 
               {/* Category */}
               <div className="flex-1">
                 <label
-                  className="block uppercase tracking-wide text-white text-sm font-bold mb-2"
+                  className="flex items-center text-white text-sm font-bold mb-2"
                   htmlFor="category"
                 >
+                  <MdCategory className="mr-2 text-blue-400" size={18} />
                   Kategoriya
                 </label>
                 <div className="flex">
-                <div className="relative w-full">
-                  <select
-                    className={`block appearance-none w-full bg-gray-200 border text-gray-700 py-3 px-4 rounded-l leading-tight focus:outline-none focus:bg-white focus:border-gray-500 ${errors.category ? "border-red-500" : ""}`}
-                    id="category"
-                    name="category"
-                    disabled={categoriesLoading}
-                    value={formData.category}
-                    onChange={handleChange}
-                  >
-                    <option value="">Tanlang</option>
-                    {categoriesLoading ? (
-                      <option value="">Yuklanmoqda...</option>
-                    ) : (
-                      categoriesData?.getExpenseCategories?.docs?.map((cat) => (
+                  <div className="relative w-full">
+                    <select
+                      className={`block appearance-none w-full bg-gray-800/50 border border-gray-600 text-white py-3 px-4 rounded-l-lg leading-tight focus:outline-none focus:border-blue-500 ${errors.category ? "border-red-500" : ""}`}
+                      id="category"
+                      name="category"
+                      disabled={categoriesLoading}
+                      value={formData.category}
+                      onChange={handleChange}
+                    >
+                      <option value="">{categoriesLoading ? "Yuklanmoqda..." : "Tanlang"}</option>
+                      {!categoriesLoading && categoriesData?.getExpenseCategories?.docs?.map((cat) => (
                         <option key={cat._id} value={cat._id}>
                           {cat.name}
                         </option>
-                      ))
+                      ))}
+                      {!categoriesLoading && (!categoriesData?.getExpenseCategories?.docs || categoriesData.getExpenseCategories.docs.length === 0) && (
+                        <option value="" disabled>Kategoriyalar topilmadi</option>
+                      )}
+                    </select>
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
+                      <MdCategory className="text-blue-400" size={16} />
+                    </div>
+                    {errors.category && (
+                      <p className="text-red-400 text-xs mt-1 flex items-center">
+                        <FiX className="mr-1" /> {errors.category}
+                      </p>
                     )}
-                  </select>
-                  {errors.category && (
-                    <p className="text-red-500 text-xs italic mt-1">
-                      {errors.category}
-                    </p>
-                  )}
-                </div>
+                  </div>
                   <button
                     type="button"
                     onClick={() => setShowCategoryForm(true)}
-                    className="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded-r focus:outline-none focus:ring-2 focus:ring-pink-500"
+                    className="bg-blue-600/80 hover:bg-blue-700/90 text-white font-medium flex items-center justify-center py-3 px-3 rounded-r-lg focus:outline-none transition-colors duration-200"
+                    title="Yangi kategoriya qo'shish"
                   >
-                    +
+                    <MdAddCircleOutline size={20} />
                   </button>
                 </div>
               </div>
@@ -464,14 +482,15 @@ const ExpenseEditModal = ({ isOpen, onClose, expenseId }) => {
               {/* Amount */}
               <div className="flex-1">
                 <label
-                  className="block uppercase text-white text-sm font-bold mb-2"
+                  className="flex items-center text-white text-sm font-bold mb-2"
                   htmlFor="amount"
                 >
+                  <FiDollarSign className="mr-2 text-blue-400" size={18} />
                   Miqdori (so'm)
                 </label>
-                <div>
+                <div className="relative">
                   <input
-                    className={`appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 ${errors.amount ? "border-red-500" : ""}`}
+                    className={`appearance-none block w-full bg-gray-800/50 border border-gray-600 text-white rounded-lg py-3 pl-4 pr-10 leading-tight focus:outline-none focus:border-blue-500 ${errors.amount ? "border-red-500" : ""}`}
                     id="amount"
                     name="amount"
                     type="number"
@@ -479,9 +498,12 @@ const ExpenseEditModal = ({ isOpen, onClose, expenseId }) => {
                     value={formData.amount}
                     onChange={handleChange}
                   />
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-400">
+                    <span className="text-xs">UZS</span>
+                  </div>
                   {errors.amount && (
-                    <p className="text-red-500 text-xs italic mt-1">
-                      {errors.amount}
+                    <p className="text-red-400 text-xs mt-1 flex items-center">
+                      <FiX className="mr-1" /> {errors.amount}
                     </p>
                   )}
                 </div>
@@ -490,19 +512,20 @@ const ExpenseEditModal = ({ isOpen, onClose, expenseId }) => {
               {/* Date */}
               <div className="flex-1">
                 <label
-                  className="block uppercase tracking-wide text-white text-sm font-bold mb-2"
+                  className="flex items-center text-white text-sm font-bold mb-2"
                   htmlFor="date"
                 >
+                  <FiCalendar className="mr-2 text-blue-400" size={18} />
                   Sana
                 </label>
-                <div>
+                <div className="relative">
                   <DatePicker
                     selected={formData.date}
                     onChange={handleDateChange}
                     dateFormat="yyyy-MM-dd"
                     name="date"
                     id="date"
-                    className={`appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white ${errors.date ? "border-red-500" : ""}`}
+                    className={`appearance-none block w-full bg-gray-800/50 border border-gray-600 text-white rounded-lg py-3 px-4 leading-tight focus:outline-none focus:border-blue-500 ${errors.date ? "border-red-500" : ""}`}
                     placeholderText="Sanani tanlang"
                     readOnly={true}
                     onFocus={(e) => e.target.readOnly = false}
@@ -512,9 +535,12 @@ const ExpenseEditModal = ({ isOpen, onClose, expenseId }) => {
                     showYearDropdown
                     dropdownMode="select"
                   />
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-400">
+                    <FiCalendar size={16} />
+                  </div>
                   {errors.date && (
-                    <p className="text-red-500 text-xs italic mt-1">
-                      {errors.date}
+                    <p className="text-red-400 text-xs mt-1 flex items-center">
+                      <FiX className="mr-1" /> {errors.date}
                     </p>
                   )}
                 </div>
@@ -522,20 +548,27 @@ const ExpenseEditModal = ({ isOpen, onClose, expenseId }) => {
             </div>
 
             {/* Buttons */}
-            <div className="mt-6 flex flex-col gap-2">
-              <button
-                type="submit"
-                className="w-full py-3 px-4 rounded bg-gradient-to-br from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white font-bold disabled:opacity-70 disabled:cursor-not-allowed"
-                disabled={loadingUpdate}
-              >
-                {loadingUpdate ? "Yangilanmoqda..." : "Yangilash"}
-              </button>
+            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3">
               <button
                 type="button"
                 onClick={onClose}
-                className="w-full py-3 px-4 rounded bg-gray-600 hover:bg-gray-500 text-white font-bold"
+                className="py-3 px-4 rounded-lg bg-gray-700/50 hover:bg-gray-600/50 text-white font-medium transition-colors duration-200 border border-gray-600/50"
               >
                 Bekor qilish
+              </button>
+              <button
+                type="submit"
+                className="py-3 px-4 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium transition-all duration-200 shadow-lg hover:shadow-blue-500/20 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center"
+                disabled={loadingUpdate}
+              >
+                {loadingUpdate ? (
+                  <>
+                    <div className="w-5 h-5 border-t-2 border-b-2 border-white rounded-full animate-spin mr-2"></div>
+                    Yangilanmoqda...
+                  </>
+                ) : (
+                  "Yangilash"
+                )}
               </button>
             </div>
           </form>
