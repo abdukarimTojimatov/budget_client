@@ -7,9 +7,9 @@ echo "Starting deployment in production mode..."
 
 # Step 1: Pull the latest code
 echo "Pulling the latest changes from Git..."
-git checkout master
+git checkout dev1
 git reset --hard
-git pull origin master
+git pull origin dev1
 
 # Step 2: Ensure dependencies are installed
 echo "Installing dependencies..."
