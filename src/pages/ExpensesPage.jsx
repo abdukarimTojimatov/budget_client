@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import Cards from "../components/Cards";
-import { FiPlusCircle, FiMinusCircle, FiFilter, FiCalendar, FiX } from "react-icons/fi";
+import {
+  FiPlusCircle,
+  FiMinusCircle,
+  FiFilter,
+  FiCalendar,
+  FiX,
+} from "react-icons/fi";
 import { useQuery } from "@apollo/client";
 import { GET_EXPENSE_CATEGORIES } from "../graphql/queries/expenseCategory.query";
 import DatePicker from "react-datepicker";
@@ -103,32 +109,30 @@ const ExpensesPage = () => {
             onClick={openCreateModal}
             className="px-4 py-2.5 rounded-lg flex items-center gap-2 transition-all duration-200 bg-gradient-to-r from-green-600/70 to-emerald-600/70 hover:shadow-green-500/20 text-white shadow-md"
           >
-            <span className="text-sm font-medium">
-              Yangi xarajat
-            </span>
+            <span className="text-sm font-medium">Yangi xarajat</span>
             <FiPlusCircle className="h-5 w-5" />
           </button>
-          
+
           {/* Expense Create Modal */}
-          <ExpenseModal 
-            isOpen={isCreateModalOpen} 
-            onClose={() => setIsCreateModalOpen(false)} 
+          <ExpenseModal
+            isOpen={isCreateModalOpen}
+            onClose={() => setIsCreateModalOpen(false)}
           />
-          
+
           {/* Expense Edit Modal */}
-          <ExpenseEditModal 
-            isOpen={isEditModalOpen} 
+          <ExpenseEditModal
+            isOpen={isEditModalOpen}
             onClose={() => {
               setIsEditModalOpen(false);
               setSelectedExpenseId(null);
-            }} 
+            }}
             expenseId={selectedExpenseId}
           />
         </div>
         <div
           className={`${
             isFiltersOpen ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
-          } bg-gray-800/50 p-5 rounded-xl shadow-lg border border-blue-900/20 overflow-hidden transition-all duration-300 ease-in-out my-4 backdrop-blur-sm`}
+          } bg-gray-800/50 p-5 rounded-xl shadow-lg border border-blue-900/20 overflow-hidden transition-all duration-300 ease-in-out backdrop-blur-sm`}
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {/* Category Filter */}

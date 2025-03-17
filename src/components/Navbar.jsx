@@ -12,7 +12,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="w-full mb-8">
+    <div className="w-full">
       <nav className="relative">
         {/* Gradient effects */}
         <div className="absolute inset-x-0 top-0 bg-gradient-to-r from-transparent via-indigo-500 to-transparent h-[2px] w-full blur-sm" />

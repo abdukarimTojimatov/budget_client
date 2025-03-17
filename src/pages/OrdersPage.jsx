@@ -60,7 +60,7 @@ const OrdersPage = () => {
           {/* Filter Toggle Button */}
           <button
             onClick={() => setIsFiltersOpen(!isFiltersOpen)}
-            className={`px-4 py-2.5 rounded-lg flex items-center gap-2 transition-all ml-1 duration-200 shadow-md ${
+            className={`px-4 py-2.5 rounded-lg flex items-center gap-2 transition-all duration-200 shadow-md ${
               isFiltersOpen
                 ? "bg-gradient-to-r from-red-600/70 to-red-700/70 hover:shadow-red-500/20 text-white"
                 : "bg-gradient-to-r from-blue-600/70 to-indigo-600/70 hover:shadow-blue-500/20 text-white"
@@ -106,7 +106,7 @@ const OrdersPage = () => {
         <div
           className={`${
             isFiltersOpen ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
-          } bg-gray-800/50 p-5 rounded-xl shadow-lg border border-blue-900/20 overflow-hidden transition-all duration-300 ease-in-out my-4 backdrop-blur-sm mx-4`}
+          } bg-gray-800/50 p-5 rounded-xl shadow-lg border border-blue-900/20 overflow-hidden transition-all duration-300 ease-in-out mb-1 backdrop-blur-sm mx-4`}
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
             {/* Category Filter */}
@@ -248,7 +248,7 @@ const OrdersPage = () => {
 
         {/* Grid View of Orders */}
         {!loading && !error && (
-          <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4">
+          <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-4 px-4 pt-1">
             {data?.getOrders?.docs.length === 0 ? (
               <div className="col-span-full bg-gray-800/50 rounded-xl px-6 py-12 flex flex-col items-center justify-center text-center">
                 <svg

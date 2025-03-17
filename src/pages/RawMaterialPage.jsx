@@ -150,7 +150,7 @@ const RawMaterialsPage = () => {
       <div
         className={`${
           isFiltersOpen ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
-        } bg-gray-800/50 p-5 rounded-xl shadow-lg border border-blue-900/20 overflow-hidden transition-all duration-300 ease-in-out my-4 backdrop-blur-sm mx-4`}
+        } bg-gray-800/50 p-5 rounded-xl shadow-lg border border-blue-900/20 overflow-hidden transition-all duration-300 ease-in-out mb-1 backdrop-blur-sm mx-4`}
       >
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {/* Category Filter */}
@@ -258,7 +258,7 @@ const RawMaterialsPage = () => {
       )}
 
       {!loading && !error && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 p-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 px-4 pt-1">
           {data?.getRawMaterials?.docs.length === 0 ? (
             <div className="col-span-full bg-gray-800/50 rounded-xl px-6 py-12 flex flex-col items-center justify-center text-center">
               <svg

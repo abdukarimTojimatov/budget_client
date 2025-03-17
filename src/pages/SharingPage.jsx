@@ -117,7 +117,7 @@ const SharingPage = () => {
         <div
           className={`${
             isFiltersOpen ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
-          } bg-gray-800/50 p-5 rounded-xl shadow-lg border border-blue-900/20 overflow-hidden transition-all duration-300 ease-in-out my-4 backdrop-blur-sm`}
+          } bg-gray-800/50 p-5 rounded-xl shadow-lg border border-blue-900/20 overflow-hidden transition-all duration-300 ease-in-out mb-1 backdrop-blur-sm`}
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {/* Category Filter */}
