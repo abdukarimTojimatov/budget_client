@@ -1,7 +1,24 @@
 import React, { useState, useEffect } from "react";
-import { FaTrash, FaDownload, FaTimes, FaImages, FaRegCreditCard, FaMoneyBillWave } from "react-icons/fa";
+import {
+  FaTrash,
+  FaDownload,
+  FaTimes,
+  FaImages,
+  FaRegCreditCard,
+  FaMoneyBillWave,
+} from "react-icons/fa";
 import { HiPencilAlt } from "react-icons/hi";
-import { FiDollarSign, FiCalendar, FiPackage, FiUser, FiMapPin, FiTag, FiAlertCircle, FiCheck, FiClock } from "react-icons/fi";
+import {
+  FiDollarSign,
+  FiCalendar,
+  FiPackage,
+  FiUser,
+  FiMapPin,
+  FiTag,
+  FiAlertCircle,
+  FiCheck,
+  FiClock,
+} from "react-icons/fi";
 import { MdDescription, MdCategory } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useMutation } from "@apollo/client";
@@ -44,7 +61,7 @@ const OrderCard = ({ order, onEdit }) => {
     const statusColors = {
       tolandi: "from-emerald-800/50 to-emerald-700/80 border-emerald-600/30",
       qisman: "from-blue-800/50 to-blue-700/70 border-blue-600/30",
-      tolanmadi: "from-red-900/50 to-red-800/70 border-red-700/30",
+      tolanmadi: "from-pink-900/50 to-pink-800/80 border-pink-700/30",
     };
     return (
       statusColors[order.orderPaymentStatus.toLowerCase()] ||
@@ -55,25 +72,55 @@ const OrderCard = ({ order, onEdit }) => {
   // Get status badge color and icon
   const getStatusInfo = (status) => {
     const statusInfo = {
-      tayyorlanmoqda: { color: "bg-blue-600/30 text-blue-200", icon: <FiClock className="mr-1" /> },
-      topshirildi: { color: "bg-emerald-600/30 text-emerald-200", icon: <FiCheck className="mr-1" /> },
-      "bekor qilindi": { color: "bg-red-600/30 text-red-200", icon: <FiAlertCircle className="mr-1" /> },
+      tayyorlanmoqda: {
+        color: "bg-blue-600/30 text-blue-200",
+        icon: <FiClock className="mr-1" />,
+      },
+      topshirildi: {
+        color: "bg-emerald-600/30 text-emerald-200",
+        icon: <FiCheck className="mr-1" />,
+      },
+      "bekor qilindi": {
+        color: "bg-red-600/30 text-red-200",
+        icon: <FiAlertCircle className="mr-1" />,
+      },
     };
-    return statusInfo[status.toLowerCase()] || { color: "bg-gray-600/30 text-gray-200", icon: <FiClock className="mr-1" /> };
+    return (
+      statusInfo[status.toLowerCase()] || {
+        color: "bg-gray-600/30 text-gray-200",
+        icon: <FiClock className="mr-1" />,
+      }
+    );
   };
-  
+
   // Get payment status info
   const getPaymentStatusInfo = (status) => {
     const paymentInfo = {
-      tolandi: { color: "bg-emerald-600/30 text-emerald-200", icon: <FiCheck className="mr-1" /> },
-      qisman: { color: "bg-blue-600/30 text-blue-200", icon: <FiDollarSign className="mr-1" /> },
-      tolanmadi: { color: "bg-red-600/30 text-red-200", icon: <FiAlertCircle className="mr-1" /> },
+      tolandi: {
+        color: "bg-emerald-600/30 text-emerald-200",
+        icon: <FiCheck className="mr-1" />,
+      },
+      qisman: {
+        color: "bg-blue-600/30 text-blue-200",
+        icon: <FiDollarSign className="mr-1" />,
+      },
+      tolanmadi: {
+        color: "bg-red-600/30 text-red-200",
+        icon: <FiAlertCircle className="mr-1" />,
+      },
     };
-    return paymentInfo[status.toLowerCase()] || { color: "bg-gray-600/30 text-gray-200", icon: <FiDollarSign className="mr-1" /> };
+    return (
+      paymentInfo[status.toLowerCase()] || {
+        color: "bg-gray-600/30 text-gray-200",
+        icon: <FiDollarSign className="mr-1" />,
+      }
+    );
   };
 
   return (
-    <div className={`rounded-xl p-4 bg-gradient-to-br ${getCardClass()} shadow-lg backdrop-blur-sm border`}>
+    <div
+      className={`rounded-xl p-4 bg-gradient-to-br ${getCardClass()} shadow-lg backdrop-blur-sm border`}
+    >
       <div className="flex flex-col gap-2">
         {/* Header with order number and action buttons */}
         <div className="flex items-center justify-between mb-1">
@@ -116,15 +163,25 @@ const OrderCard = ({ order, onEdit }) => {
 
         {/* Order name */}
         <div className="bg-black/20 rounded-lg p-2 mb-1">
-          <h3 className="text-white font-semibold text-sm sm:text-base line-clamp-1 mb-0.5">{order.orderName}</h3>
+          <h3 className="text-white font-semibold text-sm sm:text-base line-clamp-1 mb-0.5">
+            {order.orderName}
+          </h3>
           <div className="flex flex-wrap gap-1 mt-1">
             {/* Status badge */}
-            <div className={`flex items-center px-2 py-0.5 rounded-full text-xs ${getStatusInfo(order.orderStatus).color}`}>
+            <div
+              className={`flex items-center px-2 py-0.5 rounded-full text-xs ${
+                getStatusInfo(order.orderStatus).color
+              }`}
+            >
               {getStatusInfo(order.orderStatus).icon}
               {order.orderStatus}
             </div>
             {/* Payment status badge */}
-            <div className={`flex items-center px-2 py-0.5 rounded-full text-xs ${getPaymentStatusInfo(order.orderPaymentStatus).color}`}>
+            <div
+              className={`flex items-center px-2 py-0.5 rounded-full text-xs ${
+                getPaymentStatusInfo(order.orderPaymentStatus).color
+              }`}
+            >
               {getPaymentStatusInfo(order.orderPaymentStatus).icon}
               {order.orderPaymentStatus}
             </div>
@@ -138,7 +195,9 @@ const OrderCard = ({ order, onEdit }) => {
             <FiUser className="text-blue-300 mt-0.5 mr-2 flex-shrink-0" />
             <div>
               <div className="text-blue-200 text-xs font-medium">Mijoz</div>
-              <div className="text-white text-sm">{order.orderCustomerName}</div>
+              <div className="text-white text-sm">
+                {order.orderCustomerName}
+              </div>
             </div>
           </div>
 
@@ -147,7 +206,9 @@ const OrderCard = ({ order, onEdit }) => {
             <MdDescription className="text-blue-300 mt-0.5 mr-2 flex-shrink-0" />
             <div>
               <div className="text-blue-200 text-xs font-medium">Tavsifi</div>
-              <div className="text-white text-xs line-clamp-2">{order.orderDescription}</div>
+              <div className="text-white text-xs line-clamp-2">
+                {order.orderDescription}
+              </div>
             </div>
           </div>
 
@@ -156,7 +217,9 @@ const OrderCard = ({ order, onEdit }) => {
             <MdCategory className="text-blue-300 mt-0.5 mr-2 flex-shrink-0" />
             <div className="grid grid-cols-2 gap-x-2 w-full">
               <div>
-                <div className="text-blue-200 text-xs font-medium">Kategoriya</div>
+                <div className="text-blue-200 text-xs font-medium">
+                  Kategoriya
+                </div>
                 <div className="text-white text-xs">{order.orderCategory}</div>
               </div>
               <div>
@@ -172,17 +235,25 @@ const OrderCard = ({ order, onEdit }) => {
             <div className="grid grid-cols-2 gap-2 w-full">
               <div>
                 <div className="text-blue-200 text-xs font-medium">Jami</div>
-                <div className="text-white text-sm font-medium">{order.orderTotalAmount.toLocaleString("uz-UZ")} so'm</div>
+                <div className="text-white text-sm font-medium">
+                  {order.orderTotalAmount.toLocaleString("uz-UZ")} so'm
+                </div>
               </div>
               <div>
-                <div className="text-blue-200 text-xs font-medium">To'landi</div>
+                <div className="text-blue-200 text-xs font-medium">
+                  To'landi
+                </div>
                 <div className="text-white text-sm font-medium">
                   {order.orderTotalPaid?.toLocaleString("uz-UZ") || "0"} so'm
                 </div>
               </div>
               <div>
-                <div className="text-blue-200 text-xs font-medium">Harajatlar</div>
-                <div className="text-white text-sm">{order.orderExpensesAmount.toLocaleString("uz-UZ")} so'm</div>
+                <div className="text-blue-200 text-xs font-medium">
+                  Harajatlar
+                </div>
+                <div className="text-white text-sm">
+                  {order.orderExpensesAmount.toLocaleString("uz-UZ")} so'm
+                </div>
               </div>
               <div>
                 <div className="text-blue-200 text-xs font-medium">Qarz</div>
