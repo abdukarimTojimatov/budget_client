@@ -7,9 +7,19 @@ import { toast } from "react-hot-toast";
 import OrderCard from "../components/OrderCard";
 import Pagination from "../components/Pagination";
 import Filters from "../components/Filters";
-import { FiPlusCircle, FiMinusCircle } from "react-icons/fi";
+import {
+  FiPlusCircle,
+  FiMinusCircle,
+  FiFilter,
+  FiCalendar,
+  FiX,
+} from "react-icons/fi";
 import OrderModal from "../components/OrderModal";
 import OrderEditModal from "../components/OrderEditModal";
+import { MdCategory } from "react-icons/md";
+import { BiSolidData } from "react-icons/bi";
+import { FaMoneyBillAlt, FaBoxes } from "react-icons/fa";
+import { GiCardboardBox } from "react-icons/gi";
 
 const OrdersPage = () => {
   const [page, setPage] = useState(1);
@@ -46,37 +56,33 @@ const OrdersPage = () => {
   return (
     <div className="max-w-7xl mx-auto">
       <div className="flex flex-col">
-        <div className="flex justify-start items-center ml-3 mr-3">
-          {/* <h1 className="text-2xl font-bold text-white">Buyurtmalar</h1> */}
+        <div className="flex justify-start gap-3 items-center mx-3 my-4">
+          {/* Filter Toggle Button */}
           <button
             onClick={() => setIsFiltersOpen(!isFiltersOpen)}
-            className={`px-4 py-2 rounded-lg flex items-start gap-2 transition-colors ${
+            className={`px-4 py-2.5 rounded-lg flex items-center gap-2 transition-all ml-1 duration-200 shadow-md ${
               isFiltersOpen
-                ? "bg-red-800/30 hover:bg-red-700/40 text-white"
-                : "bg-blue-800/30 hover:bg-blue-700/40 text-white"
+                ? "bg-gradient-to-r from-red-600/70 to-red-700/70 hover:shadow-red-500/20 text-white"
+                : "bg-gradient-to-r from-blue-600/70 to-indigo-600/70 hover:shadow-blue-500/20 text-white"
             }`}
           >
-            <span className="text-xs sm:text-sm md:text-base">
-              {isFiltersOpen ? "Yopish" : "Filtrlash"}
+            <span className="text-sm font-medium">
+              {isFiltersOpen ? "Filtrlarni yopish" : "Filtrlash"}
             </span>
-            <span>
-              {isFiltersOpen ? (
-                <FiMinusCircle className="h-6 w-6" />
-              ) : (
-                <FiPlusCircle className="h-6 w-6 pl-2" />
-              )}
-            </span>
+            {isFiltersOpen ? (
+              <FiX className="h-5 w-5" />
+            ) : (
+              <FiFilter className="h-5 w-5" />
+            )}
           </button>
+
+          {/* Add New Button */}
           <button
             onClick={() => setIsOrderModalOpen(true)}
-            className="px-4 py-2 rounded-lg ml-3 flex items-start gap-2 transition-colors bg-blue-800/30 hover:bg-blue-700/40 text-white"
+            className="px-4 py-2.5 rounded-lg flex items-center gap-2 transition-all duration-200 bg-gradient-to-r from-green-600/70 to-emerald-600/70 hover:shadow-green-500/20 text-white shadow-md"
           >
-            <span className="text-xs sm:text-sm md:text-base">
-              Yangi qo'shish
-            </span>
-            <span>
-              <FiPlusCircle className="h-6 w-6 pl-2" />
-            </span>
+            <span className="text-sm font-medium">Yangi buyurtma</span>
+            <FiPlusCircle className="h-5 w-5" />
           </button>
 
           {/* Order Modal */}
@@ -96,97 +102,132 @@ const OrdersPage = () => {
           />
         </div>
 
-        {/* Filters */}
+        {/* Filters Section */}
         <div
           className={`${
             isFiltersOpen ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
-          } bg-gray-800/50 p-4 rounded-xl shadow-lg border border-gray-700/30 ml-4 mr-4`}
+          } bg-gray-800/50 p-5 rounded-xl shadow-lg border border-blue-900/20 overflow-hidden transition-all duration-300 ease-in-out my-4 backdrop-blur-sm mx-4`}
         >
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-            <div>
-              <label className="block text-white text-sm font-medium mb-1">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+            {/* Category Filter */}
+            <div className="space-y-2">
+              <label className="flex items-center text-white text-sm font-medium">
+                <MdCategory className="mr-2 text-blue-400" size={18} />
                 Kategoriya
               </label>
-              <select
-                name="orderCategory"
-                value={filters.orderCategory}
-                onChange={handleFilterChange}
-                className="w-full bg-gray-700/80 text-white rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-600"
-              >
-                <option value="">Hammasi</option>
-                <option value="oshxona">oshxona</option>
-                <option value="yotoqxona">yotoqxona</option>
-                <option value="yumshoq mebel">yumshoq mebel</option>
-                <option value="boshqa">boshqa</option>
-              </select>
+              <div className="relative">
+                <select
+                  name="orderCategory"
+                  value={filters.orderCategory}
+                  onChange={handleFilterChange}
+                  className="w-full bg-gray-800/80 text-white rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-blue-500 border border-gray-700 appearance-none"
+                >
+                  <option value="">Hammasi</option>
+                  <option value="oshxona">oshxona</option>
+                  <option value="yotoqxona">yotoqxona</option>
+                  <option value="yumshoq mebel">yumshoq mebel</option>
+                  <option value="boshqa">boshqa</option>
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-400">
+                  <MdCategory size={16} />
+                </div>
+              </div>
             </div>
 
-            <div>
-              <label className="block text-white text-sm font-medium mb-1">
+            {/* Status Filter */}
+            <div className="space-y-2">
+              <label className="flex items-center text-white text-sm font-medium">
+                <GiCardboardBox className="mr-2 text-blue-400" size={18} />
                 Holati
               </label>
-              <select
-                name="orderStatus"
-                value={filters.orderStatus}
-                onChange={handleFilterChange}
-                className="w-full bg-gray-700/80 text-white rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-600"
-              >
-                <option value="">Hammasi</option>
-                <option value="yangi">yangi</option>
-                <option value="tayyorlanayabdi">tayyorlanayabdi</option>
-                <option value="tayyor">tayyor</option>
-                <option value="ornatildi">ornatildi</option>
-              </select>
+              <div className="relative">
+                <select
+                  name="orderStatus"
+                  value={filters.orderStatus}
+                  onChange={handleFilterChange}
+                  className="w-full bg-gray-800/80 text-white rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-blue-500 border border-gray-700 appearance-none"
+                >
+                  <option value="">Hammasi</option>
+                  <option value="yangi">yangi</option>
+                  <option value="tayyorlanayabdi">tayyorlanayabdi</option>
+                  <option value="tayyor">tayyor</option>
+                  <option value="ornatildi">ornatildi</option>
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-400">
+                  <GiCardboardBox size={16} />
+                </div>
+              </div>
             </div>
 
-            <div>
-              <label className="block text-white text-sm font-medium mb-1">
+            {/* Type Filter */}
+            <div className="space-y-2">
+              <label className="flex items-center text-white text-sm font-medium">
+                <FaBoxes className="mr-2 text-blue-400" size={16} />
                 Turi
               </label>
-              <select
-                name="orderType"
-                value={filters.orderType}
-                onChange={handleFilterChange}
-                className="w-full bg-gray-700/80 text-white rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-600"
-              >
-                <option value="">Hammasi</option>
-                <option value="bozor">bozor</option>
-                <option value="buyurtma">buyurtma</option>
-                <option value="boshqa">boshqa</option>
-              </select>
+              <div className="relative">
+                <select
+                  name="orderType"
+                  value={filters.orderType}
+                  onChange={handleFilterChange}
+                  className="w-full bg-gray-800/80 text-white rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-blue-500 border border-gray-700 appearance-none"
+                >
+                  <option value="">Hammasi</option>
+                  <option value="bozor">bozor</option>
+                  <option value="buyurtma">buyurtma</option>
+                  <option value="boshqa">boshqa</option>
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-400">
+                  <FaBoxes size={14} />
+                </div>
+              </div>
             </div>
 
-            <div>
-              <label className="block text-white text-sm font-medium mb-1">
+            {/* Payment Status Filter */}
+            <div className="space-y-2">
+              <label className="flex items-center text-white text-sm font-medium">
+                <FaMoneyBillAlt className="mr-2 text-blue-400" size={16} />
                 To'lov holati
               </label>
-              <select
-                name="orderPaymentStatus"
-                value={filters.orderPaymentStatus}
-                onChange={handleFilterChange}
-                className="w-full bg-gray-700/80 text-white rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-600"
-              >
-                <option value="">Hammasi</option>
-                <option value="tolanmadi">tolanmadi</option>
-                <option value="qisman">qisman</option>
-                <option value="tolandi">tolandi</option>
-              </select>
+              <div className="relative">
+                <select
+                  name="orderPaymentStatus"
+                  value={filters.orderPaymentStatus}
+                  onChange={handleFilterChange}
+                  className="w-full bg-gray-800/80 text-white rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-blue-500 border border-gray-700 appearance-none"
+                >
+                  <option value="">Hammasi</option>
+                  <option value="tolanmadi">tolanmadi</option>
+                  <option value="qisman">qisman</option>
+                  <option value="tolandi">tolandi</option>
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-400">
+                  <FaMoneyBillAlt size={14} />
+                </div>
+              </div>
             </div>
 
-            <div>
-              <label className="block text-white text-sm font-medium mb-1">
-                Sahifada
+            {/* Limit Dropdown */}
+            <div className="space-y-2">
+              <label className="flex items-center text-white text-sm font-medium">
+                <BiSolidData className="mr-2 text-blue-400" size={18} />
+                Ma'lumotlar soni
               </label>
-              <select
-                value={limit}
-                onChange={handleLimitChange}
-                className="w-full bg-gray-700/80 text-white rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-600"
-              >
-                <option value={1}>1</option>
-                <option value={5}>5</option>
-                <option value={10}>10</option>
-                <option value={20}>20</option>
-              </select>
+              <div className="relative">
+                <select
+                  value={limit}
+                  onChange={handleLimitChange}
+                  className="w-full bg-gray-800/80 text-white rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-blue-500 border border-gray-700 appearance-none"
+                >
+                  <option value={1}>1</option>
+                  <option value={5}>5</option>
+                  <option value={10}>10</option>
+                  <option value={20}>20</option>
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-400">
+                  <BiSolidData size={16} />
+                </div>
+              </div>
             </div>
           </div>
         </div>
