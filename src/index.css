@@ -32,12 +32,42 @@
 
 /* Hide scrollbar but maintain functionality */
 .hide-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 .hide-scrollbar::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera */
+}
+
+/* Responsive calendar styles for smaller screens */
+@media (max-width: 640px) {
+  .responsive-calendar {
+    font-size: 0.8rem;
+    width: auto !important;
+    min-width: 250px !important;
+    max-width: 280px !important;
+  }
+
+  .react-datepicker__month-container {
+    width: 100%;
+  }
+
+  .react-datepicker__day {
+    width: 1.7rem !important;
+    height: 1.7rem !important;
+    line-height: 1.7rem !important;
+    margin: 0.1rem !important;
+  }
+
+  .react-datepicker__header {
+    padding-top: 0.5rem !important;
+  }
+
+  .datepicker-small {
+    z-index: 9999 !important;
+    position: absolute !important;
+  }
 }
 
 .react-datepicker__day--selected,

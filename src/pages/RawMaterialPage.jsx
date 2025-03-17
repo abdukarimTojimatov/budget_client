@@ -4,7 +4,13 @@ import { GET_RAW_MATERIALS } from "../graphql/queries/rawMaterial.query";
 import RawMaterialCard from "../components/RawMaterialCard";
 import { Link } from "react-router-dom";
 import Pagination from "../components/Pagination";
-import { FiPlusCircle, FiMinusCircle, FiFilter, FiCalendar, FiX } from "react-icons/fi";
+import {
+  FiPlusCircle,
+  FiMinusCircle,
+  FiFilter,
+  FiCalendar,
+  FiX,
+} from "react-icons/fi";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import RawMaterialModal from "../components/RawMaterialModal";
@@ -123,9 +129,7 @@ const RawMaterialsPage = () => {
           onClick={() => setIsCreateModalOpen(true)}
           className="px-4 py-2.5 rounded-lg flex items-center gap-2 transition-all duration-200 bg-gradient-to-r from-green-600/70 to-emerald-600/70 hover:shadow-green-500/20 text-white shadow-md"
         >
-          <span className="text-sm font-medium">
-            Yangi homashyo
-          </span>
+          <span className="text-sm font-medium">Yangi homashyo</span>
           <FiPlusCircle className="h-5 w-5" />
         </button>
 
@@ -196,6 +200,35 @@ const RawMaterialsPage = () => {
                 className="w-full bg-gray-800/80 text-white rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-blue-500 border border-gray-700 appearance-none"
                 placeholderText="Sanani tanlang"
                 dateFormat="yyyy/MM/dd"
+                popperClassName="z-[100] datepicker-small"
+                popperPlacement="auto"
+                wrapperClassName="z-50"
+                calendarClassName="responsive-calendar"
+                monthsShown={window.innerWidth < 768 ? 1 : 1}
+                popperModifiers={[
+                  {
+                    name: "offset",
+                    options: {
+                      offset: [0, 10],
+                    },
+                  },
+                  {
+                    name: "preventOverflow",
+                    options: {
+                      boundary: "viewport",
+                      padding: 10,
+                      altAxis: true,
+                      tether: false,
+                    },
+                  },
+                  {
+                    name: "flip",
+                    options: {
+                      fallbackPlacements: ["top", "bottom", "right", "left"],
+                      padding: 10,
+                    },
+                  },
+                ]}
               />
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-400">
                 <FiCalendar size={16} />

@@ -161,8 +161,6 @@ const ExpensesPage = () => {
                 </div>
               </div>
             </div>
-
-            {/* Date Range Filter */}
             <div className="space-y-2">
               <label className="flex items-center text-white text-sm font-medium">
                 <FiCalendar className="mr-2 text-blue-400" size={18} />
@@ -177,15 +175,45 @@ const ExpensesPage = () => {
                     setDateRange(update);
                   }}
                   isClearable={true}
-                  className="w-full bg-gray-800/80 text-white rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-blue-500 border border-gray-700 appearance-none"
+                  className="bg-gray-700 text-white p-3 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none transition-all duration-300 w-64 cursor-pointer"
                   placeholderText="Sanani tanlang"
                   dateFormat="yyyy/MM/dd"
+                  popperClassName="z-[100] datepicker-small"
+                  popperPlacement="auto"
+                  wrapperClassName="z-50"
+                  calendarClassName="responsive-calendar"
+                  monthsShown={window.innerWidth < 768 ? 1 : 1}
+                  popperModifiers={[
+                    {
+                      name: "offset",
+                      options: {
+                        offset: [0, 10],
+                      },
+                    },
+                    {
+                      name: "preventOverflow",
+                      options: {
+                        boundary: "viewport",
+                        padding: 40,
+                        altAxis: true,
+                        tether: false,
+                      },
+                    },
+                    {
+                      name: "flip",
+                      options: {
+                        fallbackPlacements: ['top', 'bottom', 'right', 'left'],
+                        padding: 10,
+                      },
+                    },
+                  ]}
                 />
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-400">
                   <FiCalendar size={16} />
                 </div>
               </div>
             </div>
+            {/* Date Range Filter */}
 
             {/* Limit Dropdown */}
             <div className="space-y-2">
