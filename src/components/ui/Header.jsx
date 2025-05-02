@@ -26,7 +26,7 @@ const Header = () => {
   return (
     <div className="mb-10">
       <h1 className="md:text-6xl text-4xl lg:text-8xl font-bold text-center relative z-50 text-white pt-10">
-        <Link to="/">Elegro Mebel</Link>
+        <Link to="/">Budget</Link>
         <button className="text-white pl-2 hover:text-indigo-400 transition-colors duration-200 text-sm sm:text-base md:text-lg lg:text-xl">
           {!loading && (
             <MdLogout className="cursor-pointer" onClick={handleLogout} />

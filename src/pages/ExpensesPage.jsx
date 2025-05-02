@@ -8,7 +8,7 @@ import {
   FiX,
 } from "react-icons/fi";
 import { useQuery } from "@apollo/client";
-import { GET_EXPENSE_CATEGORIES } from "../graphql/queries/expenseCategory.query";
+import { GET_CATEGORIES } from "../graphql/queries/category.query";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ExpenseModal from "../components/ExpenseModal";
@@ -35,9 +35,12 @@ const ExpensesPage = () => {
     endDate: null,
   });
 
-  // Fetch categories for filter dropdown
   const { data: categoriesData, loading: categoriesLoading } = useQuery(
-    GET_EXPENSE_CATEGORIES
+    GET_CATEGORIES,
+    {
+      variables: { type: "expense" },
+      fetchPolicy: "network-only",
+    }
   );
 
   const openCreateModal = () => {
@@ -150,7 +153,7 @@ const ExpensesPage = () => {
                   disabled={categoriesLoading}
                 >
                   <option value="">Hammasi</option>
-                  {categoriesData?.getExpenseCategories?.docs?.map((cat) => (
+                  {categoriesData?.getCategories?.docs?.map((cat) => (
                     <option key={cat._id} value={cat._id}>
                       {cat.name}
                     </option>
@@ -202,7 +205,7 @@ const ExpensesPage = () => {
                     {
                       name: "flip",
                       options: {
-                        fallbackPlacements: ['top', 'bottom', 'right', 'left'],
+                        fallbackPlacements: ["top", "bottom", "right", "left"],
                         padding: 10,
                       },
                     },

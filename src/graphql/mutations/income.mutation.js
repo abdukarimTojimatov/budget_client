@@ -1,11 +1,10 @@
 import { gql } from "@apollo/client";
 
-export const CREATE_EXPENSE = gql`
-  mutation CreateExpense($input: CreateExpenseInput!) {
-    createExpense(input: $input) {
+export const CREATE_INCOME = gql`
+  mutation CreateIncome($input: CreateIncomeInput!) {
+    createIncome(input: $input) {
       _id
       description
-      paymentType
       category {
         _id
         name
@@ -16,6 +15,7 @@ export const CREATE_EXPENSE = gql`
       date
       recurring
       recurringPeriod
+      receiptMethod
       notes
       attachments
       createdAt
@@ -24,12 +24,11 @@ export const CREATE_EXPENSE = gql`
   }
 `;
 
-export const UPDATE_EXPENSE = gql`
-  mutation UpdateExpense($input: UpdateExpenseInput!) {
-    updateExpense(input: $input) {
+export const UPDATE_INCOME = gql`
+  mutation UpdateIncome($input: UpdateIncomeInput!) {
+    updateIncome(input: $input) {
       _id
       description
-      paymentType
       category {
         _id
         name
@@ -40,6 +39,7 @@ export const UPDATE_EXPENSE = gql`
       date
       recurring
       recurringPeriod
+      receiptMethod
       notes
       attachments
       createdAt
@@ -48,8 +48,8 @@ export const UPDATE_EXPENSE = gql`
   }
 `;
 
-export const DELETE_EXPENSE = gql`
-  mutation DeleteExpense($id: ID!) {
-    deleteExpense(id: $id)
+export const DELETE_INCOME = gql`
+  mutation DeleteIncome($id: ID!) {
+    deleteIncome(id: $id)
   }
 `;

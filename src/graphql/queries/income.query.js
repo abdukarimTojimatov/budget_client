@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
-export const GET_EXPENSES = gql`
-  query GetExpenses(
+export const GET_INCOMES = gql`
+  query GetIncomes(
     $page: Int, 
     $limit: Int, 
     $categoryId: ID, 
@@ -9,7 +9,7 @@ export const GET_EXPENSES = gql`
     $endDate: String,
     $recurring: Boolean
   ) {
-    getExpenses(
+    getIncomes(
       page: $page, 
       limit: $limit, 
       categoryId: $categoryId, 
@@ -20,7 +20,6 @@ export const GET_EXPENSES = gql`
       docs {
         _id
         description
-        paymentType
         category {
           _id
           name
@@ -31,6 +30,7 @@ export const GET_EXPENSES = gql`
         date
         recurring
         recurringPeriod
+        receiptMethod
         notes
         attachments
         createdAt
@@ -50,12 +50,11 @@ export const GET_EXPENSES = gql`
   }
 `;
 
-export const GET_EXPENSE = gql`
-  query GetExpense($id: ID!) {
-    getExpense(id: $id) {
+export const GET_INCOME = gql`
+  query GetIncome($id: ID!) {
+    getIncome(id: $id) {
       _id
       description
-      paymentType
       category {
         _id
         name
@@ -66,6 +65,7 @@ export const GET_EXPENSE = gql`
       date
       recurring
       recurringPeriod
+      receiptMethod
       notes
       attachments
       createdAt
@@ -74,9 +74,9 @@ export const GET_EXPENSE = gql`
   }
 `;
 
-export const GET_EXPENSES_STATISTICS = gql`
-  query GetExpensesStatistics {
-    categoryStatisticsExpense {
+export const GET_INCOMES_STATISTICS = gql`
+  query GetIncomesStatistics {
+    categoryStatisticsIncome {
       category {
         _id
         name
@@ -88,12 +88,11 @@ export const GET_EXPENSES_STATISTICS = gql`
   }
 `;
 
-export const GET_RECURRING_EXPENSES = gql`
-  query GetRecurringExpenses {
-    getRecurringExpenses {
+export const GET_RECURRING_INCOMES = gql`
+  query GetRecurringIncomes {
+    getRecurringIncomes {
       _id
       description
-      paymentType
       category {
         _id
         name
@@ -104,6 +103,7 @@ export const GET_RECURRING_EXPENSES = gql`
       date
       recurring
       recurringPeriod
+      receiptMethod
       notes
       createdAt
     }

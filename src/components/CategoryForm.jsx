@@ -1,16 +1,34 @@
 import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
-import { CREATE_EXPENSE_CATEGORY } from "../graphql/mutations/expenseCategory.mutation";
+import { CREATE_CATEGORY } from "../graphql/mutations/category.mutation";
 import toast from "react-hot-toast";
+import { MdCategory } from "react-icons/md";
+import { HiOutlineColorSwatch } from "react-icons/hi";
+import { TbCoin, TbCoins } from "react-icons/tb";
 
-const CategoryForm = ({ onClose, onCategoryCreated }) => {
-  const [name, setName] = useState("");
-  const [createCategory, { loading }] = useMutation(CREATE_EXPENSE_CATEGORY);
+const CategoryForm = ({ onClose, onCategoryCreated, defaultType = "expense" }) => {
+  const [formData, setFormData] = useState({
+    name: "",
+    type: defaultType,
+    icon: "default-category",
+    color: "#6B7280",
+    description: "",
+    budget: 0
+  });
+  const [createCategory, { loading }] = useMutation(CREATE_CATEGORY);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: name === "budget" ? (value ? parseFloat(value) : 0) : value
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!name.trim()) {
+    if (!formData.name.trim()) {
       toast.error("Kategoriya nomi kiritilishi shart");
       return;
     }
@@ -18,15 +36,22 @@ const CategoryForm = ({ onClose, onCategoryCreated }) => {
     try {
       const { data } = await createCategory({
         variables: {
-          input: { name: name.trim() },
+          input: {
+            name: formData.name.trim(),
+            type: formData.type,
+            icon: formData.icon,
+            color: formData.color,
+            description: formData.description,
+            budget: parseFloat(formData.budget) || 0
+          },
         },
-        refetchQueries: ["GetExpenseCategories"],
+        refetchQueries: ["GetCategories"],
       });
 
       toast.success("Kategoriya muvaffaqiyatli yaratildi");
 
       if (onCategoryCreated) {
-        onCategoryCreated(data.createExpenseCategory);
+        onCategoryCreated(data.createCategory);
       }
 
       onClose();
@@ -59,20 +84,114 @@ const CategoryForm = ({ onClose, onCategoryCreated }) => {
         </div>
 
         <form onSubmit={handleSubmit}>
+          {/* Category Type Selector */}
+          <div className="mb-4">
+            <label className="block text-white text-sm font-bold mb-2">Kategoriya turi</label>
+            <div className="flex space-x-2">
+              <button
+                type="button"
+                className={`flex-1 px-4 py-2 rounded-lg flex items-center justify-center ${formData.type === 'expense' ? 'bg-red-500 text-white' : 'bg-gray-700 text-gray-300'}`}
+                onClick={() => setFormData({...formData, type: 'expense'})}
+              >
+                <TbCoins className="mr-2" />
+                Xarajat
+              </button>
+              <button
+                type="button"
+                className={`flex-1 px-4 py-2 rounded-lg flex items-center justify-center ${formData.type === 'income' ? 'bg-green-500 text-white' : 'bg-gray-700 text-gray-300'}`}
+                onClick={() => setFormData({...formData, type: 'income'})}
+              >
+                <TbCoin className="mr-2" />
+                Daromad
+              </button>
+            </div>
+          </div>
+          
+          {/* Category Name */}
           <div className="mb-4">
             <label
               htmlFor="name"
-              className="block text-white text-sm font-bold mb-2"
+              className="text-white text-sm font-bold mb-2 flex items-center"
             >
+              <MdCategory className="mr-2" />
               Kategoriya nomi
             </label>
             <input
               type="text"
               id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Kategoriya nomini kiriting"
+            />
+          </div>
+          
+          {/* Color Picker */}
+          <div className="mb-4">
+            <label
+              htmlFor="color"
+              className="text-white text-sm font-bold mb-2 flex items-center"
+            >
+              <HiOutlineColorSwatch className="mr-2" />
+              Rang
+            </label>
+            <div className="flex space-x-2 items-center">
+              <input
+                type="color"
+                id="color"
+                name="color"
+                value={formData.color}
+                onChange={handleChange}
+                className="h-10 w-10 cursor-pointer rounded border-0"
+              />
+              <input
+                type="text"
+                name="color"
+                value={formData.color}
+                onChange={handleChange}
+                className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
+          
+          {/* Description */}
+          <div className="mb-4">
+            <label
+              htmlFor="description"
+              className="block text-white text-sm font-bold mb-2"
+            >
+              Tavsif
+            </label>
+            <textarea
+              id="description"
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Kategoriya haqida qisqacha ma'lumot"
+              rows="2"
+            />
+          </div>
+          
+          {/* Budget */}
+          <div className="mb-4">
+            <label
+              htmlFor="budget"
+              className="block text-white text-sm font-bold mb-2"
+            >
+              Rejalashtirilgan budjet
+            </label>
+            <input
+              type="number"
+              id="budget"
+              name="budget"
+              value={formData.budget}
+              onChange={handleChange}
+              className="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="0"
+              min="0"
+              step="1000"
             />
           </div>
 
@@ -80,14 +199,14 @@ const CategoryForm = ({ onClose, onCategoryCreated }) => {
             <button
               type="button"
               onClick={onClose}
-              className="mr-2 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
+              className="mr-2 px-4 py-2 text-sm font-medium text-gray-300 bg-gray-700 rounded-lg hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500"
             >
               Bekor qilish
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="px-4 py-2 text-sm font-medium text-white bg-gradient-to-br from-pink-500 to-pink-600 rounded-lg hover:from-pink-600 hover:to-pink-700 focus:outline-none focus:ring-2 focus:ring-pink-500 disabled:opacity-70"
+              className={`px-4 py-2 text-sm font-medium text-white rounded-lg focus:outline-none focus:ring-2 disabled:opacity-70 ${formData.type === 'expense' ? 'bg-gradient-to-br from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 focus:ring-red-500' : 'bg-gradient-to-br from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 focus:ring-green-500'}`}
             >
               {loading ? "Saqlanmoqda..." : "Saqlash"}
             </button>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
-import { CREATE_EXPENSE } from "../graphql/mutations/expense.mutation";
+import { CREATE_INCOME } from "../graphql/mutations/income.mutation";
 import { GET_CATEGORIES } from "../graphql/queries/category.query";
 import toast from "react-hot-toast";
 import DatePicker from "react-datepicker";
@@ -8,16 +8,16 @@ import "react-datepicker/dist/react-datepicker.css";
 import CategoryForm from "./CategoryForm";
 import { FiX, FiPlus, FiDollarSign, FiCalendar, FiPaperclip, FiRepeat } from "react-icons/fi";
 import { MdDescription, MdOutlinePayments, MdCategory, MdAddCircleOutline, MdNote } from "react-icons/md";
-import { FaRegCreditCard, FaMoneyBillWave } from "react-icons/fa";
+import { FaRegCreditCard, FaMoneyBillWave, FaRegMoneyBillAlt } from "react-icons/fa";
 
-const ExpenseModal = ({ isOpen, onClose }) => {
-  const [createExpense, { loading }] = useMutation(CREATE_EXPENSE);
+const IncomeModal = ({ isOpen, onClose }) => {
+  const [createIncome, { loading }] = useMutation(CREATE_INCOME);
   const [showCategoryForm, setShowCategoryForm] = useState(false);
   const [errors, setErrors] = useState({});
   
   const [formData, setFormData] = useState({
     description: "",
-    paymentType: "plastik",
+    receiptMethod: "bank_transfer",
     category: "",
     amount: "",
     date: new Date(),
@@ -30,7 +30,7 @@ const ExpenseModal = ({ isOpen, onClose }) => {
   const { data: categoriesData, loading: categoriesLoading, refetch: refetchCategories } = useQuery(
     GET_CATEGORIES,
     {
-      variables: { type: "expense" },
+      variables: { type: "income" },
       fetchPolicy: "network-only",
     }
   );
@@ -69,7 +69,7 @@ const ExpenseModal = ({ isOpen, onClose }) => {
     const newErrors = {};
 
     if (!formData.description.trim()) {
-      newErrors.description = "Xarajat haqida ma'lumot kiriting";
+      newErrors.description = "Daromad haqida ma'lumot kiriting";
     }
 
     if (!formData.category) {
@@ -106,9 +106,9 @@ const ExpenseModal = ({ isOpen, onClose }) => {
     
     const formattedDate = formatDate(formData.date);
 
-    const expenseData = {
+    const incomeData = {
       description: formData.description,
-      paymentType: formData.paymentType,
+      receiptMethod: formData.receiptMethod,
       category: formData.category,
       amount: parseFloat(formData.amount),
       date: formattedDate,
@@ -119,12 +119,12 @@ const ExpenseModal = ({ isOpen, onClose }) => {
     };
 
     try {
-      await createExpense({
-        variables: { input: expenseData },
-        refetchQueries: ["GetExpenses", "GetExpensesStatistics"],
+      await createIncome({
+        variables: { input: incomeData },
+        refetchQueries: ["GetIncomes", "GetIncomesStatistics"],
       });
 
-      toast.success("Xarajat muvaffaqiyatli yaratildi");
+      toast.success("Daromad muvaffaqiyatli yaratildi");
       resetForm();
       onClose();
     } catch (error) {
@@ -135,7 +135,7 @@ const ExpenseModal = ({ isOpen, onClose }) => {
   const resetForm = () => {
     setFormData({
       description: "",
-      paymentType: "plastik",
+      receiptMethod: "bank_transfer",
       category: "",
       amount: "",
       date: new Date(),
@@ -154,8 +154,8 @@ const ExpenseModal = ({ isOpen, onClose }) => {
       <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto relative border border-gray-700/30">
         <div className="sticky top-0 bg-gray-900/80 backdrop-blur-sm p-4 border-b border-gray-700/50 flex justify-between items-center z-10">
           <h2 className="text-xl font-bold text-white flex items-center">
-            <FiPlus className="text-blue-400 mr-2" size={20} />
-            Yangi Xarajat qo'shish
+            <FiPlus className="text-green-400 mr-2" size={20} />
+            Yangi Daromad qo'shish
           </h2>
           <button
             onClick={onClose}
@@ -172,12 +172,12 @@ const ExpenseModal = ({ isOpen, onClose }) => {
               className="flex items-center text-white text-sm font-bold"
               htmlFor="description"
             >
-              <MdDescription className="mr-2 text-blue-400" size={18} />
-              Xarajat haqida
+              <MdDescription className="mr-2 text-green-400" size={18} />
+              Daromad haqida
             </label>
             <div>
               <input
-                className={`appearance-none block w-full bg-gray-800/50 text-white border border-gray-600 rounded-lg py-3 px-4 leading-tight focus:outline-none focus:border-blue-500 ${errors.description ? "border-red-500" : ""}`}
+                className={`appearance-none block w-full bg-gray-800/50 text-white border border-gray-600 rounded-lg py-3 px-4 leading-tight focus:outline-none focus:border-green-500 ${errors.description ? "border-red-500" : ""}`}
                 id="description"
                 name="description"
                 type="text"
@@ -194,31 +194,33 @@ const ExpenseModal = ({ isOpen, onClose }) => {
             </div>
           </div>
 
-          {/* Payment Type and Category */}
+          {/* Receipt Method and Category */}
           <div className="flex flex-col sm:flex-row gap-4">
-            {/* Payment Type */}
+            {/* Receipt Method */}
             <div className="flex-1">
               <label
                 className="flex items-center text-white text-sm font-bold mb-2"
-                htmlFor="paymentType"
+                htmlFor="receiptMethod"
               >
-                <MdOutlinePayments className="mr-2 text-blue-400" size={18} />
-                To'lov turi
+                <MdOutlinePayments className="mr-2 text-green-400" size={18} />
+                Qabul qilish usuli
               </label>
               <div className="relative">
                 <select
-                  className="block appearance-none w-full bg-gray-800/50 border border-gray-600 text-white py-3 px-4 pr-8 rounded-lg leading-tight focus:outline-none focus:border-blue-500"
-                  id="paymentType"
-                  name="paymentType"
-                  value={formData.paymentType}
+                  className="block appearance-none w-full bg-gray-800/50 border border-gray-600 text-white py-3 px-4 pr-8 rounded-lg leading-tight focus:outline-none focus:border-green-500"
+                  id="receiptMethod"
+                  name="receiptMethod"
+                  value={formData.receiptMethod}
                   onChange={handleChange}
                 >
-                  <option value="plastik">Plastik</option>
-                  <option value="naqd">Naqd</option>
+                  <option value="bank_transfer">Bank o'tkazmasi</option>
+                  <option value="cash">Naqd pul</option>
+                  <option value="digital_wallet">Elektron hamyon</option>
+                  <option value="other">Boshqa</option>
                 </select>
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
-                  {formData.paymentType === "plastik" ? 
-                    <FaRegCreditCard className="text-blue-400" size={16} /> : 
+                  {formData.receiptMethod === "bank_transfer" ? 
+                    <FaRegCreditCard className="text-green-400" size={16} /> : 
                     <FaMoneyBillWave className="text-green-400" size={16} />}
                 </div>
               </div>
@@ -230,13 +232,13 @@ const ExpenseModal = ({ isOpen, onClose }) => {
                 className="flex items-center text-white text-sm font-bold mb-2"
                 htmlFor="category"
               >
-                <MdCategory className="mr-2 text-blue-400" size={18} />
+                <MdCategory className="mr-2 text-green-400" size={18} />
                 Kategoriya
               </label>
               <div className="flex">
                 <div className="relative w-full">
                   <select
-                    className={`block appearance-none w-full bg-gray-800/50 border border-gray-600 text-white py-3 px-4 rounded-l-lg leading-tight focus:outline-none focus:border-blue-500 ${errors.category ? "border-red-500" : ""}`}
+                    className={`block appearance-none w-full bg-gray-800/50 border border-gray-600 text-white py-3 px-4 rounded-l-lg leading-tight focus:outline-none focus:border-green-500 ${errors.category ? "border-red-500" : ""}`}
                     id="category"
                     name="category"
                     disabled={categoriesLoading}
@@ -254,7 +256,7 @@ const ExpenseModal = ({ isOpen, onClose }) => {
                     )}
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
-                    <MdCategory className="text-blue-400" size={16} />
+                    <MdCategory className="text-green-400" size={16} />
                   </div>
                   {errors.category && (
                     <p className="text-red-400 text-xs mt-1 flex items-center">
@@ -265,7 +267,7 @@ const ExpenseModal = ({ isOpen, onClose }) => {
                 <button
                   type="button"
                   onClick={() => setShowCategoryForm(true)}
-                  className="bg-blue-600/80 hover:bg-blue-700/90 text-white font-medium flex items-center justify-center py-3 px-3 rounded-r-lg focus:outline-none transition-colors duration-200"
+                  className="bg-green-600/80 hover:bg-green-700/90 text-white font-medium flex items-center justify-center py-3 px-3 rounded-r-lg focus:outline-none transition-colors duration-200"
                   title="Yangi kategoriya qo'shish"
                 >
                   <MdAddCircleOutline size={20} />
@@ -282,12 +284,12 @@ const ExpenseModal = ({ isOpen, onClose }) => {
                 className="flex items-center text-white text-sm font-bold mb-2"
                 htmlFor="amount"
               >
-                <FiDollarSign className="mr-2 text-blue-400" size={18} />
+                <FiDollarSign className="mr-2 text-green-400" size={18} />
                 Miqdori (so'm)
               </label>
               <div className="relative">
                 <input
-                  className={`appearance-none block w-full bg-gray-800/50 border border-gray-600 text-white rounded-lg py-3 pl-4 pr-10 leading-tight focus:outline-none focus:border-blue-500 ${errors.amount ? "border-red-500" : ""}`}
+                  className={`appearance-none block w-full bg-gray-800/50 border border-gray-600 text-white rounded-lg py-3 pl-4 pr-10 leading-tight focus:outline-none focus:border-green-500 ${errors.amount ? "border-red-500" : ""}`}
                   id="amount"
                   name="amount"
                   type="number"
@@ -312,7 +314,7 @@ const ExpenseModal = ({ isOpen, onClose }) => {
                 className="flex items-center text-white text-sm font-bold mb-2"
                 htmlFor="date"
               >
-                <FiCalendar className="mr-2 text-blue-400" size={18} />
+                <FiCalendar className="mr-2 text-green-400" size={18} />
                 Sana
               </label>
               <div className="relative">
@@ -322,7 +324,7 @@ const ExpenseModal = ({ isOpen, onClose }) => {
                   dateFormat="yyyy-MM-dd"
                   name="date"
                   id="date"
-                  className={`appearance-none block w-full bg-gray-800/50 border border-gray-600 text-white rounded-lg py-3 px-4 leading-tight focus:outline-none focus:border-blue-500 ${errors.date ? "border-red-500" : ""}`}
+                  className={`appearance-none block w-full bg-gray-800/50 border border-gray-600 text-white rounded-lg py-3 px-4 leading-tight focus:outline-none focus:border-green-500 ${errors.date ? "border-red-500" : ""}`}
                   placeholderText="Sanani tanlang"
                 />
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-400">
@@ -341,8 +343,8 @@ const ExpenseModal = ({ isOpen, onClose }) => {
           <div className="flex flex-col gap-2">
             <div className="flex items-center">
               <label htmlFor="recurring" className="flex items-center text-white text-sm font-bold mr-4">
-                <FiRepeat className="mr-2 text-blue-400" size={18} />
-                Takrorlanuvchi xarajat
+                <FiRepeat className="mr-2 text-green-400" size={18} />
+                Takrorlanuvchi daromad
               </label>
               <div className="relative inline-block w-12 align-middle select-none">
                 <input 
@@ -353,7 +355,7 @@ const ExpenseModal = ({ isOpen, onClose }) => {
                   onChange={(e) => setFormData({...formData, recurring: e.target.checked})}
                   className="opacity-0 absolute h-0 w-0" 
                 />
-                <div className={`block w-12 h-6 rounded-full ${formData.recurring ? 'bg-blue-500' : 'bg-gray-600'} cursor-pointer transition-colors duration-200`}></div>
+                <div className={`block w-12 h-6 rounded-full ${formData.recurring ? 'bg-green-500' : 'bg-gray-600'} cursor-pointer transition-colors duration-200`}></div>
                 <div className={`dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition ${formData.recurring ? 'transform translate-x-6' : ''}`}></div>
               </div>
             </div>
@@ -362,7 +364,7 @@ const ExpenseModal = ({ isOpen, onClose }) => {
               <div className="ml-6 mt-2">
                 <label className="text-white text-sm mb-1 block">Takrorlanish davri</label>
                 <select
-                  className="block appearance-none w-full max-w-xs bg-gray-800/50 border border-gray-600 text-white py-2 px-3 rounded-lg leading-tight focus:outline-none focus:border-blue-500"
+                  className="block appearance-none w-full max-w-xs bg-gray-800/50 border border-gray-600 text-white py-2 px-3 rounded-lg leading-tight focus:outline-none focus:border-green-500"
                   name="recurringPeriod"
                   value={formData.recurringPeriod}
                   onChange={handleChange}
@@ -383,11 +385,11 @@ const ExpenseModal = ({ isOpen, onClose }) => {
               className="flex items-center text-white text-sm font-bold"
               htmlFor="notes"
             >
-              <MdNote className="mr-2 text-blue-400" size={18} />
+              <MdNote className="mr-2 text-green-400" size={18} />
               Qo'shimcha izohlar
             </label>
             <textarea
-              className="appearance-none block w-full bg-gray-800/50 border border-gray-600 text-white rounded-lg py-3 px-4 leading-tight focus:outline-none focus:border-blue-500"
+              className="appearance-none block w-full bg-gray-800/50 border border-gray-600 text-white rounded-lg py-3 px-4 leading-tight focus:outline-none focus:border-green-500"
               id="notes"
               name="notes"
               rows="3"
@@ -403,7 +405,7 @@ const ExpenseModal = ({ isOpen, onClose }) => {
               className="flex items-center text-white text-sm font-bold"
               htmlFor="attachments"
             >
-              <FiPaperclip className="mr-2 text-blue-400" size={18} />
+              <FiPaperclip className="mr-2 text-green-400" size={18} />
               Fayllar biriktirish
             </label>
             <div className="flex items-center">
@@ -438,7 +440,7 @@ const ExpenseModal = ({ isOpen, onClose }) => {
             </button>
             <button
               type="submit"
-              className="py-3 px-4 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium transition-all duration-200 shadow-lg hover:shadow-blue-500/20 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center"
+              className="py-3 px-4 rounded-lg bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-medium transition-all duration-200 shadow-lg hover:shadow-green-500/20 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center"
               disabled={loading}
             >
               {loading ? (
@@ -466,10 +468,11 @@ const ExpenseModal = ({ isOpen, onClose }) => {
             });
             refetchCategories();
           }}
+          defaultType="income"
         />
       )}
     </div>
   );
 };
 
-export default ExpenseModal;
+export default IncomeModal;

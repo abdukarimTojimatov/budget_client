@@ -5,6 +5,9 @@ import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import ExpensePage from "./pages/ExpensePage";
 import ExpensesPage from "./pages/ExpensesPage";
+import IncomesPage from "./pages/IncomesPage";
+import DebtsPage from "./pages/DebtsPage";
+import LoansPage from "./pages/LoansPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import CreateOrderPage from "./pages/CreateOrderPage";
 import OrdersPage from "./pages/OrdersPage";
@@ -20,7 +23,12 @@ import { Toaster } from "react-hot-toast";
 import SharingPage from "./pages/SharingPage";
 import SharingEditPage from "./pages/SharingEditPage";
 import DashboardPage from "./pages/DashboardPage";
-import EmployeesPage from "./pages/EmployeesPage";
+// Yangi dashboard komponentlarini import qilish
+import FinancialDashboard from "./pages/FinancialDashboard";
+import DebtAnalysisDashboard from "./pages/DebtAnalysisDashboard";
+import LoanAnalysisDashboard from "./pages/LoanAnalysisDashboard";
+import IncomeAnalysisDashboard from "./pages/IncomeAnalysisDashboard";
+import ExpenseAnalysisDashboard from "./pages/ExpenseAnalysisDashboard";
 
 function App() {
   const { loading, data } = useQuery(GET_AUTHENTICATED_USER);
@@ -34,20 +42,66 @@ function App() {
         </>
       )}
       <Routes>
-        <Route
+        {/* <Route
           path="/"
           element={
             data?.authUser ? <DashboardPage /> : <Navigate to="/login" />
+          }
+        /> */}
+        <Route
+          path="/dashboard"
+          element={
+            data?.authUser ? <FinancialDashboard /> : <Navigate to="/login" />
+          }
+        />
+        <Route
+          path="/debt-analysis"
+          element={
+            data?.authUser ? (
+              <DebtAnalysisDashboard />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+        <Route
+          path="/loan-analysis"
+          element={
+            data?.authUser ? (
+              <LoanAnalysisDashboard />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+        <Route
+          path="/income-analysis"
+          element={
+            data?.authUser ? (
+              <IncomeAnalysisDashboard />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+        <Route
+          path="/expense-analysis"
+          element={
+            data?.authUser ? (
+              <ExpenseAnalysisDashboard />
+            ) : (
+              <Navigate to="/login" />
+            )
           }
         />
         <Route
           path="/login"
           element={!data?.authUser ? <LoginPage /> : <Navigate to="/" />}
         />
-        {/* <Route
+        <Route
           path="/signup"
           element={!data?.authUser ? <SignUpPage /> : <Navigate to="/" />}
-        /> */}
+        />
         <Route
           path="/expenses/:id"
           element={data?.authUser ? <ExpensePage /> : <Navigate to="/login" />}
@@ -93,6 +147,18 @@ function App() {
         <Route
           path="/expenses"
           element={data?.authUser ? <ExpensesPage /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/incomes"
+          element={data?.authUser ? <IncomesPage /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/debts"
+          element={data?.authUser ? <DebtsPage /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/loans"
+          element={data?.authUser ? <LoansPage /> : <Navigate to="/login" />}
         />
         {/* <Route
           path="/employees"
