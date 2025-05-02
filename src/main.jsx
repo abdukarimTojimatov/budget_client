@@ -12,9 +12,9 @@ const isLocalhost =
 const isIP = window.location.hostname === "92.112.180.30";
 const protocol = window.location.protocol;
 const graphqlURI = isLocalhost
-  ? "http://localhost:4000/graphql"
+  ? "http://localhost:4005/graphql"
   : isIP
-  ? "http://92.112.180.30:4000/graphql"
+  ? "http://92.112.180.30:4005/graphql"
   : `${protocol}//${window.location.hostname}/graphql`;
 
 const client = new ApolloClient({
