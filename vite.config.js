@@ -5,6 +5,6 @@ import react from "@vitejs/plugin-react";
 export default {
   server: {
     host: "0.0.0.0", // Listen on all interfaces
-    port: 3000, // Ensure it's set to port 3000
+    port: 3003, // Ensure it's set to port 3000
   },
 };
