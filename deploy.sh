@@ -34,7 +34,7 @@ SERVER_IP=$(hostname -I | awk '{print $1}')
 echo "Server IP: $SERVER_IP"
 
 # Start serving the production build
-pm2 start "npx vite preview --host $SERVER_IP --port 3000" --name=elegroClient
+pm2 start "npx vite preview --host $SERVER_IP --port 3003" --name=elegroClient
 
 # Step 6: Synchronize PM2 process list
 echo "Saving PM2 process list..."

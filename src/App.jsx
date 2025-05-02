@@ -106,17 +106,17 @@ function App() {
           path="/expenses/:id"
           element={data?.authUser ? <ExpensePage /> : <Navigate to="/login" />}
         />
-        <Route
+        {/* <Route
           path="/sharings"
           element={data?.authUser ? <SharingPage /> : <Navigate to="/login" />}
-        />
-        <Route
+        /> */}
+        {/* <Route
           path="/sharings/:id"
           element={
             data?.authUser ? <SharingEditPage /> : <Navigate to="/login" />
           }
-        />
-        <Route
+        /> */}
+        {/* <Route
           path="/orders"
           element={data?.authUser ? <OrdersPage /> : <Navigate to="/login" />}
         />
@@ -125,14 +125,14 @@ function App() {
           element={
             data?.authUser ? <CreateOrderPage /> : <Navigate to="/login" />
           }
-        />
-        <Route
+        /> */}
+        {/* <Route
           path="/orders/:id"
           element={
             data?.authUser ? <OrderEditPage /> : <Navigate to="/login" />
           }
-        />
-        <Route
+        /> */}
+        {/* <Route
           path="/rawMaterial/:id"
           element={
             data?.authUser ? <EditRawMaterialPage /> : <Navigate to="/login" />
@@ -143,7 +143,7 @@ function App() {
           element={
             data?.authUser ? <RawMaterialsPage /> : <Navigate to="/login" />
           }
-        />
+        /> */}
         <Route
           path="/expenses"
           element={data?.authUser ? <ExpensesPage /> : <Navigate to="/login" />}
@@ -166,7 +166,7 @@ function App() {
             data?.authUser ? <EmployeesPage /> : <Navigate to="/login" />
           }
         /> */}
-        <Route
+        {/* <Route
           path="/rawMaterial/create"
           element={
             data?.authUser ? (
@@ -175,7 +175,7 @@ function App() {
               <Navigate to="/login" />
             )
           }
-        />
+        /> */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
       <Toaster />

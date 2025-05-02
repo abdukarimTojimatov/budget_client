@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "dev:prod": "PORT=3000 serve -s build"
+    "dev:prod": "PORT=3005 serve -s build"
   },
   "dependencies": {
     "@apollo/client": "^3.12.4",
