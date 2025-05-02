@@ -27,7 +27,7 @@ const InputField = ({ label, id, name, type = "text", value, onChange }) => {
           type={type === "password" && !isPasswordVisible ? "password" : "text"}
           value={value}
           onChange={onChange}
-          className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800" // Add text color class here
+          className="w-full px-4 py-2 border border-gray-300 border-solid rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800" // Add text color class here
         />
         {type === "password" && (
           <button
@@ -86,7 +86,7 @@ const SignUpPage = () => {
               Ro'yhatdan o'tish
             </h1>
             <h1 className="text-sm font-semibold mb-6 text-gray-500 text-center">
-              Elegro Mebel
+              Budget
             </h1>
             <form className="space-y-4" onSubmit={handleSubmit}>
               <InputField
